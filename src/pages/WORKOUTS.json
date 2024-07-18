@@ -1,0 +1,295 @@
+// GET RIPPED WORKOUT PLAN
+
+{
+  "workout_plan": {
+    "monday": {
+      "focus": "shoulders and abs",
+      "exercises": [
+        { "exercise": "Standing Barbell Press", "sets": 4, "reps": 10 },
+        { "exercise": "Standing Single DB Press", "sets": 4, "reps": 10 },
+        { "exercise": "Cable Side Raise", "sets": 3, "reps": 12 },
+        { "exercise": "DB Side Raise", "sets": 3, "reps": 12 },
+        { "exercise": "Cable Front Raise", "sets": 3, "reps": 15 },
+        { "exercise": "Kettle bell Front Raise", "sets": 3, "reps": 15 },
+        { "exercise": "Machine Rear Delt Fly", "sets": 3, "reps": 15 },
+        { "exercise": "Cable Rear Delt Fly", "sets": 3, "reps": 15 },
+        { "exercise": "Battle Rope", "sets": 3, "time": "20-30 sec" }
+      ]
+    },
+    "tuesday": {
+      "focus": "arms / planks / hiic",
+      "exercises": [
+        { "exercise": "Barbell Curl", "sets": 3, "reps": 12 },
+        { "exercise": "Barbell Preacher Curl", "sets": 3, "reps": 12 },
+        { "exercise": "Barbell Skull Crusher", "sets": 3, "reps": 12 },
+        { "exercise": "DB Overhead Ext", "sets": 3, "reps": 12 },
+        { "exercise": "Cable Curl", "sets": 3, "reps": 15 },
+        { "exercise": "Cable Conc. Curl", "sets": 3, "reps": 15 },
+        { "exercise": "Rope Triceps Press down", "sets": 3, "reps": 15 },
+        { "exercise": "Rope Overhead Ext", "sets": 3, "reps": 15 },
+        { "exercise": "Barbell Wrist Curl (Overhand)", "sets": 4, "reps": 15 },
+        { "exercise": "Barbell Wrist Curl (Underhand)", "sets": 4, "reps": 15 },
+        { "exercise": "Planks", "sets": 3, "time": "120 sec hold" },
+        { "exercise": "HIIC – SPRINT", "time": "20 mins Running – 30sec on (run) & 30sec off (stop)" }
+      ]
+    },
+    "wednesday": {
+      "focus": "back",
+      "exercises": [
+        { "exercise": "Rope Pull down", "sets": 3, "reps": 12 },
+        { "exercise": "Rope Rows", "sets": 3, "reps": 12 },
+        { "exercise": "Single Hand Lat Pull down", "sets": 3, "reps": 12 },
+        { "exercise": "Cable Bar Rows", "sets": 3, "reps": 12 },
+        { "exercise": "DB Rows", "sets": 3, "reps": 12 },
+        { "exercise": "Barbell Shrugs (Drop Set)", "sets": 3, "reps": 8 },
+        { "exercise": "Hyper Extension (Drop Set)", "sets": 3, "reps": 8 }
+      ]
+    },
+    "thursday": {
+      "focus": "chest / abs / hiic",
+      "exercises": [
+        { "exercise": "Barbell Press", "sets": 4, "reps": 12 },
+        { "exercise": "Cable Fly", "sets": 4, "reps": 12 },
+        { "exercise": "Machine or DB Incline Press", "sets": 4, "reps": 12 },
+        { "exercise": "Decline Dips", "sets": 4, "reps": "8-10" },
+        { "exercise": "DB Press on Stability Ball", "sets": 3, "reps": 12 },
+        { "exercise": "Plyo Push-ups (on Medicine Ball)", "sets": 3, "reps": "8-12" }
+      ]
+    },
+    "friday": {
+      "focus": "legs / planks",
+      "exercises": [
+        { "exercise": "Barbell Squat", "sets": 3, "reps": 12 },
+        { "exercise": "Barbell Split Squat", "sets": 3, "reps": 12 },
+        { "exercise": "Barbell Deadlift", "sets": 3, "reps": 12 },
+        { "exercise": "Single Leg Press", "sets": 3, "reps": 12 },
+        { "exercise": "Laying Leg Curl", "sets": 3, "reps": 12 },
+        { "exercise": "Box Jump", "sets": 3, "reps": 12 },
+        { "exercise": "Calf Press on Leg Press Machine", "sets": 3, "reps": 12 }
+      ]
+    },
+    "saturday": {
+      "focus": "foam rolling / slow cardio",
+      "exercises": [
+        { "exercise": "Foam Rolling", "time": "every muscle for 30sec" },
+        { "exercise": "Slow Cardio – Cycling or Incline Walk", "time": "30 mins" }
+      ]
+    }
+  }
+}
+
+
+// LEAN MODE WORKOUT
+
+{
+    "workout_plan": {
+      "monday": {
+        "focus": "legs",
+        "giant_sets": [
+          {
+            "set_number": 1,
+            "exercises": [
+              { "exercise": "Leg Press", "reps": 5, "sets": "3-4" },
+              { "exercise": "DB Walking Lunges", "reps": 10, "sets": "3-4" },
+              { "exercise": "Leg Extension", "reps": 20, "sets": "3-4" }
+            ]
+          },
+          {
+            "set_number": 2,
+            "exercises": [
+              { "exercise": "DB or Barbell Deadlift", "reps": 5, "sets": "3-4" },
+              { "exercise": "Laying Leg Curl", "reps": 10, "sets": "3-4" },
+              { "exercise": "Seated Calf Raise", "reps": 20, "sets": "3-4" }
+            ]
+          }
+        ],
+        "note": "There is no rest in between the giant set, do 3 exercises back to back. Rest 2mins after giant set."
+      },
+      "tuesday": {
+        "focus": "shoulders + abs + cardio",
+        "giant_sets": [
+          {
+            "set_number": 1,
+            "exercises": [
+              { "exercise": "Shoulder Press Behind the Neck", "reps": 5, "sets": "3-4" },
+              { "exercise": "DB Side Raise", "reps": 10, "sets": "3-4" },
+              { "exercise": "Plate Front Raise", "reps": 20, "sets": "3-4" }
+            ]
+          },
+          {
+            "set_number": 2,
+            "exercises": [
+              { "exercise": "DB Press", "reps": 5, "sets": "3-4" },
+              { "exercise": "DB Front Raise", "reps": 10, "sets": "3-4" },
+              { "exercise": "Cable Rear Delt Fly", "reps": 20, "sets": "3-4" }
+            ]
+          }
+        ],
+        "abs": [
+          { "exercise": "Sit-ups", "reps": 20, "sets": "3-4" },
+          { "exercise": "Hanging Side Raise", "reps": 10, "sets": "3-4" },
+          { "exercise": "Reverse Crunch", "reps": 20, "sets": "3-4" },
+          { "exercise": "Wood Chopper", "reps": 20, "sets": "3-4" }
+        ],
+        "cardio": { "exercise": "Running on Treadmill", "time": "20 mins", "speed": "6-7 mph" },
+        "note": "There is no rest in between the giant set, do 3 exercises back to back. Rest 2mins after giant set."
+      },
+      "wednesday": {
+        "focus": "arms",
+        "giant_sets": [
+          {
+            "set_number": 1,
+            "exercises": [
+              { "exercise": "Barbell Curl", "reps": 5, "sets": "3-4" },
+              { "exercise": "DB Hammer Curl", "reps": 10, "sets": "3-4" },
+              { "exercise": "Laying Cable Curl", "reps": 20, "sets": "3-4" }
+            ]
+          },
+          {
+            "set_number": 2,
+            "exercises": [
+              { "exercise": "Barbell Skull Crusher", "reps": 5, "sets": "3-4" },
+              { "exercise": "Rope Overhead Extension", "reps": 10, "sets": "3-4" },
+              { "exercise": "Close Grip Triceps Pushdown", "reps": 20, "sets": "3-4" }
+            ]
+          }
+        ],
+        "note": "There is no rest in between the giant set, do 3 exercises back to back. Rest 2mins after giant set."
+      },
+      "thursday": {
+        "focus": "abs + cardio",
+        "abs": [
+          { "exercise": "Sit-ups", "reps": 20, "sets": "3-4" },
+          { "exercise": "Hanging Side Raise", "reps": 10, "sets": "3-4" },
+          { "exercise": "Reverse Crunch", "reps": 20, "sets": "3-4" },
+          { "exercise": "Wood Chopper", "reps": 20, "sets": "3-4" }
+        ],
+        "cardio": { "exercise": "Running on Treadmill", "time": "20 mins", "speed": "6-7 mph" },
+        "note": "There is no rest in between the giant set, do 4 exercises back to back. Rest 1min after giant set."
+      },
+      "friday": {
+        "focus": "chest",
+        "giant_sets": [
+          {
+            "set_number": 1,
+            "exercises": [
+              { "exercise": "DB or Barbell Incline Press", "reps": 5, "sets": "3-4" },
+              { "exercise": "Machine Chest Press or DB Press", "reps": 10, "sets": "3-4" },
+              { "exercise": "Decline Cable Fly", "reps": 20, "sets": "3-4" }
+            ]
+          },
+          {
+            "set_number": 2,
+            "exercises": [
+              { "exercise": "Decline Pushup (add weight on your back)", "reps": 5, "sets": "3-4" },
+              { "exercise": "Incline Pushups", "reps": 10, "sets": "3-4" },
+              { "exercise": "Regular Pushups or Barbell Press", "reps": 20, "sets": "3-4" }
+            ]
+          }
+        ],
+        "note": "There is no rest in between the giant set, do 3 exercises back to back. Rest 2mins after giant set."
+      },
+      "saturday": {
+        "focus": "back + abs + cardio",
+        "giant_sets": [
+          {
+            "set_number": 1,
+            "exercises": [
+              { "exercise": "Wide Grip Lat Pull down", "reps": 5, "sets": "3-4" },
+              { "exercise": "Machine Rows", "reps": 10, "sets": "3-4" },
+              { "exercise": "Standing Lat Pull Down", "reps": 20, "sets": "3-4" }
+            ]
+          },
+          {
+            "set_number": 2,
+            "exercises": [
+              { "exercise": "DB or Barbell Shrugs", "reps": 5, "sets": "3-4" },
+              { "exercise": "Rope Upright Rows", "reps": 10, "sets": "3-4" },
+              { "exercise": "Hyper Back Extension", "reps": 20, "sets": "3-4" }
+            ]
+          }
+        ],
+        "abs": [
+          { "exercise": "Sit-ups", "reps": 20, "sets": "3-4" },
+          { "exercise": "Hanging Side Raise", "reps": 10, "sets": "3-4" },
+          { "exercise": "Reverse Crunch", "reps": 20, "sets": "3-4" },
+          { "exercise": "Wood Chopper", "reps": 20, "sets": "3-4" }
+        ],
+        "cardio": { "exercise": "Running on Treadmill", "time": "20 mins", "speed": "6-7 mph" },
+        "note": "There is no rest in between the giant set, do 3 exercises back to back. Rest 2mins after giant set."
+      },
+      "sunday": {
+        "focus": "rest"
+      }
+    }
+  }
+
+  
+//   MUSCLE SIZE 5X5
+
+  {
+    "workout_plan": {
+      "monday": {
+        "focus": "chest",
+        "exercises": [
+          { "exercise": "Barbell Inclined Press", "sets": 5, "reps_per_set": 5 },
+          { "exercise": "Dumbbell Flat Bench Press", "sets": 5, "reps_per_set": 5 },
+          { "exercise": "Decline Dips", "sets": 5, "reps_per_set": 5 },
+          { "exercise": "Cable Fly’s", "sets": 5, "reps_per_set": 5 }
+        ],
+        "note": "Rest 1-2mins after every set"
+      },
+      "tuesday": {
+        "focus": "back (Lats/Mid-Back/Lower Back)",
+        "exercises": [
+          { "exercise": "V-Grip Lat Pull-down", "sets": 5, "reps_per_set": 5 },
+          { "exercise": "Close Grip Machine Rows", "sets": 5, "reps_per_set": 5 },
+          { "exercise": "Wide Grip V-Bar Lat Pull-down", "sets": 5, "reps_per_set": 5 },
+          { "exercise": "Hyper Extension", "sets": 5, "reps_per_set": 5 }
+        ],
+        "note": "Rest 1-2mins after every set"
+      },
+      "wednesday": {
+        "focus": "biceps, triceps & abs",
+        "exercises": [
+          { "exercise": "Barbell Preacher Curl", "sets": 5, "reps_per_set": 5 },
+          { "exercise": "Dumbbell Hammer Curl", "sets": 5, "reps_per_set": 5 },
+          { "exercise": "Triceps Skull Crusher", "sets": 5, "reps_per_set": 5 },
+          { "exercise": "Dumbbell Overhead Extension", "sets": 5, "reps_per_set": 5 },
+          { "exercise": "Dumbbell Kick Back", "sets": 5, "reps_per_set": 5 },
+          { "exercise": "Weighted Inclined Crunches", "sets": 2, "reps_per_set": "15-20" },
+          { "exercise": "Laying Reverse Crunches", "sets": 2, "reps_per_set": "15-20" },
+          { "exercise": "Hanging Knee Raise", "sets": 2, "reps_per_set": "10-20" }
+        ],
+        "note": "Rest 1-2mins after every set"
+      },
+      "thursday": {
+        "focus": "rest"
+      },
+      "friday": {
+        "focus": "shoulders & traps",
+        "exercises": [
+          { "exercise": "Barbell Press Behind The Neck", "sets": 5, "reps_per_set": 5 },
+          { "exercise": "Dumbbell Shoulder Press", "sets": 5, "reps_per_set": 5 },
+          { "exercise": "Dumbbell Side Raise", "sets": 5, "reps_per_set": 5 },
+          { "exercise": "Dumbbell Front Raise", "sets": 5, "reps_per_set": 5 },
+          { "exercise": "Barbell Shrugs", "sets": 5, "reps_per_set": 5 }
+        ],
+        "note": "Rest 1-2mins after every set"
+      },
+      "saturday": {
+        "focus": "legs",
+        "exercises": [
+          { "exercise": "Leg Presses", "sets": 5, "reps_per_set": 5 },
+          { "exercise": "Dumbbell Walking Lunges", "sets": 5, "reps_per_set": 5 },
+          { "exercise": "Leg Extension", "sets": 5, "reps_per_set": 5 },
+          { "exercise": "Calf Raise on Leg Press", "sets": 5, "reps_per_set": 5 }
+        ],
+        "note": "Rest 1-2mins after every set"
+      },
+      "sunday": {
+        "focus": "rest"
+      }
+    }
+  }
+  

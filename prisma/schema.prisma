@@ -1,0 +1,414 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x", "linux-arm64-openssl-1.1.x", "rhel-openssl-1.0.x"]
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+// Necessary for Next auth
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? // @db.Text
+  access_token      String? // @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? // @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  sessionToken String   @unique
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String   @db.ObjectId
+}
+
+model Destination {
+  id          String             @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  star        Float              @default(0.00)
+  img         DestinationImage[]
+  views       String[]
+  lat         Float
+  location    String
+  long        Float
+  price       Float              @default(0.00)
+  offer       Boolean            @default(false)
+  offerPrice  Float              @default(0.00)
+  userEmail   String
+  cityId      String             @db.ObjectId
+  createdAt   DateTime           @default(now())
+}
+
+model Hotel {
+  id            String       @id @default(auto()) @map("_id") @db.ObjectId
+  title         String
+  description   String
+  star          Float        @default(0.00)
+  img           HotelImage[]
+  lat           Float
+  location      String
+  long          Float
+  views         String[]
+  price         Float        @default(0.00)
+  offer         Boolean      @default(false)
+  offerPrice    Float        @default(0.00)
+  userEmail     String
+  cityId        String       @db.ObjectId
+  user          User         @relation(fields: [userEmail], references: [email], onDelete: Cascade)
+  createdAt     DateTime     @default(now())
+  travelStyleId String       @db.ObjectId
+  TravelStyle   TravelStyle  @relation(fields: [travelStyleId], references: [id], onDelete: Cascade)
+}
+
+model Booking {
+  id            String     @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt     DateTime   @default(now())
+  sessionId     String?    @default("64d9d7ed75d747ce9abc0d0b")
+  hotellId      String     @db.ObjectId
+  description   String
+  startDate     String
+  endDate       String
+  lat           Float
+  location      String
+  long          Float
+  price         String
+  status        String     @default("active pending")
+  type          String     @default("hotel")
+  star          Float
+  title         String
+  total         Float?
+  userEmail     String
+  travelStyleId String?
+  cityId        String
+  user          User       @relation(fields: [userEmail], references: [email], onDelete: Cascade)
+  img           HotelImage @relation(fields: [hotellId], references: [hotelId], onDelete: Cascade)
+  // HotelImage   HotelImage? @relation(fields: [hotelImageId], references: [id])
+  // hotelImageId String?    @db.ObjectId
+}
+
+model User {
+  id              String         @id @default(auto()) @map("_id") @db.ObjectId
+  name            String?
+  email           String?        @unique
+  emailVerified   DateTime?
+  image           String?
+  hashedPassword  String?
+  role            String         @default("user")
+  accounts        Account[]
+  sessions        Session[]
+  favorites       Hotel[]
+  bookings        Booking[]
+  Testimonials    Testimonials[]
+  UsersCategory   UsersCategory? @relation(fields: [usersCategoryId], references: [id])
+  usersCategoryId String?        @db.ObjectId
+
+  Conversation   Conversation? @relation(fields: [conversationId], references: [id])
+  conversationId String?       @db.ObjectId
+
+  messages Message[]
+
+  seenMessageIds String[]  @db.ObjectId
+  seenMessages   Message[] @relation("Seen", fields: [seenMessageIds], references: [id])
+}
+
+model VerificationToken {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model HotelImage {
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  hotelId  String    @unique @db.ObjectId
+  publicId String    @unique
+  url      String
+  status   String
+  hotel    Hotel     @relation(fields: [hotelId], references: [id], onDelete: Cascade)
+  Booking  Booking[]
+}
+
+model DestinationImage {
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
+  destinationId String      @db.ObjectId
+  publicId      String      @unique
+  url           String
+  status        String
+  destination   Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+}
+
+model City {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  cityName String
+  publicId String @unique
+  url      String
+  status   String
+}
+
+model TravelStyle {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  styleName String
+  publicId  String  @unique
+  url       String
+  status    String
+  Hotel     Hotel[]
+}
+
+// model HotelViews {
+//   id      String  @id @default(auto()) @map("_id") @db.ObjectId
+//   email   String
+//   Hotel   Hotel?  @relation(fields: [hotelId], references: [id])
+//   hotelId String? @db.ObjectId
+// }
+
+// model DestinationViews {
+//   id            String       @id @default(auto()) @map("_id") @db.ObjectId
+//   email         String
+//   Destination   Destination? @relation(fields: [destinationId], references: [id])
+//   destinationId String?      @db.ObjectId
+// }
+
+model Exercise {
+  id                 String             @id @default(auto()) @map("_id") @db.ObjectId
+  exName             String
+  exDesc             String             @unique
+  exPic              String
+  exVideo            String
+  exDuration         String
+  exSteps            ExSteps[]
+  reps               String
+  sets               String
+  status             String
+  exerciseCategoryId String             @db.ObjectId
+  DailyPlan          DailyPlan[]
+  ExerciseActivity   ExerciseActivity[]
+  ExerciseCategory   ExerciseCategory?  @relation(fields: [exerciseCategoryId], references: [id])
+}
+
+model FoodPlan {
+  id                 String            @id @default(auto()) @map("_id") @db.ObjectId
+  fp_name            String
+  fp_description     String
+  fp_period          String
+  fp_day             String
+  fp_time            String
+  FoodPlanCategory   FoodPlanCategory? @relation(fields: [foodPlanCategoryId], references: [id])
+  foodPlanCategoryId String?           @db.ObjectId
+  fp_ingredients     String[]
+  fp_nutriton        String[]
+  fp_recipe          String[]
+  fp_prep_time       String
+  fp_cook_time       String
+  fp_image           String?
+  fp_video           String?
+  owner              String?
+  users              String[]
+  status             String
+}
+
+model DailyPlan {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  dpDay      String
+  dpTime     String
+  dpDuration String
+  status     String
+  exercise   Exercise @relation(fields: [exerciseId], references: [id])
+  exerciseId String   @db.ObjectId
+}
+
+model WaterIntake {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  wi_amount String
+  wi_date   String
+  wi_time   String
+}
+
+model FoodPlanCategory {
+  id       String     @id @default(auto()) @map("_id") @db.ObjectId
+  fpc_name String?
+  status   String     @default("active")
+  FoodPlan FoodPlan[]
+}
+
+model ExerciseCategory {
+  id       String     @id @default(auto()) @map("_id") @db.ObjectId
+  excName  String
+  image    String
+  status   String
+  Exercise Exercise[]
+}
+
+model ProgramsCategory {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  pcName String
+  pcDesc String
+  image  String
+  status String
+}
+
+model PaymentPlans {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  plFeatures  String[]
+  plDuration  String
+  plFeeAmount String
+  status      String
+}
+
+model Testimonials {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  testComment String
+  publicId    String @unique
+  User        User   @relation(fields: [userId], references: [id])
+  status      String
+  userId      String @db.ObjectId
+}
+
+model UsersCategory {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  ucName String
+  status String
+  User   User[]
+}
+
+model TrainingProgram {
+  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  trainingName       String
+  trainingDesc       String
+  trainingDay        String
+  trainingTime       String
+  traingDuration     String
+  trainingPeriod     String
+  status             String
+  trainer            String[]
+  focus              String[]
+  programsCategoryId String
+  trainees           String[]
+  exercises          String[]
+}
+
+model Sets {
+  id           String         @id @default(auto()) @map("_id") @db.ObjectId
+  repCount     String
+  status       String
+  WorkoutItems WorkoutItems[]
+}
+
+model WorkoutItems {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  wkIName  String
+  wkWeight String?
+  status   String
+  Sets     Sets?   @relation(fields: [setsId], references: [id])
+  setsId   String? @db.ObjectId
+}
+
+type ExSteps {
+  name        String
+  description String
+}
+
+model ExerciseActivity {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  exercise   Exercise @relation(fields: [exerciseId], references: [id])
+  exerciseId String   @db.ObjectId
+  acDate     String
+  acTime     String
+  acDuration String
+  acReps     String?
+  acSets     String?
+}
+
+model Conversation {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt     DateTime @default(now())
+  lastMessageAt DateTime @default(now())
+  name          String?
+  isGroup       Boolean?
+
+  messagesIds String[]  @db.ObjectId
+  messages    Message[]
+
+  userIds String[] @db.ObjectId
+  // users   User[]   @relation(fields: [userIds], references: [id])
+  User    User[]
+}
+
+model Message {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  body      String?
+  image     String?
+  createdAt DateTime @default(now())
+
+  seenIds String[] @db.ObjectId
+  seen    User[]   @relation("Seen", fields: [seenIds], references: [id])
+
+  conversationId String       @db.ObjectId
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  senderId String @unique @db.ObjectId
+  sender   User   @relation(fields: [senderId], references: [id], onDelete: Cascade)
+}
+
+model Bpm {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  beats     String
+  bpmResult String
+  date      DateTime @default(now())
+  userId    String   @db.ObjectId
+}
+
+model Bmi {
+  id     String   @id @default(auto()) @map("_id") @db.ObjectId
+  height String
+  weight String
+  bmi    String
+  date   DateTime @default(now())
+  userId String   @db.ObjectId
+}
+
+model StepsCount {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  stepsCount      String
+  duration        String
+  distanceCovered String
+  date            DateTime @default(now())
+  userId          String   @db.ObjectId
+}
+
+model Calories {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  calories String
+  date     DateTime @default(now())
+  userId   String   @db.ObjectId
+}
+
+model Sleep {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  slDuration  String
+  slStartTime String
+  slEndTime   String
+  slDate      DateTime @default(now())
+  status      String
+  userId      String   @db.ObjectId
+  createdAt   DateTime @default(now())
+}
