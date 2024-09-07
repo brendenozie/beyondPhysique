@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 import { ICity } from "@/types/typings";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { Link } from 'react-scroll';
+import  Link  from 'react-scroll';
 import { Dispatch, SetStateAction, useState } from "react";
 import hero from "../../public/31.jpg";
 import { motion } from "framer-motion";
-import NumberCounter from "number-counter";
+import NumberCounter from 'number-counter';
 import hero_image from "../assets/hero_image.png";
 import hero_image_back from "../assets/hero_image_back.png";
 import Heart from "../assets/heart.png";
@@ -100,7 +100,7 @@ const Banner = ({ }: Props) => {
           {/* Right Side */}
           <div className="bg-[#4f46e5] flex-1 relative p-4 lg:p-0">
             <button className="bg-white p-[0.05rem] font-bold border: 4px solid transparent transition-all duration-300 flex items-center justify-center mb-4 lg:mb-0">
-              <Link href='join-us' smooth={true} spy={true}>
+              <Link to='join-us'   smooth={true} spy={true}> 
                 Join Now
               </Link>
             </button>

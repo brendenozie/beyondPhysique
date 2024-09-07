@@ -22,21 +22,21 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
   } = req.body;
 
   // const session = await getSession({ req });
-  const result = await prisma.exercise.create({
-    data: {
-      exName,
-      exSteps,
-      exDesc,
-      exPic,
-      exVideo,
-      exDuration,
-      reps,
-      sets,
-      status,
-      exerciseCategoryId,
-      // dailyPlanId,
-      trainingProgramId,
-    },
-  });
-  res.json(result);
+  // const result = await prisma.exercise.create({
+  //   data: {
+  //     exName,
+  //     exSteps,
+  //     exDesc,
+  //     exPic,
+  //     exVideo,
+  //     exDuration,
+  //     reps,
+  //     sets,
+  //     status,
+  //     exerciseCategoryId,
+  //     // dailyPlanId,
+  //     trainingProgramId,
+  //   },
+  // });
+  res.json("result");
 }

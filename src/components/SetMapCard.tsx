@@ -9,16 +9,12 @@ type Props = {
 
 const SetLocationCard = ({setMarker , marker}: Props) => {
   
-  const [viewport, setViewport] = useState({
-    style: {
-      width: "100%",
-      height: "calc(100% - 68px)",
-    },
-    initialViewState: {
-      longitude: 36.821946,
-      latitude: -1.292066,
-      zoom:11,
-    },
+   const [viewport, setViewport] = useState({
+    width: "100%",
+    height: "calc(100% - 68px)",
+    latitude: 37.8,
+    longitude: -122.4,
+    zoom: 11,
   });
 
   function handleMapClick(e:any) {
@@ -29,18 +25,26 @@ const SetLocationCard = ({setMarker , marker}: Props) => {
   return (
     <>
       <Map
-          {...viewport}
-          mapStyle="mapbox://styles/javiergongora/clalbftnj000g15nsx3nbjynw"
-          mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
-          onClick={handleMapClick}
+        viewState={{
+        longitude: viewport.longitude,
+        latitude: viewport.latitude,
+        zoom: viewport.zoom,
+      }}
+      width={viewport.width}
+      height={viewport.height}
+      mapStyle="mapbox://styles/javiergongora/clalbftnj000g15nsx3nbjynw"
+      mapboxApiAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
+      style={{ width: viewport.width, height: viewport.height }}
+      onViewportChange={(nextViewport : any) => setViewport(nextViewport)}
       >
         {marker &&
                  <div key={marker.long}>
                     <Marker
-                         latitude={marker.lat}
-                         longitude={marker.long}
-                         offset={[12, -6]}
-                     >
+                        latitude={marker.lat}
+                        longitude={marker.long}
+                        offsetLeft={-20}  // X offset
+                        offsetTop={-10}   // Y offset
+                      >
                         <p
                            role="img"
                            className="cursor-pointer text-2xl animate-bounce"

@@ -19,18 +19,18 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
   } = req.body;
 
   // const session = await getSession({ req });
-  const result = await prisma.exerciseActivity.create({
-    data: {
-      exerciseId,
-      acRepCount,
-      acSetCount,
-      acCalories,
-      type,
-      timestamp,
-      avgSpeedInKMH,
-      distanceInMeters,
-      durationInMillis,
-    },
-  });
-  res.json(result);
+  // const result = await prisma.exerciseActivity.create({
+  //   data: {
+  //     exerciseId,
+  //     acRepCount,
+  //     acSetCount,
+  //     acCalories,
+  //     type,
+  //     timestamp,
+  //     avgSpeedInKMH,
+  //     distanceInMeters,
+  //     durationInMillis,
+  //   },
+  // });
+  res.json("result");
 }

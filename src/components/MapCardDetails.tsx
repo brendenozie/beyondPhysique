@@ -25,41 +25,49 @@ const MapCardDetails = ({ searchResults, favorites=false }: Props) => {
   }));
   const center: any = getCenter(coordinates);
   const [viewport, setViewport] = useState({
-    style: {
-      width: "100%",
-      height: "calc(100% - 68px)",
-    },
-    initialViewState: {
-      longitude: center.longitude,
-      latitude: center.latitude,
-      zoom: favorites? 1: 11,
-    },
+    width: "100%",
+    height: "calc(100% - 68px)",
+    latitude: 37.8,
+    longitude: -122.4,
+    zoom: 11,
   });
 
   return (
     <>
       <Map
-        {...viewport}
-        mapStyle="mapbox://styles/javiergongora/clalbftnj000g15nsx3nbjynw"
-        mapboxAccessToken ={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
+        viewState={{
+        longitude: viewport.longitude,
+        latitude: viewport.latitude,
+        zoom: viewport.zoom,
+      }}
+      width={viewport.width}
+      height={viewport.height}
+      mapStyle="mapbox://styles/javiergongora/clalbftnj000g15nsx3nbjynw"
+      mapboxApiAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
+      style={{ width: viewport.width, height: viewport.height }}
+      onViewportChange={(nextViewport : any) => setViewport(nextViewport)}
       >
         {searchResults.map((result) => (
           <div key={result.long}>
             <Marker
               latitude={result.lat}
               longitude={result.long}
-              offset={[-20, -10]}
+              offsetLeft={-20}  // X offset
+              offsetTop={-10}   // Y offset
             >
-              <p
-                role="img"
-                onPointerOver={() => {
-                  setSelectedLocation(result);
-                }}
-                className="cursor-pointer text-2xl animate-bounce"
-                aria-label="push-pin"
-              >
-                📌
-              </p>
+              
+
+                          <p
+                            role="img"
+                            onPointerOver={() => {
+                              setSelectedLocation(result);
+                            }}
+                            className="cursor-pointer text-2xl animate-bounce"
+                            aria-label="push-pin"
+                          >
+                            📌
+                          </p>
+                        { /* Add your marker's children or icon here */ }
             </Marker>
 
             {/* popup should show if we click on a marker */}
