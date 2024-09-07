@@ -6,7 +6,7 @@ export default async function handle(
   res: NextApiResponse
 ) {
   
-  const { category, focusArea, level, query,page } = req.query;
+  const {  focusArea,  query,page } = req.query;
   if (req.method === "GET") {
 
     let currentPage = page as unknown as number;
@@ -14,35 +14,35 @@ export default async function handle(
     // Create filters based on provided query parameters
     const filters: any = {};
 
-    // Filter by category if provided
-    if (category && category !== 'All') {
-      filters.exerciseCategoryId = category.toString();
-    }
-
     // Filter by focus area if provided
     if (focusArea && focusArea !== 'All') {
-      filters.focusArea  = { has: focusArea.toString() }; // Assuming focusArea is an array
-    }
-
-    // Filter by level if provided
-    if (level && level !== 'All') {
-      filters.level = level.toString();
+      filters.focus  = { has: focusArea.toString() }; // Assuming focusArea is an array
     }
 
     // Filter by search query if provided
     if (query) {
       filters.OR = [
-        { exName: { contains: query.toString(), mode: 'insensitive' } },
-        { exDesc: { contains: query.toString(), mode: 'insensitive' } }
+        { challengeName: { contains: query.toString(), mode: 'insensitive' } },
+        { challengeDesc: { contains: query.toString(), mode: 'insensitive' } }
       ];
     }
 
+    // Filter for running challenges
+    const now = new Date();
+    filters.releaseDate = {
+        lte: now,
+    };
+    filters.endDate = {
+        gte: now,
+    };
+
     const results = await prisma.$transaction([
-      prisma.exercise.count({where: filters,}),
-      prisma.exercise.findMany({
+      prisma.workoutChallenges.count({where: filters,}),
+      prisma.workoutChallenges.findMany({
         skip: skip,
         take: 5,
         where: filters,
+        orderBy: { releaseDate: 'asc' },
       }),
     ]);
 

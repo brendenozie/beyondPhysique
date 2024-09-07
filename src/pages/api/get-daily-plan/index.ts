@@ -5,54 +5,91 @@ export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { page } = req.query;
+  let { page } = req.query;
+
   if (req.method === "GET") {
 
-    let currentPage = page as unknown as number;
-    let skip = currentPage > 1 ? currentPage * 20 : 0;
+    if (page === undefined) page = "0";
 
+    let currentPage = parseInt(page.toString()) || 1;
+    let skip = currentPage > 1 ? (currentPage - 1) * 20 : 0;
+
+    // Determine the current day
     let siku = new Date();
     const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     let day = weekday[siku.getDay()];
 
-    const results = await prisma.$transaction([
-      prisma.dailyPlan.count(),
+    // Fetch the count and DailyPlans
+    const [totalPlans, dailyPlans] = await prisma.$transaction([
+      prisma.dailyPlan.count({
+        where: {
+          dpDay: day,
+        },
+      }),
       prisma.dailyPlan.findMany({
         skip: skip,
         take: 20,
-        include: {
-          exercise: {
-            select: {
-              id: true,
-              exName: true,
-              exDesc: true,
-              exPic: true,
-              exVideo: true,
-              exDuration: true,
-              status: true,
-              exerciseCategoryId: true,
-              DailyPlan: true
-            }
-          },
-        },
         where: {
-          dpDay: day
-        }
+          dpDay: day,
+        },
       }),
     ]);
 
+    // Extract exercise IDs from the dailyPlans
+    const exerciseIds = dailyPlans.flatMap(plan => plan.exerciseId);
+
+    // Fetch all exercises in one query
+    const exercises = await prisma.exercise.findMany({
+      where: {
+        id: {
+          in: exerciseIds,
+        },
+      },
+      select: {
+        id: true,
+        exName: true,
+        exDesc: true,
+        exPic: true,
+        exVideo: true,
+        exDuration: true,
+        status: true,
+        exerciseCategoryId: true,
+        reps: true,
+        sets: true,
+        exSteps: true,
+        exCalories: true,
+        exHeartBeat: true,
+      },
+    });
+
+    // Create a map of exercises by ID for easy lookup
+    const exerciseMap = exercises.reduce((acc, exercise) => {
+      acc[exercise.id] = exercise;
+      return acc;
+    }, {} as Record<string, typeof exercises[0]>);
+
+    // Attach exercises to their respective DailyPlans
+    const dailyPlansWithExercises = dailyPlans.map(plan => ({
+      ...plan,
+      exercises: plan.exerciseId.map(id => exerciseMap[id] || null).filter(Boolean),
+    }));
+
+    // Calculate pagination details
+    const totalPages = Math.ceil(totalPlans / 20);
+    const nextPage = currentPage < totalPages ? currentPage + 1 : null;
+    const prevPage = currentPage > 1 ? currentPage - 1 : null;
+
+    // Respond with the combined result
     res.json({
       InfoResponse: {
-        count: results[0] ?? 0,
-        next: currentPage * 20 > results[0] ? currentPage : 0,
-        pages: results[0] / 20 > 1 ? results[0] / 20 : 1,
-        prev: currentPage - 1 > 1 ? currentPage - 1 : 0
+        count: totalPlans,
+        next: nextPage,
+        pages: totalPages,
+        prev: prevPage,
       },
-      results: results[1]
+      results: dailyPlansWithExercises,
     });
   } else {
-    throw new Error(
-      `The HTTP ${req.method} method is not supported at this route.`
-    );
+    return res.status(405).json({ message: `The HTTP ${req.method} method is not supported at this route.` });
   }
 }

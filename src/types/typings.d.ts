@@ -267,7 +267,6 @@ export type ITrainingProgram = {
   [x: string]: any;
   results: any[];
   id: string;
-
   trainingName: string;
   trainingDesc: string;
   trainingDay: string;

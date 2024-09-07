@@ -15,9 +15,6 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     exerciseId,
   } = req.body;
 
-  console.log("dpDay")
-  console.log(req.body)
-  console.log(dpDay)
   // const session = await getSession({ req });
   const result = await prisma.dailyPlan.create({
     data: {

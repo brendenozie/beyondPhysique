@@ -5,20 +5,49 @@ export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { page } = req.query;
+  const { page,catId } = req.query;
+
   if (req.method === "GET") {
 
     let currentPage = page as unknown as number;
+    let catid = catId as unknown as string;
     let skip = currentPage > 1 ? currentPage * 5 : 0;
 
     const results = await prisma.$transaction([
-      prisma.trainingProgram.count(),
-      prisma.trainingProgram.findMany(
-        {
+        prisma.trainingProgram.count({
+          where: { programsCategoryId: catid },
+        }),
+        prisma.trainingProgram.findMany({
           skip: skip,
           take: 5,
+          where: { programsCategoryId: catid },
         }),
-    ]);
+      ]);
+
+      const trainingPrograms = results[1];
+
+      const trainingWithDetails = await Promise.all(
+        trainingPrograms.map(async (training) => {
+          const [trainer, exercises] = await Promise.all([
+            prisma.user.findMany({
+              where: {
+                id: { in: training.trainer },
+              },
+            }),
+            prisma.exercise.findMany({
+              where: {
+                id: { in: training.exercises },
+              },
+            }),
+          ]);
+
+          return { ...training, trainer, exercises };
+        })
+      );
+
+      // Now you have `trainingWithDetails` which includes the trainers and exercises
+
+
 
     res.json({
       InfoResponse: {
@@ -27,7 +56,7 @@ export default async function handle(
         pages: results[0] / 20 > 1 ? results[0] / 20 : 1,
         prev: currentPage - 1 > 1 ? currentPage - 1 : 0
       },
-      results: results[1]
+      results: trainingWithDetails//results[1]
     });
   } else {
     throw new Error(

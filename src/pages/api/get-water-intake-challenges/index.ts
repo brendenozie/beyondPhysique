@@ -5,18 +5,39 @@ export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { page } = req.query;
+  
+  const { query,page } = req.query;
   if (req.method === "GET") {
 
     let currentPage = page as unknown as number;
     let skip = currentPage > 1 ? currentPage * 5 : 0;
+    // Create filters based on provided query parameters
+    const filters: any = {};
+
+    // Filter by search query if provided
+    if (query) {
+      filters.OR = [
+        { challengeName: { contains: query.toString(), mode: 'insensitive' } },
+        { challengeDesc: { contains: query.toString(), mode: 'insensitive' } }
+      ];
+    }
+
+    // Filter for running challenges
+    const now = new Date();
+    filters.releaseDate = {
+        lte: now,
+    };
+    filters.endDate = {
+        gte: now,
+    };
 
     const results = await prisma.$transaction([
-      prisma.sleep.count(),
-      prisma.sleep.findMany(
-        {
+      prisma.waterIntakeChallenges.count({where: filters,}),
+      prisma.waterIntakeChallenges.findMany({
         skip: skip,
         take: 5,
+        where: filters,
+        orderBy: { releaseDate: 'asc' },
       }),
     ]);
 

@@ -105,20 +105,31 @@ model Booking {
 }
 
 model User {
-  id              String         @id @default(auto()) @map("_id") @db.ObjectId
-  name            String?
-  email           String?        @unique
-  emailVerified   DateTime?
-  image           String?
-  hashedPassword  String?
-  role            String         @default("user")
-  accounts        Account[]
-  sessions        Session[]
-  favorites       Hotel[]
-  bookings        Booking[]
-  Testimonials    Testimonials[]
-  UsersCategory   UsersCategory? @relation(fields: [usersCategoryId], references: [id])
-  usersCategoryId String?        @db.ObjectId
+  id                    String         @id @default(auto()) @map("_id") @db.ObjectId
+  name                  String?
+  email                 String?        @unique
+  emailVerified         DateTime?
+  image                 String?
+  hashedPassword        String?
+  role                  String         @default("user")
+  gender                String         @default("male")
+  exerciseGoal          String         @default("keep fit")
+  focusArea             String         @default("arms")
+  currentHeightInCm     Int            @default(0)
+  currentWeightInKg     Float          @default(0.0)
+  birthYear             Int            @default(0)
+  weeklyGoalInKM        Float          @default(0.0)
+  weightInKgGoal        Float          @default(0.0)
+  physicalActivityLevel String         @default("beginner")
+  bmiResult             Float          @default(0.0)
+  imgUri                String?        @default("")
+  accounts              Account[]
+  sessions              Session[]
+  favorites             Hotel[]
+  bookings              Booking[]
+  Testimonials          Testimonials[]
+  UsersCategory         UsersCategory? @relation(fields: [usersCategoryId], references: [id])
+  usersCategoryId       String?        @db.ObjectId
 
   Conversation   Conversation? @relation(fields: [conversationId], references: [id])
   conversationId String?       @db.ObjectId
@@ -174,20 +185,6 @@ model TravelStyle {
   Hotel     Hotel[]
 }
 
-// model HotelViews {
-//   id      String  @id @default(auto()) @map("_id") @db.ObjectId
-//   email   String
-//   Hotel   Hotel?  @relation(fields: [hotelId], references: [id])
-//   hotelId String? @db.ObjectId
-// }
-
-// model DestinationViews {
-//   id            String       @id @default(auto()) @map("_id") @db.ObjectId
-//   email         String
-//   Destination   Destination? @relation(fields: [destinationId], references: [id])
-//   destinationId String?      @db.ObjectId
-// }
-
 model Exercise {
   id                 String             @id @default(auto()) @map("_id") @db.ObjectId
   exName             String
@@ -198,9 +195,14 @@ model Exercise {
   exSteps            ExSteps[]
   reps               String
   sets               String
+  breakSet           String             @default("5s")
   status             String
   exerciseCategoryId String             @db.ObjectId
-  DailyPlan          DailyPlan[]
+  exCalories         String
+  exHeartBeat        String
+  focusArea          String[]
+  type               String             @default("others")
+  level              String             @default("Beginner")
   ExerciseActivity   ExerciseActivity[]
   ExerciseCategory   ExerciseCategory?  @relation(fields: [exerciseCategoryId], references: [id])
 }
@@ -232,15 +234,15 @@ model DailyPlan {
   dpTime     String
   dpDuration String
   status     String
-  exercise   Exercise @relation(fields: [exerciseId], references: [id])
-  exerciseId String   @db.ObjectId
+  exerciseId String[] @db.ObjectId
 }
 
 model WaterIntake {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
-  wi_amount String
-  wi_date   String
-  wi_time   String
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  wiAmount  Float // Changed from String to Float for easier calculations
+  wiDate    DateTime? @default(now())
+  userId    String    @db.ObjectId
+  createdAt DateTime? @default(now())
 }
 
 model FoodPlanCategory {
@@ -296,12 +298,14 @@ model TrainingProgram {
   trainingDesc       String
   trainingDay        String
   trainingTime       String
-  traingDuration     String
+  trainingDuration   String
   trainingPeriod     String
-  status             String
+  trainingCalories   String
+  status             String?  @default("active")
+  trainingImage      String
   trainer            String[]
   focus              String[]
-  programsCategoryId String
+  programsCategoryId String   @db.ObjectId
   trainees           String[]
   exercises          String[]
 }
@@ -328,14 +332,19 @@ type ExSteps {
 }
 
 model ExerciseActivity {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  exercise   Exercise @relation(fields: [exerciseId], references: [id])
-  exerciseId String   @db.ObjectId
-  acDate     String
-  acTime     String
-  acDuration String
-  acReps     String?
-  acSets     String?
+  id               String    @id @default(auto()) @map("_id") @db.ObjectId
+  exercise         Exercise  @relation(fields: [exerciseId], references: [id])
+  exerciseId       String    @db.ObjectId
+  acRepCount       String
+  acCalories       Int
+  acSetCount       String
+  type             String?   @default("other")
+  timestamp        DateTime? @default(now())
+  avgSpeedInKMH    Float     @default(0)
+  distanceInMeters Int       @default(0)
+  durationInMillis Int       @default(0)
+  stepsCount       Int       @default(0) // New field for tracking steps
+  userId           String    @db.ObjectId
 }
 
 model Conversation {
@@ -371,8 +380,7 @@ model Message {
 
 model Bpm {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  beats     String
-  bpmResult String
+  bpmResult Int
   date      DateTime @default(now())
   userId    String   @db.ObjectId
 }
@@ -403,12 +411,38 @@ model Calories {
 }
 
 model Sleep {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  slDuration  String
-  slStartTime String
-  slEndTime   String
-  slDate      DateTime @default(now())
-  status      String
-  userId      String   @db.ObjectId
-  createdAt   DateTime @default(now())
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  slDuration      String
+  slSleepDateTime DateTime @default(now())
+  slWakeDateTime  DateTime @default(now())
+  userId          String   @db.ObjectId
+  createdAt       DateTime @default(now())
+}
+
+model WaterIntakeChallenges {
+  id               String    @id @default(auto()) @map("_id") @db.ObjectId
+  challengeName    String
+  challengeDesc    String
+  duration         String
+  dailyGoal        String
+  totalGoal        String
+  dailyQuantity    Float     @default(0)
+  totalQuantity    Float     @default(0)
+  releaseDate      DateTime? @default(now())
+  endDate          DateTime? @default(now())
+  progressTracking String
+  createdAt        DateTime? @default(now())
+}
+
+model WorkoutChallenges {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  challengeName String
+  challengeDesc String
+  releaseDate   DateTime? @default(now())
+  endDate       DateTime? @default(now())
+  duration      String
+  focus         String[]
+  exercises     String[]
+  goal          String
+  createdAt     DateTime? @default(now())
 }

@@ -19,17 +19,19 @@ export default async function handle(
         include: {
           exercise: {
             select: {
-              id: true, exName: true,
+              id: true,
+              exName: true,
               exDesc: true,
               exPic: true,
               exVideo: true,
               exDuration: true,
               status: true,
-              // ExerciseCategory   ExerciseCategory? @relation(fields: [exerciseCategoryId], references: [id])
               exerciseCategoryId: true,
-              // TrainingProgram    TrainingProgram?  @relation(fields: [trainingProgramId], references: [id])
-              // trainingProgramId: true,
-              DailyPlan: true
+              reps: true,
+              sets: true,
+              exSteps: true,
+              exCalories: true,
+              exHeartBeat: true,
             }
           },
         },

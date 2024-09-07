@@ -13,11 +13,11 @@ export default async function handle(
 
     const results = await prisma.$transaction([
       prisma.bpm.count(),
-      prisma.bpm.findFirst(),
-      //   {
-      //   skip: skip,
-      //   take: 5,
-      // }),
+      prisma.bpm.findMany(
+        {
+        skip: skip,
+        take: 5,
+      }),
     ]);
 
     res.json({

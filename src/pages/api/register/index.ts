@@ -19,7 +19,19 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 
 async function RegisterUser(req: NextApiRequest, res: NextApiResponse) {
   
-  const {name, email, password, provider} = req.body.data;
+  const {name, email, password,
+    birthYear,
+    bmiResult,
+    currentHeightInCm,
+    currentWeightInKg,
+    exerciseGoal,
+    focusArea,
+    gender,
+    img,
+    physicalActivityLevel,
+    weeklyGoalInKM,
+    weightInKgGoal, 
+    provider} = req.body.data;
 
   if(!email || !password || !name){
     return res.send({status:400,message:"Missing Registration details"});
@@ -43,6 +55,18 @@ async function RegisterUser(req: NextApiRequest, res: NextApiResponse) {
       name,
       email,
       hashedPassword : password,
+      birthYear,
+      bmiResult,
+      currentHeightInCm,
+      currentWeightInKg,
+      exerciseGoal,
+      focusArea,
+      gender,
+      // img,
+      physicalActivityLevel,
+      weeklyGoalInKM,
+      weightInKgGoal, 
+      // provider
     },
   });
 
@@ -68,14 +92,14 @@ async function RegisterUser(req: NextApiRequest, res: NextApiResponse) {
 
       let {emailVerified,...newUser} = newObject;
       
-      return res.send({status:200,message:"User Created.", body:newUser});
+      return res.send({status:200,message:"Success.", body:newUser});
     }
     
-     return res.send({status:200,message:"User Created.", body:newObject});
+     return res.send({status:200,message:"Success.", body:newObject});
 
   }
 
-  if(result) return res.send({status:200,message:"User Created.", body:result});
+  if(result) return res.send({status:200,message:"Success.", body:result});
   
   return res.send({status:400,message:"This account does not exist. Create an account by registering"});
   
