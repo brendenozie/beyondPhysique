@@ -42,11 +42,14 @@ const MapCard = ({ searchResults, favorites=false }: Props) => {
     latitude: 37.8,
     longitude: -122.4,
     zoom: 11,
+    bearing: 0, // Rotation of the map
+    pitch: 0,   // Tilt of the map
+    padding: { left: 0, top: 0, right: 0, bottom: 0 }, // Padding around the map
   });
 
   return (
     <>
-      <Map
+    {/* <Map
         viewState={{
         longitude: viewport.longitude,
         latitude: viewport.latitude,
@@ -58,7 +61,23 @@ const MapCard = ({ searchResults, favorites=false }: Props) => {
       mapboxApiAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
       style={{ width: viewport.width, height: viewport.height }}
       onViewportChange={(nextViewport : any) => setViewport(nextViewport)}
-      >
+      ></Map> */}
+      <Map
+      viewState={{
+        longitude: viewport.longitude,
+        latitude: viewport.latitude,
+        zoom: viewport.zoom,
+        bearing: viewport.bearing,
+        pitch: viewport.pitch,
+        // padding: {{ left: 0, top: 0, right: 0, bottom: 0 },
+      }}
+      width={viewport.width}
+      height={viewport.height}
+      mapStyle="mapbox://styles/javiergongora/clalbftnj000g15nsx3nbjynw"
+      mapboxApiAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
+      style={{ width: viewport.width, height: viewport.height }}
+      onViewportChange={(nextViewport:any) => setViewport(nextViewport)}
+    >
         {searchResults.results.map((result : IDestination) => (
               <div key={result.long}>
                 <Marker
