@@ -31,9 +31,9 @@ type Props = {
     dailyPlanData?: { results: IDailyPlan[] };
     bpmData?: { results: IBpm };
     bmiData?: { results: IBmi };
-    stepsData?: { results: ISteps };
-    caloriesData?: { results: IDailyPlan };
-    sleepCountData?: { results: ISleep };
+    // stepsData?: { results: ISteps };
+    // caloriesData?: { results: IDailyPlan };
+    // sleepCountData?: { results: ISleep };
     programsCategoryData?: { results: IProgramsCategory[] };
     trainingProgramData?: { results: ITrainingProgram[] };
     session: Session;
@@ -123,7 +123,7 @@ const Dash2 = (props: Props) => {
                                             className="mt-4 w-32 h-20 mx-auto"
                                         />
                                         <span className=" font-bold">Running</span>
-                                        <span>{props.stepsData?.results.stepsCount} Steps</span>
+                                        <span>0 Steps</span>
                                     </div>
                                     <div className="flex flex-col justify-between items-center py-2 bg-white p-4 rounded-lg shadow">
                                         <Link href={"/calculatesleep"} className="w-full flex justify-end">
@@ -143,7 +143,7 @@ const Dash2 = (props: Props) => {
                                             className="mt-4  w-32 h-20 mx-auto"
                                         />
                                         <span className=" font-bold">Sleep</span>
-                                        <span>{props.sleepCountData?.results.slDuration} Score</span>
+                                        <span>0 Score</span>
                                     </div>
                                     <div className="flex flex-col justify-between items-center py-2 bg-white p-4 rounded-lg shadow">
                                         {/* <Link href={"/calculatebpm"} className="w-full flex justify-end">
@@ -380,8 +380,8 @@ export const getServerSideProps = async (
       trainingProgramData,
       bpmData,
       bmiData,
-      stepsData,
-      sleepCountData,
+    //   stepsData,
+    //   sleepCountData,
       programsCategoryData
     ] = await Promise.all(fetchPromises);
 
@@ -392,8 +392,8 @@ export const getServerSideProps = async (
         dailyPlanData,
         bpmData,
         bmiData,
-        stepsData,
-        sleepCountData,
+        // stepsData,
+        // sleepCountData,
         programsCategoryData,
         trainingProgramData
       },
