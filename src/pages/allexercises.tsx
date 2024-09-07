@@ -1,19 +1,11 @@
-import AddExerciseSchedule from "@/components/AddExerciseSchedule";
-import RightSide from "@/components/RightSide";
 import UserLayout from "@/components/UserLayout";
 import UserNav from "@/components/UserNav";
-import UserSide from "@/components/UserSide";
-import { ChartPieIcon, CalendarDaysIcon, UserCircleIcon, WrenchIcon, ChatBubbleLeftIcon, CheckCircleIcon } from "@heroicons/react/24/outline";
-import { Console } from "console";
-import {Suspense, useEffect} from "react";
 // import Chart from "react-apexcharts";
  
 // If you're using Next.js please use the dynamic import for react-apexcharts and remove the import from the top for the react-apexcharts
-import dynamic from "next/dynamic";
-import Link from "next/link";
 import { useState } from "react";
 import { GetServerSidePropsContext } from "next";
-import { IDailyPlan, IExercise, IExerciseCategory } from "@/types/typings";
+import { IExerciseCategory } from "@/types/typings";
 
 import { Session } from "next-auth";
 import { getSession } from "next-auth/react";

@@ -2,7 +2,6 @@ import { Key, useCallback, useEffect, useState } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
-import SetLocationCard from "@/components/SetMapCard";
 import Compressor from 'compressorjs';
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -296,7 +295,7 @@ const addDestination = ({ session, cities }: Props) => {
                             </label>
                             <div className="relative">
                                 <div className="w-full h-[500px]">
-                                    <SetLocationCard marker={marker} setMarker={setMarker} />
+                                    {/* <SetLocationCard marker={marker} setMarker={setMarker} /> */}
                                 </div>
                             </div>
                         </div>

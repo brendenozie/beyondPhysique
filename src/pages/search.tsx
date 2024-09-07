@@ -10,7 +10,7 @@ import Drawer from "../components/Drawer";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import InfoCard from "../components/InfoCard";
-import MapCard from "../components/MapCard";
+// import MapCard from "../components/MapCard";
 import { IResult, ISuggestionFormatted } from "../types/typings";
 import getHotelList from "../utils/getHotelList";
 
@@ -80,7 +80,7 @@ const Search = ({ searchResults, session }: Props) => {
         {searchResults ? (
           <section className="hidden lg:inline-flex xl:min-w-[600px]">
             <div className="sticky top-[68px] w-full h-screen">
-              <MapCard searchResults={searchResults} />
+              {/* <MapCard searchResults={searchResults} /> */}
             </div>
           </section>
         ) : (

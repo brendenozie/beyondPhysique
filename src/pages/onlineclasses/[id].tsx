@@ -1,19 +1,12 @@
-import { Key, useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import Footer from "../../components/Footer";
-import Header from "../../components/Header";
-import SetLocationCard from "@/components/SetMapCard";
-import Compressor from 'compressorjs';
-import { useRouter } from "next/navigation";
 import { GetServerSidePropsContext } from "next";
-import { ICity, IDestination, ITrainingProgram, IUser, uploadImage } from "@/types/typings";
+import { ITrainingProgram, IUser } from "@/types/typings";
 // import { FaPlay, FaPause, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import {
 	PlayIcon,
 	PauseIcon,
-	CheckCircleIcon,
-	ClockIcon
-} from "@heroicons/react/24/solid";
+	CheckCircleIcon} from "@heroicons/react/24/solid";
 import UserLayout from '@/components/UserLayout';
 import UserNav from '@/components/UserNav';
 
@@ -22,7 +15,6 @@ import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
 
 import img from "../../assets/image2.png";
-import Timer from '@/components/Timer';
 import { IExercise } from '@/types/typings';
 import axios from 'axios';
 

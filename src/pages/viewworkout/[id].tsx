@@ -1,12 +1,6 @@
-import { Key, useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import Footer from "../../components/Footer";
-import Header from "../../components/Header";
-import SetLocationCard from "@/components/SetMapCard";
-import Compressor from 'compressorjs';
-import { useRouter } from "next/navigation";
 import { GetServerSidePropsContext } from "next";
-import { ICity, IDestination, uploadImage } from "@/types/typings";
 // import { FaPlay, FaPause, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import {
     PlayIcon,
@@ -22,7 +16,6 @@ import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
 
 import img from "../../assets/image2.png";
-import Timer from '@/components/Timer';
 import { IExercise } from '@/types/typings';
 import axios from 'axios';
 
