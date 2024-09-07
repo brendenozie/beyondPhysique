@@ -41,7 +41,7 @@ const MapCardDetails = ({ searchResults, favorites=false }: Props) => {
       <Map
         {...viewport}
         mapStyle="mapbox://styles/javiergongora/clalbftnj000g15nsx3nbjynw"
-        mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
+        mapboxAccessToken ={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
       >
         {searchResults.map((result) => (
           <div key={result.long}>
