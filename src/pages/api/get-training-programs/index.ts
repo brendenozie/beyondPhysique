@@ -21,8 +21,8 @@ export default async function handle(
     }
 
     // Filter by focus area if provided
-    if (focusArea && focusArea !== 'All') {
-      filters.focus  = { has: focusArea.toString() }; // Assuming focusArea is an array
+    if (Array.isArray(focusArea) && focusArea.length > 0 && focusArea[0] !== 'All') {
+        filters.focusArea = { has: focusArea.toString() }; // Assuming focusArea contains values
     }
 
     // Filter by level if provided

@@ -13,6 +13,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     dpDuration,
     status,
     exerciseId,
+    userId,
   } = req.body;
 
   // const session = await getSession({ req });
@@ -23,6 +24,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
       dpDuration,
       status,
       exerciseId,
+      userId,
     },
   });
   res.json("result");

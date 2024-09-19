@@ -9,7 +9,7 @@ export default async function handle(
   if (req.method === "GET") {
 
     const results = await prisma.exercise.findFirst({
-                      where: { type : "run" },
+                      where: { exName : "run" },
                     });
     res.json(results);
   } else {

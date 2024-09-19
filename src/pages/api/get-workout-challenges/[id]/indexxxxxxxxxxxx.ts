@@ -5,38 +5,51 @@ export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  let { page } = req.query;
-
+  
+  const {  focusArea,  query,page } = req.query;
   if (req.method === "GET") {
 
-    if (page === undefined) page = "0";
+    let currentPage = page as unknown as number;
+    let skip = currentPage > 1 ? currentPage * 5 : 0;
+    // Create filters based on provided query parameters
+    const filters: any = {};
 
-    let currentPage = parseInt(page.toString()) || 1;
-    let skip = currentPage > 1 ? (currentPage - 1) * 20 : 0;
+    // Filter by focus area if provided
+    if (focusArea && focusArea !== 'All') {
+      filters.focus  = { has: focusArea.toString() }; // Assuming focusArea is an array
+    }
 
-    // Determine the current day
-    let siku = new Date();
-    const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    let day = weekday[siku.getDay()];
+    // Filter by search query if provided
+    if (query) {
+      filters.OR = [
+        { challengeName: { contains: query.toString(), mode: 'insensitive' } },
+        { challengeDesc: { contains: query.toString(), mode: 'insensitive' } }
+      ];
+    }
 
-    // Fetch the count and DailyPlans
-    const [totalPlans, dailyPlans] = await prisma.$transaction([
-      prisma.dailyPlan.count({
-        where: {
-          dpDay: day,
-        },
-      }),
-      prisma.dailyPlan.findMany({
+    // Filter for running challenges
+    const now = new Date();
+    filters.releaseDate = {
+        lte: now,
+    };
+    filters.endDate = {
+        gte: now,
+    };
+
+    const [totalWorkoouts, dailyWorkouts] = await prisma.$transaction([
+      prisma.workoutChallenges.count({where: filters,}),
+      prisma.workoutChallenges.findMany({
         skip: skip,
-        take: 20,
-        where: {
-          dpDay: day,
-        },
+        take: 5,
+        where: filters,
+        orderBy: { releaseDate: 'asc' },
       }),
     ]);
 
+
     // Extract exercise IDs from the dailyPlans
-    const exerciseIds = dailyPlans.flatMap(plan => plan.exerciseId);
+    const exerciseIds = dailyWorkouts.flatMap((challenge) => challenge.exercises);
+
 
     // Fetch all exercises in one query
     const exercises = await prisma.exercise.findMany({
@@ -71,27 +84,30 @@ export default async function handle(
     }, {} as Record<string, typeof exercises[0]>);
 
     // Attach exercises to their respective DailyPlans
-    const dailyPlansWithExercises = dailyPlans.map(plan => ({
+    const workoutChallengesWithExercises = dailyWorkouts.map((plan : any) => ({
       ...plan,
-      exercises: plan.exerciseId.map(id => exerciseMap[id] || null).filter(Boolean),
+      exercises: plan.exercises.map((id: string | number) => exerciseMap[id] || null).filter(Boolean),
     }));
 
     // Calculate pagination details
-    const totalPages = Math.ceil(totalPlans / 20);
+    const totalPages = Math.ceil(totalWorkoouts / 20);
     const nextPage = currentPage < totalPages ? currentPage + 1 : null;
     const prevPage = currentPage > 1 ? currentPage - 1 : null;
 
     // Respond with the combined result
     res.json({
       InfoResponse: {
-        count: totalPlans,
+        count: totalWorkoouts,
         next: nextPage,
         pages: totalPages,
         prev: prevPage,
       },
-      results: dailyPlansWithExercises,
+      results: workoutChallengesWithExercises,
     });
+    
   } else {
-    return res.status(405).json({ message: `The HTTP ${req.method} method is not supported at this route.` });
+    throw new Error(
+      `The HTTP ${req.method} method is not supported at this route.`
+    );
   }
 }

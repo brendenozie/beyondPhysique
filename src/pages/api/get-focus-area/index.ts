@@ -9,34 +9,13 @@ export default async function handle(
   if (req.method === "GET") {
 
     let currentPage = page as unknown as number;
-    let skip = currentPage > 1 ? currentPage * 5 : 0;
+    let skip = currentPage > 1 ? currentPage * 20 : 0;
 
     const results = await prisma.$transaction([
-      prisma.exerciseActivity.count(),
-      prisma.exerciseActivity.findMany({
+      prisma.focusArea.count(),
+      prisma.focusArea.findMany({
         skip: skip,
-        take: 5,
-        include: {
-          exercise: {
-            select: {
-              id: true,
-              exName: true,
-              exDesc: true,
-              exPic: true,
-              exVideo: true,
-              exDuration: true,
-              status: true,
-              exerciseCategoryId: true,
-              reps: true,
-              sets: true,
-              breakSet:true,
-              exSteps: true,
-              exCalories: true,
-              exHeartBeat: true,
-              caloriesPerRep:true,
-            }
-          },
-        },
+        take: 20,
       }),
     ]);
 

@@ -203,6 +203,7 @@ model Exercise {
   focusArea          String[]
   type               String             @default("others")
   level              String             @default("Beginner")
+  caloriesPerRep     String?            @default("0.0 kcal")
   ExerciseActivity   ExerciseActivity[]
   ExerciseCategory   ExerciseCategory?  @relation(fields: [exerciseCategoryId], references: [id])
 }
@@ -228,21 +229,32 @@ model FoodPlan {
   status             String
 }
 
+model Notification {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  message   String
+  createdAt DateTime @default(now())
+  read      Boolean  @default(false)
+}
+
 model DailyPlan {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   dpDay      String
   dpTime     String
   dpDuration String
   status     String
+  userId     String?  @db.ObjectId
   exerciseId String[] @db.ObjectId
 }
 
 model WaterIntake {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  wiAmount  Float // Changed from String to Float for easier calculations
-  wiDate    DateTime? @default(now())
-  userId    String    @db.ObjectId
-  createdAt DateTime? @default(now())
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  wiAmount    Float // Changed from String to Float for easier calculations
+  wiDate      DateTime? @default(now())
+  type        String?   @default("intake")
+  challengeId String?
+  userId      String    @db.ObjectId
+  createdAt   DateTime? @default(now())
 }
 
 model FoodPlanCategory {
@@ -258,6 +270,11 @@ model ExerciseCategory {
   image    String
   status   String
   Exercise Exercise[]
+}
+
+model FocusArea {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
 }
 
 model ProgramsCategory {
@@ -293,7 +310,7 @@ model UsersCategory {
 }
 
 model TrainingProgram {
-  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  id                 String             @id @default(auto()) @map("_id") @db.ObjectId
   trainingName       String
   trainingDesc       String
   trainingDay        String
@@ -301,13 +318,14 @@ model TrainingProgram {
   trainingDuration   String
   trainingPeriod     String
   trainingCalories   String
-  status             String?  @default("active")
+  status             String?            @default("active")
   trainingImage      String
   trainer            String[]
   focus              String[]
-  programsCategoryId String   @db.ObjectId
+  programsCategoryId String             @db.ObjectId
   trainees           String[]
   exercises          String[]
+  TrainingProgress   TrainingProgress[]
 }
 
 model Sets {
@@ -332,19 +350,54 @@ type ExSteps {
 }
 
 model ExerciseActivity {
-  id               String    @id @default(auto()) @map("_id") @db.ObjectId
-  exercise         Exercise  @relation(fields: [exerciseId], references: [id])
-  exerciseId       String    @db.ObjectId
-  acRepCount       String
-  acCalories       Int
-  acSetCount       String
-  type             String?   @default("other")
-  timestamp        DateTime? @default(now())
-  avgSpeedInKMH    Float     @default(0)
-  distanceInMeters Int       @default(0)
-  durationInMillis Int       @default(0)
-  stepsCount       Int       @default(0) // New field for tracking steps
-  userId           String    @db.ObjectId
+  id                  String             @id @default(auto()) @map("_id") @db.ObjectId
+  exerciseId          String             @db.ObjectId
+  challengeId         String?            @db.ObjectId
+  programId           String?            @db.ObjectId
+  acRepCount          Int?
+  acCalories          Int
+  acSetCount          Int?
+  type                String?            @default("exercise")
+  avgSpeedInKMH       Float              @default(0)
+  distanceInMeters    Int                @default(0)
+  durationInMillis    Int                @default(0)
+  stepsCount          Int                @default(0) // New field for tracking steps
+  userId              String             @db.ObjectId
+  timestamp           DateTime           @default(now()) @map("timestamp")
+  ChallengeProgress   ChallengeProgress? @relation(fields: [challengeProgressId], references: [id])
+  challengeProgressId String?            @db.ObjectId
+  exercise            Exercise           @relation(fields: [exerciseId], references: [id])
+}
+
+model ChallengeProgress {
+  id                    String             @id @default(auto()) @map("_id") @db.ObjectId
+  userId                String             @db.ObjectId
+  challengeId           String             @db.ObjectId // Nullable if it's a training program
+  completedExercises    Int                @default(0)
+  totalExercises        Int // Total number of exercises for the challenge or program
+  totalCaloriesBurned   Int                @default(0)
+  totalDurationInMillis Int                @default(0)
+  totalDistanceInMeters Int                @default(0)
+  status                String             @default("IN_PROGRESS") // IN_PROGRESS, COMPLETED
+  createdAt             DateTime           @default(now())
+  updatedAt             DateTime           @updatedAt
+  challenge             WorkoutChallenges  @relation(fields: [challengeId], references: [id])
+  ExerciseActivity      ExerciseActivity[]
+}
+
+model TrainingProgress {
+  id                    String          @id @default(auto()) @map("_id") @db.ObjectId
+  userId                String          @db.ObjectId
+  programId             String          @db.ObjectId
+  completedExercises    Int             @default(0)
+  totalExercises        Int // Total number of exercises for the training program
+  totalCaloriesBurned   Int             @default(0)
+  totalDurationInMillis Int             @default(0)
+  totalDistanceInMeters Int             @default(0)
+  status                String          @default("IN_PROGRESS") // IN_PROGRESS, COMPLETED
+  createdAt             DateTime        @default(now())
+  updatedAt             DateTime        @updatedAt
+  program               TrainingProgram @relation(fields: [programId], references: [id])
 }
 
 model Conversation {
@@ -420,29 +473,65 @@ model Sleep {
 }
 
 model WaterIntakeChallenges {
-  id               String    @id @default(auto()) @map("_id") @db.ObjectId
+  id               String                         @id @default(auto()) @map("_id") @db.ObjectId
   challengeName    String
   challengeDesc    String
   duration         String
   dailyGoal        String
   totalGoal        String
-  dailyQuantity    Float     @default(0)
-  totalQuantity    Float     @default(0)
-  releaseDate      DateTime? @default(now())
-  endDate          DateTime? @default(now())
+  dailyQuantity    Float                          @default(0)
+  totalQuantity    Float                          @default(0)
+  releaseDate      DateTime?                      @default(now())
+  endDate          DateTime?                      @default(now())
   progressTracking String
-  createdAt        DateTime? @default(now())
+  createdAt        DateTime?                      @default(now())
+  progress         WaterIntakeChallengeProgress[]
 }
 
 model WorkoutChallenges {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  challengeName String
-  challengeDesc String
-  releaseDate   DateTime? @default(now())
-  endDate       DateTime? @default(now())
-  duration      String
-  focus         String[]
-  exercises     String[]
-  goal          String
-  createdAt     DateTime? @default(now())
+  id                String              @id @default(auto()) @map("_id") @db.ObjectId
+  challengeName     String
+  challengeDesc     String
+  releaseDate       DateTime?           @default(now())
+  endDate           DateTime?           @default(now())
+  duration          String
+  focus             String[]
+  exercises         String[]            @db.ObjectId
+  challengeGoal     String
+  dailyGoal         Int?
+  totalGoal         Int?
+  period            String?
+  difficultyLevel   String?
+  createdBy         String?
+  lastUpdated       DateTime?           @default(now())
+  createdAt         DateTime?           @default(now())
+  ChallengeProgress ChallengeProgress[]
+}
+
+model WaterIntakeProgress {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String   @db.ObjectId
+  challengeId String?  @db.ObjectId // Nullable because a user may log water outside of a challenge
+  dailyGoal   Float
+  type        String?  @default("intake")
+  // totalGoal   Int
+  dailyIntake Float // Amount of water consumed in liters on a given day
+  date        DateTime // Date the water intake is logged
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+}
+
+model WaterIntakeChallengeProgress {
+  id            String                 @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String                 @db.ObjectId
+  challengeId   String                 @db.ObjectId
+  currentIntake Float // Total amount of water consumed so far in the challenge (in liters)
+  totalGoal     Float // Total goal of water consumption for the entire challenge (in liters)
+  dailyGoal     Float // The daily goal in liters
+  completedDays Int // Number of days the user met the daily goal
+  totalDays     Int // Total number of days in the challenge
+  status        String                 @default("IN_PROGRESS") // Status of the challenge ("IN_PROGRESS", "COMPLETED")
+  createdAt     DateTime               @default(now()) @map("created_at")
+  updatedAt     DateTime               @updatedAt @map("updated_at")
+  challenge     WaterIntakeChallenges? @relation(fields: [challengeId], references: [id])
 }

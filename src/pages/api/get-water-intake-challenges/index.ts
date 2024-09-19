@@ -6,53 +6,86 @@ export default async function handle(
   res: NextApiResponse
 ) {
   
-  const { query,page } = req.query;
-  if (req.method === "GET") {
+  const { query, page, userId } = req.query;
+if (req.method === "GET") {
 
-    let currentPage = page as unknown as number;
-    let skip = currentPage > 1 ? currentPage * 5 : 0;
-    // Create filters based on provided query parameters
-    const filters: any = {};
+  let currentPage = parseInt(page as string, 10) || 1;
+  let skip = currentPage > 1 ? (currentPage - 1) * 5 : 0;
 
-    // Filter by search query if provided
-    if (query) {
-      filters.OR = [
-        { challengeName: { contains: query.toString(), mode: 'insensitive' } },
-        { challengeDesc: { contains: query.toString(), mode: 'insensitive' } }
-      ];
-    }
+  // Create filters based on provided query parameters
+  const filters: any = {};
 
-    // Filter for running challenges
-    const now = new Date();
-    filters.releaseDate = {
-        lte: now,
-    };
-    filters.endDate = {
-        gte: now,
-    };
-
-    const results = await prisma.$transaction([
-      prisma.waterIntakeChallenges.count({where: filters,}),
-      prisma.waterIntakeChallenges.findMany({
-        skip: skip,
-        take: 5,
-        where: filters,
-        orderBy: { releaseDate: 'asc' },
-      }),
-    ]);
-
-    res.json({
-      InfoResponse: {
-        count: results[0] ?? 0,
-        next: currentPage * 20 > results[0] ? currentPage : 0,
-        pages: results[0] / 20 > 1 ? results[0] / 20 : 1,
-        prev: currentPage - 1 > 1 ? currentPage - 1 : 0
-      },
-      results: results[1]
-    });
-  } else {
-    throw new Error(
-      `The HTTP ${req.method} method is not supported at this route.`
-    );
+  // Filter by search query if provided
+  if (query) {
+    filters.OR = [
+      { challengeName: { contains: query.toString(), mode: 'insensitive' } },
+      { challengeDesc: { contains: query.toString(), mode: 'insensitive' } }
+    ];
   }
+
+  // Filter for running challenges
+  const now = new Date();
+  filters.releaseDate = {
+    lte: now,
+  };
+  filters.endDate = {
+    gte: now,
+  };
+  const userIdString = Array.isArray(userId) ? userId[0] : userId; // Ensure userId is a string
+
+  // Fetch challenges and user's progress
+  const results = await prisma.$transaction([
+    prisma.waterIntakeChallenges.count({ where: filters }),
+    prisma.waterIntakeChallenges.findMany({
+      skip: skip,
+      take: 5,
+      where: filters,
+      orderBy: { releaseDate: 'asc' },
+      include: {
+        progress: {
+          where: { userId: userIdString },
+          select: {
+            currentIntake: true,
+            totalGoal: true,
+            dailyGoal: true,
+            completedDays: true,
+            totalDays: true,
+            status: true,
+          },
+        },
+      },
+    }),
+  ]);
+
+  // Prepare response with challenges and user progress
+  const challengesWithProgress = results[1].map(challenge => {
+    const progress = challenge.progress[0] || {};
+
+    return {
+      ...challenge,
+      userProgress: {
+        currentIntake: progress.currentIntake || 0,
+        totalGoal: progress.totalGoal || 0,
+        dailyGoal: progress.dailyGoal || 0,
+        completedDays: progress.completedDays || 0,
+        totalDays: progress.totalDays || 0,
+        status: progress.status || 'NOT_STARTED',
+      },
+    };
+  });
+
+  res.json({
+    InfoResponse: {
+      count: results[0] ?? 0,
+      next: currentPage * 5 < results[0] ? currentPage + 1 : 0,
+      pages: Math.ceil(results[0] / 5),
+      prev: currentPage > 1 ? currentPage - 1 : 0
+    },
+    results: challengesWithProgress
+  });
+} else {
+  throw new Error(
+    `The HTTP ${req.method} method is not supported at this route.`
+  );
+}
 }

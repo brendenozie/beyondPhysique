@@ -6,6 +6,7 @@ interface Activity {
   acCalories: number;
   durationInMillis: number;
   distanceInMeters: number;
+  stepsCount:number;
   timestamp: string; // ISO 8601 date string
 }
 
@@ -14,6 +15,7 @@ interface DailySummary {
   totalCalories: number;
   totalDuration: number;
   totalDistance: number;
+  totalStepsCount: number;
 }
 
 export default async function handle(
@@ -57,6 +59,7 @@ export default async function handle(
       acCalories: true,
       durationInMillis: true,
       distanceInMeters: true,
+      stepsCount:true,
       timestamp: true, // Ensure to include timestamp for grouping
     },
   });
@@ -66,6 +69,7 @@ export default async function handle(
     acCalories: activity.acCalories,
     durationInMillis: activity.durationInMillis,
     distanceInMeters: activity.distanceInMeters,
+    stepsCount: activity.stepsCount,
     timestamp: activity.timestamp ? activity.timestamp.toISOString() : '', // Convert Date to string or handle null
   }));
 
@@ -77,6 +81,7 @@ export default async function handle(
     totalCalories: number;
     totalDuration: number;
     totalDistance: number;
+    totalStepsCount: number;
   }> = activities.reduce((acc, activity) => {
     const date = formatDate(new Date(activity.timestamp));
     
@@ -85,15 +90,17 @@ export default async function handle(
         totalCalories: 0,
         totalDuration: 0,
         totalDistance: 0,
+        totalStepsCount: 0,
       };
     }
 
     acc[date].totalCalories += activity.acCalories || 0;
     acc[date].totalDuration += activity.durationInMillis || 0;
     acc[date].totalDistance += activity.distanceInMeters || 0;
+    acc[date].totalStepsCount += activity.stepsCount || 0;
     
     return acc;
-  }, {} as Record<string, { totalCalories: number; totalDuration: number; totalDistance: number }>);
+  }, {} as Record<string, { totalCalories: number;  totalStepsCount: number; totalDuration: number; totalDistance: number }>);
 
   // Convert grouped summary into an array of objects
   const summaryArray: DailySummary[] = Object.entries(summary).map(([date, stats]) => ({

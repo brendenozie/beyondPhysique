@@ -1,5 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../server/db/prismadb";
+// import Redis from 'redis';
+
+// const redisClient = Redis.createClient();
+// const CACHE_TTL = 60; // Cache time-to-live in seconds
 
 export default async function handle(
   req: NextApiRequest,
@@ -19,10 +23,10 @@ export default async function handle(
       filters.exerciseCategoryId = category.toString();
     }
 
-    // Filter by focus area if provided
-    if (focusArea && focusArea !== 'All') {
-      filters.focusArea  = { has: focusArea.toString() }; // Assuming focusArea is an array
-    }
+   // Filter by focus area if provided
+if (Array.isArray(focusArea) && focusArea.length > 0 && focusArea[0] !== 'All') {
+    filters.focusArea = { has: focusArea.toString() }; // Assuming focusArea contains values
+}
 
     // Filter by level if provided
     if (level && level !== 'All') {
