@@ -195,6 +195,8 @@ model Exercise {
   exSteps            ExSteps[]
   reps               String
   sets               String
+  weightPerRepInKg   Float?             @default(0.0)
+  weightPerSetInKg   Float?             @default(0.0)
   breakSet           String             @default("5s")
   status             String
   exerciseCategoryId String             @db.ObjectId
@@ -245,16 +247,6 @@ model DailyPlan {
   status     String
   userId     String?  @db.ObjectId
   exerciseId String[] @db.ObjectId
-}
-
-model WaterIntake {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  wiAmount    Float // Changed from String to Float for easier calculations
-  wiDate      DateTime? @default(now())
-  type        String?   @default("intake")
-  challengeId String?
-  userId      String    @db.ObjectId
-  createdAt   DateTime? @default(now())
 }
 
 model FoodPlanCategory {
@@ -359,6 +351,8 @@ model ExerciseActivity {
   acSetCount          Int?
   type                String?            @default("exercise")
   avgSpeedInKMH       Float              @default(0)
+  weightPerRepInKg    Float?             @default(0.0)
+  weightPerSetInKg    Float?             @default(0.0)
   distanceInMeters    Int                @default(0)
   durationInMillis    Int                @default(0)
   stepsCount          Int                @default(0) // New field for tracking steps

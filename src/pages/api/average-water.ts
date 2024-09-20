@@ -44,19 +44,19 @@ export default async function handle(
 
 const getAverageWaterIntakeSummary = async (start: Date, end: Date): Promise<AverageWaterIntakeSummary> => {
   // Fetch total water intake over the period
-  const totalWaterIntakeResult = await prisma.waterIntake.aggregate({
+  const totalWaterIntakeResult = await prisma.waterIntakeProgress.aggregate({
     _sum: {
-      wiAmount: true,
+      dailyIntake: true,
     },
     where: {
-      wiDate: {
+      date: {
         gte: start,
         lte: end,
       },
     },
   });
 
-  const totalWaterIntake = totalWaterIntakeResult._sum.wiAmount || 0;
+  const totalWaterIntake = totalWaterIntakeResult._sum.dailyIntake || 0;
 
   // Calculate the number of days in the range
   const daysInRange = differenceInDays(end, start) + 1; // +1 to include the start day

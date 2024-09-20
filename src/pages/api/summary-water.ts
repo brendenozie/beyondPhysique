@@ -54,24 +54,24 @@ export default async function handle(
 
 const getWaterIntakeSummary = async (start: Date, end: Date): Promise<DailyWaterIntakeSummary[]> => {
   // Fetch data from the database
-  const waterIntakeFromDb = await prisma.waterIntake.findMany({
+  const waterIntakeFromDb = await prisma.waterIntakeProgress.findMany({
     where: {
-      wiDate: {
+      date: {
         gte: startOfDay(start),
         lte: endOfDay(end),
       },
     },
     select: {
-      wiAmount: true,
-      wiDate: true,
+      dailyIntake: true,
+      date: true,
       userId: true,
     },
   });
 
   // Map database results to the expected BpmActivity type
   const activities: WaterIntakeActivity[] = waterIntakeFromDb.map(waterintake => ({
-    wi_amount: waterintake.wiAmount.toString(),
-    wi_date: waterintake.wiDate ? waterintake.wiDate : new Date(),
+    wi_amount: waterintake.dailyIntake.toString(),
+    wi_date: waterintake.date ? waterintake.date : new Date(),
     userId: waterintake.userId,
   }));
 

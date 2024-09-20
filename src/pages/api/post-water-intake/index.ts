@@ -25,12 +25,12 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     return res.status(400).json({ message: 'Invalid date format provided' });
   }
 
-  const result = await prisma.waterIntake.create({
-    data: {
-      wiDate:tarehe,
-      wiAmount:wi_amount,
-      userId
-    },
-  });
-  res.json(result);
+  // const result = await prisma.waterIntakeProgress.create({
+  //   data: {
+  //     date:tarehe,
+  //     dailyIntake:wi_amount,
+  //     userId
+  //   },
+  // });
+  // res.json(result);
 }

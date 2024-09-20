@@ -12,8 +12,8 @@ export default async function handle(
     let skip = currentPage > 1 ? currentPage * 20 : 0;
 
     const results = await prisma.$transaction([
-      prisma.waterIntake.count(),
-      prisma.waterIntake.findMany({
+      prisma.waterIntakeProgress.count(),
+      prisma.waterIntakeProgress.findMany({
         skip: skip,
         take: 20,
       }),
