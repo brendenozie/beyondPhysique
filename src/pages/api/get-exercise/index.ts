@@ -10,7 +10,7 @@ export default async function handle(
   res: NextApiResponse
 ) {
   
-  const { category, focusArea, level, query,page } = req.query;
+  const { category, focusArea, level, query,page,userId } = req.query;
   if (req.method === "GET") {
 
     let currentPage = page as unknown as number;
@@ -21,6 +21,11 @@ export default async function handle(
     // Filter by category if provided
     if (category && category !== 'All') {
       filters.exerciseCategoryId = category.toString();
+    }
+
+    // Filter by category if provided
+    if (userId && userId !== 'All') {
+      filters.userId = Array.isArray(userId) ? userId[0] : userId; // Ensure userId is a string
     }
 
    // Filter by focus area if provided

@@ -200,6 +200,7 @@ model Exercise {
   breakSet           String             @default("5s")
   status             String
   exerciseCategoryId String             @db.ObjectId
+  userId             String?            @db.ObjectId
   exCalories         String
   exHeartBeat        String
   focusArea          String[]

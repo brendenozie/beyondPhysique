@@ -47,18 +47,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           newSetCount = lastActivity.acSetCount ?? newSetCount;  // Carry over last logged set count
         }
       }
-      console.log("11newRepCount");
-        console.log(newRepCount);
-        console.log(newSetCount);
-        console.log(targetReps);
 
       // Check if the newRepCount meets or exceeds the targetReps
       if (newRepCount > targetReps) {
         // Increase the set count
         newSetCount += Math.floor(newRepCount / targetReps);
-        console.log("22newRepCount");
-        console.log(newRepCount);
-        console.log(newSetCount);
 
         // Reset reps to 1 if the newRepCount equals the targetReps (end of set)
         if (newRepCount % targetReps === 0) {
