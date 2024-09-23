@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../../server/db/prismadb";
+import prisma from "../../server/db/prismadb";
 import Redis from 'redis';
 
 // Initialize Redis client
@@ -41,42 +41,42 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     const cacheKey = generateCacheKey({ category, focusArea, level, query, page });
 
     // Check cache
-    redisClient.get(cacheKey, async (err, cachedData) => {
-      if (cachedData) {
-        // Return cached response
-        return res.status(200).json(JSON.parse(cachedData));
-      }
+    // redisClient.get(cacheKey, async (err, cachedData) => {
+    //   if (cachedData) {
+    //     // Return cached response
+    //     return res.status(200).json(JSON.parse(cachedData));
+    //   }
 
-      try {
-        const results = await prisma.$transaction([
-          prisma.exercise.count({ where: filters }),
-          prisma.exercise.findMany({
-            skip: skip,
-            take: 5,
-            where: filters,
-          }),
-        ]);
+    //   try {
+    //     const results = await prisma.$transaction([
+    //       prisma.exercise.count({ where: filters }),
+    //       prisma.exercise.findMany({
+    //         skip: skip,
+    //         take: 5,
+    //         where: filters,
+    //       }),
+    //     ]);
 
-        // Prepare response data
-        const responseData = {
-          InfoResponse: {
-            count: results[0] ?? 0,
-            next: currentPage * 5 >= results[0] ? 0 : currentPage + 1,
-            pages: Math.ceil(results[0] / 5),
-            prev: currentPage > 1 ? currentPage - 1 : 0
-          },
-          results: results[1]
-        };
+    //     // Prepare response data
+    //     const responseData = {
+    //       InfoResponse: {
+    //         count: results[0] ?? 0,
+    //         next: currentPage * 5 >= results[0] ? 0 : currentPage + 1,
+    //         pages: Math.ceil(results[0] / 5),
+    //         prev: currentPage > 1 ? currentPage - 1 : 0
+    //       },
+    //       results: results[1]
+    //     };
 
-        // Cache the response data
-        redisClient.setex(cacheKey, CACHE_TTL, JSON.stringify(responseData));
+    //     // Cache the response data
+    //     redisClient.setex(cacheKey, CACHE_TTL, JSON.stringify(responseData));
 
-        return res.status(200).json(responseData);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        return res.status(500).json({ error: 'Failed to fetch data' });
-      }
-    });
+    //     return res.status(200).json(responseData);
+    //   } catch (error) {
+    //     console.error('Error fetching data:', error);
+    //     return res.status(500).json({ error: 'Failed to fetch data' });
+    //   }
+    // });
   } else {
     return res.status(405).json({
       error: `The HTTP ${req.method} method is not supported at this route.`

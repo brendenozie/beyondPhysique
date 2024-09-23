@@ -7,11 +7,11 @@ import prisma from "../../../server/db/prismadb";
 // Optional fields in body: content
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
-    const { title, message, userId } = req.body;
+    const { title, message, } = req.body;
 
     try {
       const newNotification = await prisma.notification.create({
-        data: { title, message, userId },
+        data: { title, message },
       });
       res.status(201).json(newNotification);
     } catch (error) {
