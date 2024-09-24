@@ -12,6 +12,6 @@ export const client =  globalThis.prisma ||
         : ["error"],
   });
 
-if (process.env.NODE_ENV !== "production") globalThis.prisma = prisma;
+if (process.env.NODE_ENV !== "production") globalThis.prisma = client;
 
 export default client;
