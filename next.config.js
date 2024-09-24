@@ -1,5 +1,9 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
+  /* YOU MUST ADD ENV HERE*/
+  env: {
+    DATABASE_URL: process.env.DATABASE_URL ?? "",
+  },
   reactStrictMode: true,
   env: {
     stripe_public_key: process.env.STRIPE_PUBLIC_KEY,
