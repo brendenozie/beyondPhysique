@@ -39,71 +39,6 @@ model Session {
   userId       String   @db.ObjectId
 }
 
-model Destination {
-  id          String             @id @default(auto()) @map("_id") @db.ObjectId
-  title       String
-  description String
-  star        Float              @default(0.00)
-  img         DestinationImage[]
-  views       String[]
-  lat         Float
-  location    String
-  long        Float
-  price       Float              @default(0.00)
-  offer       Boolean            @default(false)
-  offerPrice  Float              @default(0.00)
-  userEmail   String
-  cityId      String             @db.ObjectId
-  createdAt   DateTime           @default(now())
-}
-
-model Hotel {
-  id            String       @id @default(auto()) @map("_id") @db.ObjectId
-  title         String
-  description   String
-  star          Float        @default(0.00)
-  img           HotelImage[]
-  lat           Float
-  location      String
-  long          Float
-  views         String[]
-  price         Float        @default(0.00)
-  offer         Boolean      @default(false)
-  offerPrice    Float        @default(0.00)
-  userEmail     String
-  cityId        String       @db.ObjectId
-  user          User         @relation(fields: [userEmail], references: [email], onDelete: Cascade)
-  createdAt     DateTime     @default(now())
-  travelStyleId String       @db.ObjectId
-  TravelStyle   TravelStyle  @relation(fields: [travelStyleId], references: [id], onDelete: Cascade)
-}
-
-model Booking {
-  id            String     @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt     DateTime   @default(now())
-  sessionId     String?    @default("64d9d7ed75d747ce9abc0d0b")
-  hotellId      String     @db.ObjectId
-  description   String
-  startDate     String
-  endDate       String
-  lat           Float
-  location      String
-  long          Float
-  price         String
-  status        String     @default("active pending")
-  type          String     @default("hotel")
-  star          Float
-  title         String
-  total         Float?
-  userEmail     String
-  travelStyleId String?
-  cityId        String
-  user          User       @relation(fields: [userEmail], references: [email], onDelete: Cascade)
-  img           HotelImage @relation(fields: [hotellId], references: [hotelId], onDelete: Cascade)
-  // HotelImage   HotelImage? @relation(fields: [hotelImageId], references: [id])
-  // hotelImageId String?    @db.ObjectId
-}
-
 model User {
   id                    String         @id @default(auto()) @map("_id") @db.ObjectId
   name                  String?
@@ -125,8 +60,6 @@ model User {
   imgUri                String?        @default("")
   accounts              Account[]
   sessions              Session[]
-  favorites             Hotel[]
-  bookings              Booking[]
   Testimonials          Testimonials[]
   UsersCategory         UsersCategory? @relation(fields: [usersCategoryId], references: [id])
   usersCategoryId       String?        @db.ObjectId
@@ -147,42 +80,6 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
-}
-
-model HotelImage {
-  id       String    @id @default(auto()) @map("_id") @db.ObjectId
-  hotelId  String    @unique @db.ObjectId
-  publicId String    @unique
-  url      String
-  status   String
-  hotel    Hotel     @relation(fields: [hotelId], references: [id], onDelete: Cascade)
-  Booking  Booking[]
-}
-
-model DestinationImage {
-  id            String      @id @default(auto()) @map("_id") @db.ObjectId
-  destinationId String      @db.ObjectId
-  publicId      String      @unique
-  url           String
-  status        String
-  destination   Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
-}
-
-model City {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  cityName String
-  publicId String @unique
-  url      String
-  status   String
-}
-
-model TravelStyle {
-  id        String  @id @default(auto()) @map("_id") @db.ObjectId
-  styleName String
-  publicId  String  @unique
-  url       String
-  status    String
-  Hotel     Hotel[]
 }
 
 model Exercise {

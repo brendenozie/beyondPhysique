@@ -15,9 +15,9 @@ export default async function handle(
     let skip = currentPage > 1 ? (currentPage - 1) * 20 : 0;
 
     // Determine the current day
-    let siku = new Date();
-    const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    let day = weekday[siku.getDay()];
+    // let siku = new Date();
+    // const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    // let day = weekday[siku.getDay()];
 
     let userIdString = "";
 
@@ -33,7 +33,6 @@ export default async function handle(
     const [totalPlans, dailyPlans] = await prisma.$transaction([
       prisma.dailyPlan.count({
         where: {
-          dpDay: day,
           userId:userIdString
         },
       }),
@@ -41,7 +40,6 @@ export default async function handle(
         skip: skip,
         take: 20,
         where: {
-          dpDay: day,
           userId:userIdString
         },
       }),

@@ -27,5 +27,5 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
       userId,
     },
   });
-  res.json("result");
+  res.json(result);
 }

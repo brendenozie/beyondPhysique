@@ -16,7 +16,7 @@ export default async function handle(
     return res.status(405).json({ message: 'Only GET requests are allowed' });
   }
 
-  const { fromDate, toDate } = req.query;
+  const { fromDate, toDate,userId } = req.query;
 
   if (!fromDate || !toDate) {
     return res.status(400).json({ message: 'Please provide fromDate and toDate query parameters' });
@@ -29,12 +29,22 @@ export default async function handle(
   const start = new Date(fromDate);
   const end = new Date(toDate);
 
+  let userIdString = "";
+
+  if(userId){
+    userIdString  = Array.isArray(userId) ? userId[0] : userId; // Ensure userId is a string
+  }
+
+  if(!userIdString){
+    return res.status(400).json({ message: 'Invalid date format provided' });
+  }
+
   if (isNaN(start.getTime()) || isNaN(end.getTime())) {
     return res.status(400).json({ message: 'Invalid date format provided' });
   }
 
   try {
-    const summary = await getAverageSleepSummary(startOfDay(start), endOfDay(end));
+    const summary = await getAverageSleepSummary(startOfDay(start), endOfDay(end), userIdString);
     res.status(200).json(summary);
   } catch (error) {
     console.error('Error fetching sleep summary:', error);
@@ -50,13 +60,14 @@ const parseDurationToMinutes = (duration: string): number => {
   return hours * 60 + minutes;
 }
 
-const getAverageSleepSummary = async (start: Date, end: Date): Promise<AverageSleepSummary> => {
+const getAverageSleepSummary = async (start: Date, end: Date, userId:string): Promise<AverageSleepSummary> => {
   const sleepFromDb = await prisma.sleep.findMany({
     where: {
       slSleepDateTime: {
         gte: start,
         lte: end,
       },
+      userId: userId
     },
     select: {
       slDuration: true,

@@ -5,25 +5,44 @@ export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { page } = req.query;
+  const { page, userId } = req.query;
   if (req.method === "GET") {
 
     let currentPage = page as unknown as number;
     let skip = currentPage > 1 ? currentPage * 5 : 0;
+     let userIdString = "";
+
+    if(userId){
+      userIdString  = Array.isArray(userId) ? userId[0] : userId; // Ensure userId is a string
+      }
+      
+    if(!userIdString){
+      return res.status(400).json({ message: 'Invalid date format provided' });
+    }
+
+     // Create filters based on provided query parameters
+    const filters: any = {};
+    // Filter by category if provided
+    if (userIdString && userIdString !== 'All') {
+      filters.userId = userIdString; // Ensure userId is a string
+    }
 
     let siku = new Date();
     const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     let day = weekday[siku.getDay()];
 
+    // Filter by category if provided
+    if (day && day !== 'All') {
+      filters.day = day; // Ensure userId is a string
+    }
+
     const results = await prisma.$transaction([
-      prisma.trainingProgram.count(),
+      prisma.trainingProgram.count({where: filters,}),
       prisma.trainingProgram.findMany(
         {
           skip: skip,
           take: 5,
-          where: {
-            trainingDay: day
-          }
+          where: filters,
         }),
     ]);
 

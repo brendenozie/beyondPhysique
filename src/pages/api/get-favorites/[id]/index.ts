@@ -24,7 +24,7 @@ export default async function handle(
 async function deleteFavorite(req: NextApiRequest, res: NextApiResponse) {
   const amaId = req.query.id as string
   try {
-    const ama = await prisma.booking.delete({
+    const ama = await prisma.exercise.delete({
       where: {
         id: amaId,
       },

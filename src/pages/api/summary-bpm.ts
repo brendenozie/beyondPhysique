@@ -23,7 +23,7 @@ export default async function handle(
     return res.status(405).json({ message: 'Only GET requests are allowed' });
   }
 
-  const { fromDate, toDate } = req.query;
+  const { fromDate, toDate, userId } = req.query;
 
   if (!fromDate || !toDate) {
       return res.status(400).json({ message: 'Please provide fromDate and toDate query parameters' });
@@ -35,6 +35,15 @@ export default async function handle(
 
   const start = new Date(fromDate);
   const end = new Date(toDate);
+  let userIdString = "";
+
+  if(userId){
+    userIdString  = Array.isArray(userId) ? userId[0] : userId; // Ensure userId is a string
+  }
+
+  if(!userIdString){
+    return res.status(400).json({ message: 'Invalid date format provided' });
+  }
 
   if (isNaN(start.getTime()) || isNaN(end.getTime())) {
       return res.status(400).json({ message: 'Invalid date format provided' });
@@ -42,7 +51,7 @@ export default async function handle(
 
   try {
     
-    const summary = await getBpmSummary(startOfDay(start),endOfDay(end))
+    const summary = await getBpmSummary(startOfDay(start),endOfDay(end),userIdString)
 
     res.status(200).json(summary);
   } catch (error) {
@@ -52,7 +61,7 @@ export default async function handle(
 }
 
 
-const getBpmSummary = async (start: Date, end: Date): Promise<DailyBpmSummary[]> => {
+const getBpmSummary = async (start: Date, end: Date, userId: string): Promise<DailyBpmSummary[]> => {
   // Fetch data from the database
   const bpmFromDb = await prisma.bpm.findMany({
     where: {
@@ -60,6 +69,7 @@ const getBpmSummary = async (start: Date, end: Date): Promise<DailyBpmSummary[]>
         gte: startOfDay(start),
         lte: endOfDay(end),
       },
+      userId
     },
     select: {
       bpmResult: true,

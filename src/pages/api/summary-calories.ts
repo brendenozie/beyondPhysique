@@ -24,7 +24,7 @@ export default async function handle(
     return res.status(405).json({ message: 'Only GET requests are allowed' });
   }
 
-  const { fromDate, toDate } = req.query;
+  const { fromDate, toDate, userId } = req.query;
 
   if (!fromDate || !toDate) {
       return res.status(400).json({ message: 'Please provide fromDate and toDate query parameters' });
@@ -36,6 +36,15 @@ export default async function handle(
 
   const start = new Date(fromDate);
   const end = new Date(toDate);
+  let userIdString = "";
+
+  if(userId){
+    userIdString  = Array.isArray(userId) ? userId[0] : userId; // Ensure userId is a string
+    }
+    
+  if(!userIdString){
+    return res.status(400).json({ message: 'Invalid date format provided' });
+  }
 
   if (isNaN(start.getTime()) || isNaN(end.getTime())) {
       return res.status(400).json({ message: 'Invalid date format provided' });
@@ -51,6 +60,7 @@ export default async function handle(
         gte: startOfDay(start),
         lte: endOfDay(end),
       },
+      userId:userIdString
     },
     select: {
       acCalories: true,

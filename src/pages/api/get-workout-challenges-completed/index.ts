@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../server/db/prismadb";
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
-  const { focusArea, query, page, userID } = req.query; // Ensure userId is passed
+  const { focusArea, query, page, userId } = req.query; // Ensure userId is passed
 
   if (req.method === "GET") {
     let currentPage = page ? parseInt(page as string, 10) : 1;
@@ -28,10 +28,10 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     filters.endDate = { gte: now };
 
     // Fetch user progress for completed challenges
-    const userIdString = Array.isArray(userID) ? userID[0] : userID; // Ensure userId is a string
+    const userIdString = Array.isArray(userId) ? userId[0] : userId; // Ensure userId is a string
     let completedChallengesIds: string[] = [];
 
-    if (userID) {
+    if (userId) {
       const completedChallenges = await prisma.challengeProgress.findMany({
         where: { userId: userIdString, status: 'COMPLETED' }, // Assuming 'COMPLETED' indicates a completed challenge
         select: { challengeId: true },

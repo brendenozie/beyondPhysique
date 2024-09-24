@@ -74,7 +74,7 @@ async function GetExercise(req: NextApiRequest, res: NextApiResponse) {
 async function deleteExercise(req: NextApiRequest, res: NextApiResponse) {
   const amaId = req.query.id as string
   try {
-    const ama = await prisma.booking.delete({
+    const ama = await prisma.exercise.delete({
       where: {
         id: amaId,
       },

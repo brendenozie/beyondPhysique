@@ -5,17 +5,36 @@ export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { page } = req.query;
+  const { page,userId } = req.query;
   if (req.method === "GET") {
+
+    // Create filters based on provided query parameters
+    const filters: any = {};
+
+     let userIdString = "";
+
+    if(userId){
+      userIdString  = Array.isArray(userId) ? userId[0] : userId; // Ensure userId is a string
+      }
+      
+    if(!userIdString){
+      return res.status(400).json({ message: 'Invalid date format provided' });
+    }
+    
+    // Filter by category if provided
+    if (userIdString && userIdString !== 'All') {
+      filters.userId = userIdString; // Ensure userId is a string
+    }
 
     let currentPage = page as unknown as number;
     let skip = currentPage > 1 ? currentPage * 5 : 0;
 
     const results = await prisma.$transaction([
-      prisma.exerciseActivity.count(),
+      prisma.exerciseActivity.count({where: filters,}),
       prisma.exerciseActivity.findMany({
         skip: skip,
         take: 5,
+        where: filters,
         include: {
           exercise: {
             select: {

@@ -33,7 +33,7 @@ export default async function handle(
 async function GetCity(req: NextApiRequest, res: NextApiResponse) {
   const cityId = req.query.id as string
   try {
-    const city = await prisma.city.findFirst({
+    const city = await prisma.exercise.findFirst({
       where: {
         id: cityId,
       },
@@ -53,7 +53,7 @@ async function GetCity(req: NextApiRequest, res: NextApiResponse) {
 async function deleteCity(req: NextApiRequest, res: NextApiResponse) {
   const amaId = req.query.id as string
   try {
-    const ama = await prisma.booking.delete({
+    const ama = await prisma.exercise.delete({
       where: {
         id: amaId,
       },
@@ -78,18 +78,14 @@ async function updateCity(req: NextApiRequest, res: NextApiResponse) {
     const session = await getSession({ req });
     try {
 
-    const result = await prisma.city.update({
-                      where: {
-                        id: id,
-                      },
-                    data: {
-                          cityName,
-                          publicId,
-                          url,
-                          status,
-                    },
-                    });
-    return res.json(result);
+    // const result = await prisma.exercise.update({
+    //                   where: {
+    //                     id: id,
+    //                   },
+    //                 data: {
+    //                 },
+    //                 });
+    return res.json("result");
 
   } catch (e) {
     console.log(e)

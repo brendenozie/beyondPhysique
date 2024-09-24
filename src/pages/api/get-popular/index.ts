@@ -89,7 +89,7 @@ export default async function handle(
       //   ],
       // });
 
-      const hotel = await prisma.hotel.aggregateRaw({
+      const hotel = await prisma.exercise.aggregateRaw({
         pipeline: [
           // { $match: { offer: "true" } },
           // { $group: { _id: "$_id",views :"views" } },
