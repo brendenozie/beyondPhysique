@@ -71,6 +71,32 @@ model User {
 
   seenMessageIds String[]  @db.ObjectId
   seenMessages   Message[] @relation("Seen", fields: [seenMessageIds], references: [id])
+
+  Transaction Transaction[]
+}
+
+model SubscriptionPlan {
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  name        String        @unique
+  description String?
+  price       Float
+  duration    String // e.g., "Monthly", "Quarterly", "Yearly"
+  Transaction Transaction[]
+}
+
+model Transaction {
+  id                 String           @id @default(auto()) @map("_id") @db.ObjectId
+  amount             Float
+  currency           String
+  status             String // e.g., "pending", "completed", "failed"
+  user               User             @relation(fields: [userId], references: [id])
+  userId             String           @db.ObjectId
+  subscriptionPlan   SubscriptionPlan @relation(fields: [subscriptionPlanId], references: [id])
+  subscriptionPlanId String           @db.ObjectId
+  createdAt          DateTime         @default(now())
+  startingAt         DateTime         @default(now())
+  endingAt           DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
 }
 
 model VerificationToken {
