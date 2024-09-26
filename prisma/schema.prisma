@@ -130,6 +130,7 @@ model Exercise {
   type               String             @default("others")
   level              String             @default("Beginner")
   caloriesPerRep     String?            @default("0.0 kcal")
+  isPremium     Boolean?            @default(false)
   ExerciseActivity   ExerciseActivity[]
   ExerciseCategory   ExerciseCategory?  @relation(fields: [exerciseCategoryId], references: [id])
 }
