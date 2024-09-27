@@ -10,10 +10,8 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 
         try {
             // Create new transaction
-            // {"amount":34.99,"currency":"USD","endingAt":"2024-12-26T20:34:08.214038Z","id":"",
-            //     "startingAt":"2024-12-26T20:34:08.212153Z","status":"active","subscriptionPlanId":"66f46ffe775c11ec67560278",
-            //     "userId":"66cb2206577e7774f63c97bf"}
-            if (!userId || !subscriptionPlanId || !amount || !currency || !status || !startingAt || !endingAt) {
+            
+            if (!userId || !amount || !currency || !status || !startingAt || !endingAt) {
                 return res.status(400).json({ message: 'Please provide query parameters' });
             }
 
