@@ -172,6 +172,8 @@ model DailyPlan {
   status     String
   userId     String?  @db.ObjectId
   exerciseId String[] @db.ObjectId
+
+  @@unique([userId, dpDay]) // Add this unique constraint
 }
 
 model FoodPlanCategory {
