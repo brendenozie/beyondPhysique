@@ -32,7 +32,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 
                 // Conditionally add subscriptionPlan if subscriptionPlanId exists
                 if (subscriptionPlanId) {
-                    transactionData.subscriptionPlanId = { connect: { id: subscriptionPlanId } };
+                    transactionData.subscriptionPlan = { connect: { id: subscriptionPlanId } };
                 }
 
                 try {
