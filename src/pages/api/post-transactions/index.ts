@@ -9,32 +9,41 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
         const { userId, subscriptionPlanId, amount, status, currency, startingAt, endingAt } = req.body;
 
         try {
-            // Create new transaction
-            
-            if (!userId || !amount || !currency || !status || !startingAt || !endingAt) {
-                return res.status(400).json({ message: 'Please provide query parameters' });
-            }
+                if (!userId || amount === undefined || !currency || !status || !startingAt || !endingAt) {
+                    return res.status(400).json({ message: 'Please provide required parameters' });
+                }
 
-            if (typeof startingAt !== 'string' || typeof endingAt !== 'string') {
-                return res.status(400).json({ message: 'Please provide fromDate and toDate as strings' });
-            }
+               
+                if (typeof startingAt !== 'string' || typeof endingAt !== 'string') {
+                    return res.status(400).json({ message: 'Please provide startingAt and endingAt as strings' });
+                }
 
-            const tareheStart = new Date(startingAt);
-            const tareheEnd = new Date(endingAt);
+                const tareheStart = new Date(startingAt);
+                const tareheEnd = new Date(endingAt);
 
-            const transaction = await prisma.transaction.create({
-                data: {
+                const transactionData : any = {
                     amount,
                     currency,
                     status, // Update status after payment confirmation
                     user: { connect: { id: userId } },
-                    subscriptionPlan: { connect: { id: subscriptionPlanId } },
                     startingAt: tareheStart,
-                    endingAt:tareheEnd
-                }
-            });
+                    endingAt: tareheEnd,
+                };
 
-            res.status(201).json(transaction);
+                // Conditionally add subscriptionPlan if subscriptionPlanId exists
+                if (subscriptionPlanId) {
+                    transactionData.subscriptionPlanId = { connect: { id: subscriptionPlanId } };
+                }
+
+                try {
+                    const transaction = await prisma.transaction.create({
+                        data: transactionData,
+                    });
+                    return res.status(201).json(transaction);
+                } catch (error) {
+                    return res.status(500).json({ message: 'Transaction creation failed', error });
+                }
+
         } catch (error) {
             res.status(500).json({ error: 'Error creating transaction' });
         }
