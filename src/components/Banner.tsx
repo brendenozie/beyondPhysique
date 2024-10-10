@@ -23,7 +23,7 @@ const loaderProp = ({ src }: any) => {
 }
 
 
-const Banner = ({ }: Props) => {
+const Banner = () => {
   const { data: session } = useSession();
   let mobile = false;
   const [menuOpened, setMenuOpened] = useState(false);
