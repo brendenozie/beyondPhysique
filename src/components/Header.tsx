@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import Nav from "./Nav";
 import Link from "next/link";
-
+import fit1 from "../assets/fit1.png";
 import {
   PaperAirplaneIcon,
 } from "@heroicons/react/24/solid";
@@ -48,15 +48,16 @@ const Header = () => {
       {/* Logo */}
       <div className="flex items-center gap-x-4 order-1 w-[25%] box-border pl-6 lmd:pl-14 lg:pl-24 2xl:pl-16">
         <Link href="/" aria-label="Home">
-          <PaperAirplaneIcon className={`h-6 ${dark ? "text-black" : "text-white"}`} />
+          {/* <PaperAirplaneIcon className={`h-6 ${dark ? "text-black" : "text-white"}`} /> */}
+          <img src={fit1.src} className="w-24 h-20 cursor-pointer hover:scale-110 transition-all" alt="Github" />
         </Link>
         <Link
           href="/"
           aria-label="Beyond Physique"
-          className={`hidden lg:inline text-lg sm:text-xl lg:text-[1.375rem] font-bold tracking-wide 
-            ${dark ? "text-black" : "text-white"}`}
+          className={`hidden lg:inline text-lg sm:text-xl lg:text-[1.5rem] font-bold tracking-wide 
+            ${dark ? "text-black" : "text-orange-400"}`}
         >
-          Beyond Physique
+          WorkoutPro
         </Link>
       </div>
 

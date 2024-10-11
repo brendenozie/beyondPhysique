@@ -13,7 +13,7 @@ const MainLayout = (props: PropsWithChildren) => {
   return (
     <div className="bg-hero-pattern bg-[#3c3f45] mix-blend-overlay flex flex-col gap-24 overflow-y-scroll no-scrollbar ">
       <Head>
-        <title>Beyond Physique</title>
+        <title>Workout Pro</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {/* Header */}
