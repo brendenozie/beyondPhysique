@@ -41,7 +41,7 @@ const Pic = () => {
       {picardData.map((card, index: number) => (
         <Picard
           key={card.id}
-          src={`${index % 2 === 0 ? {gym1} : {gym2} }`}
+          src={`${index % 2 === 0 ? gym1.src : gym2.src }`}
           title={card.title}
           desc={card.desc}
         />
