@@ -44,7 +44,7 @@ const Banner = () => {
 
           <div className="p-8 pt-6 flex-1 lg:flex-[3_1] flex flex-col gap-8">
             {/* Badge */}
-            <div className="mt-12 sm:mt-36 bg-[#393d42] rounded-full w-fit px-5 py-3 relative flex items-center text-white shadow-lg">
+            <div className="mt-16 sm:mt-36 bg-[#393d42] rounded-full w-fit px-5 py-3 relative flex items-center text-white shadow-lg">
               <motion.div
                 className="absolute bg-indigo-500 w-24 h-4/5 left-2 top-2 z-0 rounded-[48px]"
                 initial={{ left: "8px" }}
