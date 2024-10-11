@@ -97,60 +97,7 @@ const Banner = () => {
               <button className="p-[0.05rem] font-bold border: 4px solid transparent transition-all duration-300 flex items-center justify-center text-white bg-transparent w-32 border-2 border-orange-400">Learn More</button>
             </div>
           </div>
-          {/* Right Side */}
-          <div className="bg-[#4f46e5] flex-1 relative p-4 lg:p-0">
-            <button className="bg-white p-[0.05rem] font-bold border: 4px solid transparent transition-all duration-300 flex items-center justify-center mb-4 lg:mb-0">
-              <Link to='join-us'   smooth={true} spy={true}> 
-                Join Now
-              </Link>
-            </button>
-            {/* heart rate */}
-            <motion.div
-              initial={{ right: "-1rem" }}
-              whileInView={{ right: "4rem" }}
-              transition={transition}
-              className="flex flex-col gap-4 bg-[#464d53] w-fit p-4 items-start rounded-md absolute right-4 lg:right-16 top-28"
-            >
-              <Image src={Heart} alt="heart" loader={loaderProp} className="w-8" />
-              <span className="text-gray-500">Heart Rate</span>
-              <span className="text-white text-2xl">116 bpm</span>
-            </motion.div>
-            {/* hero images */}
-            <Image
-              src={hero_image}
-              alt="hero_image"
-              fill={false}
-              loader={loaderProp}
-              className="relative w-96 right-0 lg:right-28 top-20 lg:top-40 self-center"
-            />
-            <motion.img
-              initial={{ right: "11rem" }}
-              whileInView={{ right: "20rem" }}
-              transition={transition}
-              className="absolute top-16 right-20 lg:right-80 -z-10 w-60"
-              src={`${hero_image_back.src}`}
-              alt=""
-            />
-            {/* calories */}
-            <motion.div
-              initial={{ right: "2rem" }}
-              whileInView={{ right: "6rem" }}
-              transition={transition}
-              className="bg-[#656565] rounded-md top-[28rem] lg:top-[32rem] right-[2rem] lg:right-[28rem] flex gap-8 p-4 w-max absolute"
-            >
-              <Image
-                src={Calories}
-                alt="calories"
-                fill={false}
-                loader={loaderProp}
-                className="w-12"
-              />
-              <div className="flex flex-col">
-                <span className="text-[#9c9c9c] text-2xl">Calories burned</span>
-                <span className="text-white text-2xl">220 kcal</span>
-              </div>
-            </motion.div>
-          </div>
+          
         </div>
       </div>
 
