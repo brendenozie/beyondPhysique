@@ -13,7 +13,7 @@ const Home = () => {
       <main className="max-w-full">
         <div className="mt-32 lg:mt-0"></div>
         <Banner/>
-        <div className="mt-[36rem] lg:mt-40"></div>
+        <div className="mt-[28rem] lg:mt-40"></div>
         <OurPrograms />
         <div className="mt-32 lg:mt-40"></div>
         <Reasons />
