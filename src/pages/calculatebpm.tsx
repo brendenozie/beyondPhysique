@@ -71,61 +71,62 @@ const CalculateBpm = ({ session }: Props) => {
 				<div className="flex flex-col  bg-gray-900  w-full min-h-screen">
 					<UserNav />
 					<div className="container mx-auto text-black">
-						<div>
-							<div className='bg-white min-h-screen dark:bg-gray-800 rounded-lg shadow-md p-20 mb-6 first-letter:'>
-								<h2 className='text-2xl font-bold text-purple-500 mb-2 text-center'>
-									Calculator Heart Beat Rate
-								</h2>
-								<div className=" text-left">
-									<h1 className='text-md font-bold  mb-2 '>
-										1. Find your pulse<br />
-										Place your index and middle fingers on the inside of your wrist, just below your thumb, or on the side of your neck, just below your jawbone.
-									</h1>
-									<h1 className='text-md font-bold  mb-2 '>
-										2. Count<br />
-										Count the number of beats you feel for 15 seconds using a stopwatch or other timing device
-									</h1>
-									<h1 className='text-md font-bold  mb-2 '>
-										3. How we Calculate<br />
-										Multiply the number of beats by 4 to get your heart rate in beats per minute (BPM). For example, if you count 20 beats in 15 seconds, your heart rate is 80 BPM (20 x 4)
-									</h1>
-								</div>
-								<div className='w-2/3 mx-auto flex flex-col justify-center items-center' >
+    <div className="animate-fadeIn">
+        <div className='bg-white min-h-screen dark:bg-gray-800 rounded-lg shadow-lg p-10 mb-6 transition-transform transform hover:scale-105'>
+            <h2 className='text-4xl font-bold text-purple-600 mb-4 text-center'>
+                Heart Rate Calculator
+            </h2>
+            <div className="text-left mb-6">
+                <h1 className='text-lg font-semibold mb-3'>
+                    1. **Find Your Pulse**<br />
+                    Gently place your index and middle fingers on the inside of your wrist, just below your thumb, or on the side of your neck, just below your jawbone.
+                </h1>
+                <h1 className='text-lg font-semibold mb-3'>
+                    2. **Count Your Beats**<br />
+                    Use a stopwatch or timer to count the number of beats you feel for 15 seconds.
+                </h1>
+                <h1 className='text-lg font-semibold mb-3'>
+                    3. **Calculate Your Heart Rate**<br />
+                    Multiply the number of beats you counted by 4 to get your heart rate in beats per minute (BPM).
+                </h1>
+            </div>
+            <div className='w-2/3 mx-auto flex flex-col justify-center items-center'>
+                <label htmlFor='beats' className='block text-lg text-gray-600 dark:text-gray-300 my-4'>
+                    Enter the number of beats you counted in 15 seconds:
+                </label>
+                <input
+                    type='text'
+                    placeholder='0'
+                    name='beats'
+                    value={bpmValues.beats}
+                    onChange={handleInputChange}
+                    className='bg-purple-200 rounded-md border-none focus:outline-none focus:ring-2 focus:ring-purple-500 text-center py-2 transition-transform transform hover:scale-105'
+                />
+                <button
+                    onClick={calculateBMI}
+                    className='bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded my-4 transition duration-300 transform hover:scale-105'
+                >
+                    Calculate
+                </button>
+            </div>
+            <p className='text-2xl font-bold text-black dark:text-purple-300 font-mono text-center my-6'>
+                Your BPM: <span className='text-purple-500'>{bmiResult.toFixed(2)}</span>
+            </p>
+        </div>
+    </div>
+    <div className='mt-8 bg-slate-300'>
+        {/* {bmiResult > 10 && bmiResult < 18.5 && <Underweight />}
+            {bmiResult > 18.5 && bmiResult <= 24.9 && <Normal />}
+            {bmiResult > 24.9 && bmiResult <= 39.9 && <Overweight />} */}
+    </div>
+</div>
 
-									<label htmlFor='beats' className='block text-md text-gray-500 dark:text-gray-300 my-4'>
-										Enter the number of beats you count during a 15sec count
-									</label>
 
-									<input
-										type='text'
-										placeholder='0'
-										name='beats'
-										value={bpmValues.beats}
-										onChange={handleInputChange}
-										className=' bg-purple-200 rounded-sm border-none focus-none focus:ring-0 focus:border-transparent text-center'
-									/>
-									<button
-										onClick={calculateBMI}
-										className='bg-purple-500 hover:bg-purple-700  font-bold py-2 px-4 rounded my-4'
-									>
-										Calculate
-									</button>
-								</div>
-								<p
-									className='text-2xl font-bold text-black dark:text-purple-300 font-mono text-center my-4'
-								>
-									Your BPM : {bmiResult.toFixed(2)}
-								</p>
-							</div>
-						</div>
-						<div className='mt-8 bg-slate-300 '>
-							{/* {bmiResult > 10 && bmiResult < 18.5 && <Underweight />}
-								{bmiResult > 18.5 && bmiResult <= 24.9 && <Normal />}
-								{bmiResult > 24.9 && bmiResult <= 39.9 && <Overweight />} */}
-						</div>
-					</div>
+
+
 				</div>
 			</UserLayout>
+			
 		</>
 	);
 };

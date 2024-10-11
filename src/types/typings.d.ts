@@ -1,79 +1,10 @@
 import { User } from "@prisma/client";
 import "next-auth";
 
-export interface ICityData {
-  img: string;
-  location: string;
-  province: string;
-  id?: string;
-}
-export interface IInspiredCity {
-  location: string;
-  id: string;
-}
 
 export interface IStyleData {
   img: string;
   title: string;
-}
-
-export interface IProperty {
-  propertyImage: {
-    image: {
-      url: string;
-    };
-  };
-  destinationInfo: {
-    distanceFromDestination: {
-      value: number;
-    };
-  };
-  mapMarker: {
-    latLong: {
-      latitude: number;
-      longitude: number;
-    };
-  };
-  id: string;
-  name: string;
-  neighborhood: {
-    name: string;
-  };
-  reviews: {
-    score: number;
-  };
-  price: {
-    options: [
-      {
-        formattedDisplayPrice: string;
-      }
-    ];
-    lead: {
-      amount: number;
-    };
-  };
-}
-
-export interface IResult {
-  hotelId: string;
-  description: string;
-  img: uploadImage[];
-  lat: number;
-  location?: number;
-  long: number;
-  price: string;
-  star: number;
-  title: string;
-  total: number;
-  userEmail?: string;
-  startDate?: string;
-  endDate?: string;
-}
-
-export interface IDetails {
-  images: string[];
-  amenities: string[];
-  address: string;
 }
 
 export interface IOptions {
@@ -133,151 +64,146 @@ export interface uploadImage {
   status: string;
 }
 
-export interface ICity {
-  id: string;
-  cityName: string;
-  publicId: string;
-  url: string;
-  status: string;
-}
-
 export interface IUser {
-  id: string;
-  name: string;
-  email: string;
-  image: string;
-  role: string;
+  id: string = "",
+  name: string = "",
+  email: string = "",
+  password: string = "random$123%$^&",
+  gender: string = "person",
+  exerciseGoal: string = "Lose Weight",
+  focusArea: string = "Arms",
+  currentHeightInCm: Int = 0,
+  currentWeightInKg: Float = 0.0,
+  birthYear: Int = 0,
+  weeklyGoalInKM: Float = 0.0,//steps
+  weightInKgGoal: Float = 0.0,
+  physicalActivityLevel: string = "Beginner",
+  bmiResult: Double = 0.0,
+  imgUri: string = "",
+  role: string = "user",
+  provider: string = "mobile",
+  img: string = "mobile"
+  // id: string;
+  // name: string;
+  // email: string;
+  // image: string;
+  // role: string;
 }
 
-export interface ITravelStyle {
-  id: string;
-  styleName: string;
-  publicId: string;
-  url: string;
-  status: string;
-}
-
-export interface IDestination {
-  startDate: string;
-  endDate: string;
-  hotelId: string | number | boolean | readonly string[] | readonly number[] | readonly boolean[] | null | undefined;
-  total: string | number | boolean | readonly string[] | readonly number[] | readonly boolean[] | null | undefined;
-  img: uploadImage[];
-  id: string
-  title: string
-  description: string
-  star: number
-  lat: number
-  location: string
-  long: number
-  price: float
-  offer: boolean
-  offerPrice: float
-  status: string
-  userEmail: string
-  cityId: string
-  createdAt: Date
-}
-
-export type IHotel = {
-  [x: string]: any;
-  img: uploadImage[];
-  id: string
-  title: string
-  description: string
-  star: number
-  lat: number
-  location: string
-  long: number
-  price: float
-  offer: boolean
-  offerPrice: float
-  userEmail: string
-  cityId: string
-  createdAt: Date
-  travelStyleId: string
-}
-
-export type IHotelSearch = {
-  [x: string]: any;
-  results: any[];
-  id: string;
-  title: string
-  description: string
-  star: number
-  lat: number
-  location: string
-  long: number
-  price: float
-  offer: boolean
-  offerPrice: float
-  userEmail: string
-  cityId: string
-  createdAt: string
-  travelStyleId: string
-}
 
 export type IExercise = {
   [x: string]: any;
   results: any[];
-  id: string;
 
-  exName: String;
-  exDesc: String;
-  exPic: String;
-  exSteps: String[];
-  exVideo: String;
-  exDuration: String;
-  status: String;
-  // ExerciseCategory   ExerciseCategory? @relation(fields: [exerciseCategoryId], references: [id])
-  exerciseCategoryId: String;          // @db.ObjectId
-  // DailyPlan          DailyPlan?        @relation(fields: [dailyPlanId], references: [id])
-  dailyPlanId: String;          // @db.ObjectId
-  // TrainingProgram    TrainingProgram?  @relation(fields: [trainingProgramId], references: [id])
-  trainingProgramId: String;
-  reps: String;
-  sets: String;
+  id     :            string,
+  exName         :    string,
+  exDesc          :   string,
+  exPic           :   string,
+  exVideo        :    string,
+  exDuration    :     string,
+  exSteps        :   ArrayList<ExSteps>,
+  reps          :     string,
+  sets          :     string,
+  weightPerRepInKg  : Float? = 0.0,
+  userId  : string? = "",
+  weightPerSetInKg  : Float? = 0.0,
+  breakSet        :     string,
+  status        :     string,
+  exerciseCategoryId : string,
+  exCalories        :    string,
+  exHeartBeat    :     string,
+  focusArea    :     List<string>,
+  caloriesPerRep : string,
+  type : string,
+  level : string,
+  lastSet : Int=1,
+  lastRep : Int=1,
+  isPremium : Boolean = false
+
+  // id: string;
+
+  // exName: string;
+  // exDesc: string;
+  // exPic: string;
+  // exSteps: string[];
+  // exVideo: string;
+  // exDuration: string;
+  // status: string;
+  // // ExerciseCategory   ExerciseCategory? @relation(fields: [exerciseCategoryId], references: [id])
+  // exerciseCategoryId: string;          // @db.ObjectId
+  // // DailyPlan          DailyPlan?        @relation(fields: [dailyPlanId], references: [id])
+  // dailyPlanId: string;          // @db.ObjectId
+  // // TrainingProgram    TrainingProgram?  @relation(fields: [trainingProgramId], references: [id])
+  // trainingProgramId: string;
+  // reps: string;
+  // sets: string;
 }
 
 export type IDailyPlan = {
   [x: string]: any;
   results: any[];
-  id: string;
+  id      :  string,
+  dpDay   :   string,
+  dpTime  :   string,
+  dpDuration : string,
+  status   :  string,
+  exercises : ArrayList<IExercise>,
+  exerciseId  : ArrayList<string>,
+  userId  : string?
+  // id: string;
 
-  dpDay: String;
-  dpTime: String;
-  dpDuration: String;
-  status: String;
-  exerciseId: String;
-  exercise: IExercise;
+  // dpDay: string;
+  // dpTime: string;
+  // dpDuration: string;
+  // status: string;
+  // exerciseId: string;
+  // exercise: IExercise;
 
 }
 
 export type IProgramsCategory = {
   [x: string]: any;
   results: any[];
-  id: string;
-  pcName: string;
-  pcDesc: string;
-  image: string;
-  status: string;
+  id     :            string,
+  pcName    :            string,
+  pcDesc    :            string,
+  image    :            string,
+  status    :            string,
+  // id: string;
+  // pcName: string;
+  // pcDesc: string;
+  // image: string;
+  // status: string;
 }
 
 export type ITrainingProgram = {
   [x: string]: any;
   results: any[];
-  id: string;
-  trainingName: string;
-  trainingDesc: string;
-  trainingDay: string;
-  trainingTime: string;
-  traingDuration: string;
-  trainingPeriod: string;
-  status: string;
-  trainer: IUser[];
-  programsCategoryId: string;
-  trainees: IUser;[]
-  exercises: IExercise[];
+  id     :            string,
+  trainingName: string,
+  trainingDesc: string,
+  trainingDay: string,
+  trainingTime: string,
+  trainingDuration: string,
+  trainingPeriod: string,
+  status: string,
+  trainingImage: string,
+  trainingCalories: string,
+  trainer: ArrayList<IUser>,
+  programsCategoryId: string,
+  exercises: ArrayList<IExercise>,
+  // id: string;
+  // trainingName: string;
+  // trainingDesc: string;
+  // trainingDay: string;
+  // trainingTime: string;
+  // traingDuration: string;
+  // trainingPeriod: string;
+  // status: string;
+  // trainer: IUser[];
+  // programsCategoryId: string;
+  // trainees: IUser;[]
+  // exercises: IExercise[];
 }
 
 export type IFoodPlanCategory = {
@@ -285,7 +211,7 @@ export type IFoodPlanCategory = {
   results: any[];
   id: string;
 
-  fpc_name: String;
+  fpc_name: string;
 
 }
 
@@ -294,11 +220,11 @@ export type IFoodPlan = {
   results: any[];
   id: string;
 
-  dpDay: String;
-  dpTime: String;
-  dpDuration: String;
-  status: String;
-  fpc_id: String;
+  dpDay: string;
+  dpTime: string;
+  dpDuration: string;
+  status: string;
+  fpc_id: string;
   exercise: IFoodPlanCategory;
 
 }
@@ -307,34 +233,59 @@ export type IFoodPlan = {
 export type IWaterIntake = {
   [x: string]: any;
   results: any[];
-  id: string;
-  wi_amount: String;
-  wi_date: String;
-  wi_time: String;
+  id : string,
+  wiAmount : string,
+  wiDate : string,
+  type : string,
+  challengeId : string,
+  userId : string,
+  // id: string;
+  // wi_amount: string;
+  // wi_date: string;
+  // wi_time: string;
 }
 
 
 export type IExerciseActivity = {
   [x: string]: any;
   results: any[];
-  id: string;
-  exerciseId: string;
-  exercise: IExercise;
-  acDate: string;
-  acTime: string;
-  acDuration: string;
-  acReps: string;
-  acSets: string;
+  id  :  string,
+  exercise : ResultExercise?,
+  exerciseId : string,
+  acRepCount  :   string,
+  acCalories : Int,
+  acSetCount:string,
+  timestamp: string = Date().toInstant().atZone(ZoneId.of("UTC")).format(DateTimeFormatter.ISO_INSTANT),
+  avgSpeedInKMH: Float = 0,
+  weightPerRepInKg  : Float = 0.0,
+  weightPerSetInKg  : Float = 0.0,
+  distanceInMeters: Int = 0,
+  durationInMillis: Long = 0,
+  type:string = "other",
+  stepsCount: Int = 0,
+  userId : string = ""
+  // id: string;
+  // exerciseId: string;
+  // exercise: IExercise;
+  // acDate: string;
+  // acTime: string;
+  // acDuration: string;
+  // acReps: string;
+  // acSets: string;
 }
 
 
 export type IExerciseCategory = {
   [x: string]: any;
   results: any[];
-  id: string;
-  excName: string;
-  image: string;
-  status: string;
+  id     :            string,
+  excName     :            string,
+  image       :            string,
+  status      :            string,
+  // id: string;
+  // excName: string;
+  // image: string;
+  // status: string;
 }
 
 export type IBpm = {
@@ -350,35 +301,84 @@ export type IBpm = {
 export type IBmi = {
   [x: string]: any;
   results: any[];
-  id: string;
-  height: string;
-  weight: string;
-  bmi: string;
-  date: string
-  userId: string;
+  id     :            string,
+  height    :            string,
+  weight    :            string,
+  bmi    :            string,
+  date    :            string,
+  userId    :            string,
+  // id: string;
+  // height: string;
+  // weight: string;
+  // bmi: string;
+  // date: string
+  // userId: string;
 }
 
 export type ISleep = {
   [x: string]: any;
   results: any[];
-  id: string;
-  slDuration: string;
-  slStartTime: string;
-  slEndTime: string;
-  slDate: string;
-  status: string;
-  userId: string;
-  createdAt: string;
+  id     :            string,
+  slDuration: string,
+  slSleepDateTime: string,
+  slWakeDateTime: string,
+  status: string,
+  userId: string,
+  createdAt: string,
+  // id: string;
+  // slDuration: string;
+  // slStartTime: string;
+  // slEndTime: string;
+  // slDate: string;
+  // status: string;
+  // userId: string;
+  // createdAt: string;
 }
 
 export type ISteps = {
   [x: string]: any;
   results: any[];
-  id: string;
-  stepsCount: string;
-  duration: string;
-  distanceCovered: string;
-  date: string;
-  userId
+  id : string,
+  stepsCount  :  string,
+  duration :   string,
+  distanceCovered  :  string,
+  date : string,
+  userId : string,
+  // id: string;
+  // stepsCount: string;
+  // duration: string;
+  // distanceCovered: string;
+  // date: string;
+  // userId
 
+}
+
+export type IAverageStepsSummary = {
+    totalSteps: Int,
+    averageSteps: Float
+}
+
+export type IAverageSleepSummary = {
+    totalSleepDuration: Int,
+    averageSleepDuration: Float
+}
+
+export type IAverageSummaryBpm = {
+    totalBpm: Int,
+    averageBpmResult: Float
+}
+
+export type IAverageWaterSummary = {
+    totalWaterIntake: Int,
+    averageWaterIntake: Float
+}
+
+export type IAverageCaloriesSummary = {
+    totalCalories: Int,
+    averageCalories: Float
+}
+
+export type IAverageSummaryBmi = {
+    totalWeight: Int,
+    averageBmiResult: Float
 }

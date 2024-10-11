@@ -44,7 +44,7 @@ export default async function handle(
 
     
   if(!userIdString){
-    return res.status(400).json({ message: 'Invalid date format provided' });
+    return res.status(400).json({ message: 'invalid ID' });
   }
 
   if (isNaN(start.getTime()) || isNaN(end.getTime())) {

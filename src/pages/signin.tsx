@@ -53,7 +53,7 @@ const SignIn = ({ providers }: Props) => {
   return (
     <div className="h-screen">
       <Head>
-        <title>Travel - Sign In</title>
+        <title>WorkoutPro - Sign In</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {/* Header */}
