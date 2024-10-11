@@ -51,9 +51,7 @@ export const FilterData = [
   },
 ];
 
-
-
-export const picardData = [
+export const gymLocationsData = [
   {
     id: 1,
     src: "/38.jpg",
@@ -113,5 +111,68 @@ export const picardData = [
     src: "/14.jpg",
     title: "Maili saba camp, Nakuru",
     desc: "One of the highest and finest mountain in East Java Province",
+  },
+];
+
+export const picardData = [
+  {
+    id: 1,
+    src: "/gym1.jpg",
+    title: "Downtown Fitness Center",
+    desc: "A modern facility offering state-of-the-art equipment and group classes for all fitness levels.",
+  },
+  {
+    id: 2,
+    src: "/gym2.jpg",
+    title: "Highland Strength Gym",
+    desc: "Specializes in weightlifting and strength training with expert trainers available.",
+  },
+  {
+    id: 3,
+    src: "/gym3.jpg",
+    title: "Elite Performance Studio",
+    desc: "A premium training space focusing on personal training and advanced fitness programs.",
+  },
+  {
+    id: 4,
+    src: "/gym4.jpg",
+    title: "Flex & Burn Club",
+    desc: "A friendly environment with cardio equipment, strength machines, and group fitness classes.",
+  },
+  {
+    id: 5,
+    src: "/gym5.jpg",
+    title: "Powerhouse Gym, Central",
+    desc: "Known for its wide variety of equipment and fitness programs, catering to all types of athletes.",
+  },
+  {
+    id: 6,
+    src: "/gym6.jpg",
+    title: "Outdoor Bootcamp Park",
+    desc: "Open-air fitness park with high-intensity bootcamp workouts and group sessions.",
+  },
+  {
+    id: 7,
+    src: "/gym7.jpg",
+    title: "Zen Yoga Studio",
+    desc: "Calming space for yoga, meditation, and holistic wellness practices.",
+  },
+  {
+    id: 8,
+    src: "/gym8.jpg",
+    title: "Urban Fit Training Hub",
+    desc: "Innovative gym offering functional fitness training and HIIT sessions.",
+  },
+  {
+    id: 9,
+    src: "/gym9.jpg",
+    title: "Pure Strength Facility",
+    desc: "A gym focusing on powerlifting and muscle-building workouts with dedicated coaches.",
+  },
+  {
+    id: 10,
+    src: "/gym10.jpg",
+    title: "Cardio Kings Fitness",
+    desc: "Specialized in cardio workouts with a variety of machines and endurance programs.",
   },
 ];

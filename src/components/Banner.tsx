@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { ICity } from "@/types/typings";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import  Link  from 'react-scroll';
@@ -13,9 +12,7 @@ import Heart from "../assets/heart.png";
 import Calories from "../assets/calories.png";
 
 type Props = {
-  getInspiredCities: ICity[];
   setSearchInput: Dispatch<SetStateAction<string>>;
-  setSelectedCity: Dispatch<SetStateAction<ICity | null>>;
 };
 
 const loaderProp = ({ src }: any) => {

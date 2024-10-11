@@ -1,7 +1,7 @@
 "use client";
 import {useSearchParams, usePathname, useRouter} from "next/navigation";
 import Link from "next/link";
-import { ICity, IExercise, IFoodPlanCategory, uploadImage } from "../types/typings";
+import {  IExercise, IFoodPlanCategory, uploadImage } from "../types/typings";
 import { GetServerSidePropsContext } from "next";
 import { useCallback, useEffect, useState } from "react";
 import { Session } from "next-auth";
