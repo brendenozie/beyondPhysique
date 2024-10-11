@@ -1,6 +1,8 @@
 import Picard from "@/components/Picard";
 import React, { useRef } from "react";
 import { picardData } from "@/constant/Data";
+import gym1 from "../assets/gym1.png";
+import gym2 from "../assets/gym2.png";
 
 import {ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 
@@ -39,7 +41,7 @@ const Pic = () => {
       {picardData.map((card, index: number) => (
         <Picard
           key={card.id}
-          src={`${index % 2 === 0 ? "/gym1.png" : "/gym2.png" }`}
+          src={`${index % 2 === 0 ? {gym1} : {gym2} }`}
           title={card.title}
           desc={card.desc}
         />
