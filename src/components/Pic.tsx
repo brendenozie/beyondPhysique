@@ -36,10 +36,10 @@ const Pic = () => {
       className="px-8 grid grid-flow-col auto-cols-[100%] md:auto-cols-[50%] lg:auto-cols-[30%] overflow-hidden overscroll-y-contain snap-x snap-mandatory scroll-pl-2 scrollbar-hide"
       ref={scrollContainer}
     >
-      {picardData.map((card) => (
+      {picardData.map((card, index: number) => (
         <Picard
           key={card.id}
-          src={card.src}
+          src={`${index % 2 === 0 ? "/gym1.jpg" : "/gym2.jpg" }`}
           title={card.title}
           desc={card.desc}
         />
