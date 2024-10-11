@@ -9,28 +9,21 @@ import Testimonials from "@/components/Testimonials";
 
 
 const Home = () => {
-
-
-
     return (
     <MainLayout>
-
       <main className="max-w-full">
-
         <Banner/>
-
+        <div className="mt-[36rem] lg:mt-40"></div>
         <OurPrograms />
-
+        <div className="mt-32 lg:mt-40"></div>
         <Reasons />
-
+        <div className="mt-32 lg:mt-40"></div>
         <Plans />
-
+        <div className="mt-32 lg:mt-40"></div>
         <Testimonials />
-
+        <div className="mt-32 lg:mt-40"></div>
         <Join />
-
       </main>
-
     </MainLayout>
   );
 }
