@@ -21,7 +21,8 @@ import { getSession } from "next-auth/react";
 
 type Props = {
     exercisesData?: {results:IExercise[]};
-    dailyPlanData?: {results:IDailyPlan[]};
+    dailyPlanData?: IDailyPlan;
+    alldailyPlanData?: {results:IDailyPlan[]};
     session: Session;
     // stylesData: {results:ITravelStyle[]};
     // getInspiredCities: ICity[];
@@ -304,7 +305,7 @@ const Dash2 = (props: Props) => {
                 <div className="w-full md:w-8/12">
                     <div className="flex flex-wrap w-full shadow-lg justify-center">
                         <div className="w-full md:py-8 py-5 md:px-16 px-5 dark:bg-gray-700 bg-gray-50 rounded-b">
-                        {props.dailyPlanData?.results.map((dailyPlan) => (
+                        {props.alldailyPlanData?.results?.map((dailyPlan) => (
                             <div className="px-4 pt-4">
                                 <div className="border-b pb-4 border-gray-400 border-dashed">
                                     <p className="text-xs font-light leading-3 text-gray-500 dark:text-gray-300 pb-4">{dailyPlan.dpDay} {dailyPlan.dpTime} </p>
@@ -382,20 +383,31 @@ export const getServerSideProps = async (
     context: GetServerSidePropsContext
   ) => {
   
-    const session = await getSession(context);
-
-    // const userEmail = session?.user?.email;
+        const session = await getSession(context);
 
     let url = process.env.NEXT_PUBLIC_API_URL;
+
+    // Get today's date and one month back
+    const today = new Date();
+    const oneMonthBack = new Date();
+    oneMonthBack.setMonth(today.getMonth() - 1);
+
+    // Format dates in ISO 8601 format (MongoDB compatible)
+    const fromDate = new Date(oneMonthBack.setHours(0, 0, 0, 0)).toISOString(); // One month back date at start of day
+    const toDate = new Date(today.setHours(23, 59, 59, 999)).toISOString(); // Today's date at end of day
+
+    const userId = session?.user?.id || "";  // Extracting userId from session
   
     const exercisesData =  await fetch(url+`/get-exercise`).then( (res) => res.json() );
-    const dailyPlanData =  await fetch(url+`/get-daily-plan`).then( (res) => res.json() );
-  
+    const alldailyPlanData =  await fetch(url+`/get-daily-plan`).then( (res) => res.json() );
+    const dailyPlanData =  await fetch(`${url}/get-daily-plan?fromDate=${encodeURIComponent(fromDate)}&toDate=${encodeURIComponent(toDate)}&userId=${userId}`).then((res) => res.json());
+
     return {
       props: {
         session,
         exercisesData,
-        dailyPlanData
+        alldailyPlanData,
+        dailyPlanData:dailyPlanData.results[0]
       },
     };
   };

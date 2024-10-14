@@ -45,7 +45,7 @@ export default function EditExercise() {
       formData.newVideo = await convertToBase64(newVideo);
     }
 
-    const res = await fetch(`/api/exercises/${id}`, {
+    const res = await fetch(`/api/get-exercise/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
