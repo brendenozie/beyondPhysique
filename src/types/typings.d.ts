@@ -147,8 +147,8 @@ export type IDailyPlan = {
   dpTime  :   string,
   dpDuration : string,
   status   :  string,
-  exercises : ArrayList<IExercise>,
-  exerciseId  : ArrayList<string>,
+  exercises : IExercise[],
+  exerciseId  : string[],
   userId  : string?
   // id: string;
 
@@ -255,7 +255,7 @@ export type IExerciseActivity = {
   acRepCount  :   string,
   acCalories : Int,
   acSetCount:string,
-  timestamp: string = Date().toInstant().atZone(ZoneId.of("UTC")).format(DateTimeFormatter.ISO_INSTANT),
+  timestamp: string,
   avgSpeedInKMH: Float = 0,
   weightPerRepInKg  : Float = 0.0,
   weightPerSetInKg  : Float = 0.0,

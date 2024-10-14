@@ -114,7 +114,7 @@ const chartConfig :any = {
 
 type Props = {
   exercisesData?: {results:IExercise[]};
-  dailyPlanData?: {results:IDailyPlan[]};
+  dailyPlanData?: IDailyPlan;
   exerciseActivityData?: {results:IExerciseActivity[]};
   exerciseCategoryData?:{results: IExerciseCategory[]};
   session: Session;
@@ -173,35 +173,63 @@ const Dash2 = (props: Props) => {
                       <h3 className="font-semibold mb-4">Today's Plan</h3>
                       <a className="py-1 px-4 bg-purple-600 text-white rounded" href="/exerciseschedule">View All</a>
                     </div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
 
                       {props.dailyPlanData &&
-                              props.dailyPlanData.results?.map((item: IDailyPlan) => (
-                                      <div className="bg-white p-4 rounded-lg shadow justify-between flex flex-row">
-                                        <div>
-                                          <h4 className="font-semibold">{item.exercises.exName}</h4>
-                                          <p className="text-gray-600 text-sm">{item.dpDay} {item.dpTime}</p>
-                                        </div>
-                                        <Link href={`/viewworkout/${item.exercises.id}`}>
-                                        <button className=" bg-orange-400 text-white px-4 py-2 rounded-lg "><i className="h-16 w-16">
-                                        <svg fill="#000000" height="32px" width="32px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-                                        
-                                              viewBox="0 0 64 64" enable-background="new 0 0 64 64">
-                                            <g id="Play">
-                                              <path d="M46.0136986,31.1054993L25.1973,20.6973c-0.3096008-0.1532993-0.6777992-0.1387005-0.9727001,0.0438995
-                                                C23.9297009,20.9237995,23.75,21.2451,23.75,21.5918007v20.8163986c0,0.3467026,0.1797009,0.6679993,0.4745998,0.8506012
-                                                C24.3848,43.3583984,24.5674,43.4081993,24.75,43.4081993c0.1532993,0,0.3057003-0.035099,0.4473-0.1054001l20.8163986-10.4081993
-                                                c0.3388023-0.1699982,0.5527-0.5157013,0.5527-0.8945999C46.5663986,31.6210995,46.3525009,31.2754002,46.0136986,31.1054993z
-                                                M25.75,40.7901001v-17.580101L43.330101,32L25.75,40.7901001z"/>
-                                              <path d="M32,0C14.3268995,0,0,14.3268995,0,32s14.3268995,32,32,32s32-14.3269005,32-32S49.6730995,0,32,0z M32,62
-                                                C15.4579,62,2,48.542099,2,32C2,15.4580002,15.4579,2,32,2c16.5419998,0,30,13.4580002,30,30C62,48.542099,48.5419998,62,32,62z"/>
-                                            </g>
-                                            </svg>
-                                            </i>
-                                            {/* <span className="ml-2">Add</span> */}
-                                        </button>
-                                        </Link>
+                              props.dailyPlanData?.exercises.map((item: IExercise) => (                                
+                                     <div className="bg-white/70 backdrop-blur-lg p-6 rounded-xl shadow-xl flex flex-col sm:flex-row items-center sm:items-start sm:justify-between space-y-4 sm:space-y-0 sm:space-x-6 transition-transform duration-300 hover:scale-105">
+                                      {/* Icon or Image */}
+                                      <div className="bg-gray-100 rounded-full p-4 flex-shrink-0 shadow-md">
+                                        <svg 
+                                          fill="currentColor" 
+                                          height="32px" 
+                                          width="32px" 
+                                          xmlns="http://www.w3.org/2000/svg" 
+                                          viewBox="0 0 64 64" 
+                                          className="h-8 w-8 text-orange-500">
+                                          <g id="Play">
+                                            <path d="M46.0136986,31.1054993L25.1973,20.6973c-0.3096008-0.1532993-0.6777992-0.1387005-0.9727001,0.0438995
+                                              C23.9297009,20.9237995,23.75,21.2451,23.75,21.5918007v20.8163986c0,0.3467026,0.1797009,0.6679993,0.4745998,0.8506012
+                                              C24.3848,43.3583984,24.5674,43.4081993,24.75,43.4081993c0.1532993,0,0.3057003-0.035099,0.4473-0.1054001l20.8163986-10.4081993
+                                              c0.3388023-0.1699982,0.5527-0.5157013,0.5527-0.8945999C46.5663986,31.6210995,46.3525009,31.2754002,46.0136986,31.1054993z
+                                              M25.75,40.7901001v-17.580101L43.330101,32L25.75,40.7901001z"/>
+                                            <path d="M32,0C14.3268995,0,0,14.3268995,0,32s14.3268995,32,32,32s32-14.3269005,32-32S49.6730995,0,32,0z M32,62
+                                              C15.4579,62,2,48.542099,2,32C2,15.4580002,15.4579,2,32,2c16.5419998,0,30,13.4580002,30,30C62,48.542099,48.5419998,62,32,62z"/>
+                                          </g>
+                                        </svg>
                                       </div>
+                                      {/* Exercise Info */}
+                                      <div className="flex-grow space-y-2 text-center sm:text-left gap-2">
+                                        <h4 className="font-bold text-xl text-gray-800">{item.exName}</h4>
+                                        <p className="text-gray-600 text-sm">
+                                          {props.dailyPlanData?.dpDay} {props.dailyPlanData?.dpTime}
+                                        </p>
+                                        {/* View Workout Button */}
+                                        <Link href={`/viewworkout/${item.id}`}>
+                                          <button className="flex items-center gap-2 bg-gradient-to-r from-orange-400 to-orange-500 text-white px-6 py-2 rounded-sm hover:from-orange-500 hover:to-orange-600 transition-all duration-300 shadow-lg transform hover:scale-110">
+                                            <svg 
+                                              fill="currentColor" 
+                                              height="24px" 
+                                              width="24px" 
+                                              xmlns="http://www.w3.org/2000/svg" 
+                                              viewBox="0 0 64 64" 
+                                              className="h-6 w-6 animate-pulse">
+                                              <g id="Play">
+                                                <path d="M46.0136986,31.1054993L25.1973,20.6973c-0.3096008-0.1532993-0.6777992-0.1387005-0.9727001,0.0438995
+                                                  C23.9297009,20.9237995,23.75,21.2451,23.75,21.5918007v20.8163986c0,0.3467026,0.1797009,0.6679993,0.4745998,0.8506012
+                                                  C24.3848,43.3583984,24.5674,43.4081993,24.75,43.4081993c0.1532993,0,0.3057003-0.035099,0.4473-0.1054001l20.8163986-10.4081993
+                                                  c0.3388023-0.1699982,0.5527-0.5157013,0.5527-0.8945999C46.5663986,31.6210995,46.3525009,31.2754002,46.0136986,31.1054993z
+                                                  M25.75,40.7901001v-17.580101L43.330101,32L25.75,40.7901001z"/>
+                                                <path d="M32,0C14.3268995,0,0,14.3268995,0,32s14.3268995,32,32,32s32-14.3269005,32-32S49.6730995,0,32,0z M32,62
+                                                  C15.4579,62,2,48.542099,2,32C2,15.4580002,15.4579,2,32,2c16.5419998,0,30,13.4580002,30,30C62,48.542099,48.5419998,62,32,62z"/>
+                                              </g>
+                                            </svg>
+                                            <span className="hidden sm:inline-block">View Workout</span>
+                                          </button>
+                                        </Link>
+                                      </div>                                      
+                                    </div>
+
                                     ))}
                       </div>
                     </div>
@@ -230,16 +258,55 @@ const Dash2 = (props: Props) => {
                     <div className="mt-6">
                       <h3 className="font-semibold mb-4">Activity History</h3>
                       <div className="bg-white p-4 rounded-lg shadow">
-                      {props.exerciseActivityData &&
-                        props.exerciseActivityData.results?.map((item: any) => (
-                          <div className="px-4 pt-4">
-                              <div className="border-b pb-4 border-gray-400 border-dashed">
-                                  <p className="text-xs font-light leading-3 text-black  pb-4">{item.acDate} {item.acTime} </p>
-                                  <a tabIndex={0} className="focus:outline-none text-lg font-medium leading-5 text-black mt-2">{item.exercises.exName}</a>
-                                  <p className="text-sm pt-2 leading-4 leading-none text-black">{item.acDuration}</p>
+                      {props.exerciseActivityData && 
+                          props.exerciseActivityData.results?.map((item: IExerciseActivity) => (
+                            <div key={item.id} className="px-4 py-4">
+                              <div className="bg-white/60 backdrop-blur-md rounded-lg shadow-md p-5 transition-transform hover:scale-105 duration-300">
+                                {/* Timestamp */}
+                                <p className="text-xs text-gray-500 font-light pb-3">
+                                  {new Date(item.timestamp).toLocaleString()}
+                                </p>
+
+                                {/* Exercise Name */}
+                                <a 
+                                  href="#" 
+                                  tabIndex={0} 
+                                  className="block text-lg font-semibold text-gray-800 hover:text-orange-500 transition-colors duration-300 mb-3"
+                                >
+                                  {item.exercise?.exName}
+                                </a>
+
+                                {/* Duration & Additional Info with Icons */}
+                                <div className="flex flex-col gap-2 text-sm text-gray-700">
+                                  <div className="flex items-center gap-2">
+                                    <svg className="w-4 h-4 text-orange-500" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                      <path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm1 6h-2v8h2v-8zm-1 14c-1.105 0-2-.895-2-2h4c0 1.105-.895 2-2 2z"/>
+                                    </svg>
+                                    <span>Duration: {item.acDuration} minutes</span>
+                                  </div>
+                                  <div className="flex items-center gap-2">
+                                    <svg className="w-4 h-4 text-orange-500" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                      <path d="M20 13h-6v5h-4v-5h-6v-2h6v-5h4v5h6v2zm-8-13c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12z"/>
+                                    </svg>
+                                    <span>Reps: {item.acRepCount}</span>
+                                  </div>
+                                  <div className="flex items-center gap-2">
+                                    <svg className="w-4 h-4 text-orange-500" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                      <path d="M20 14h-8.586l5.293-5.293-1.414-1.414-7.707 7.707v2.586h2.586l7.707-7.707-1.414-1.414-5.293 5.293v-8.586h-2v10h10v-2zm-8-12c-5.514 0-10 4.486-10 10s4.486 10 10 10 10-4.486 10-10-4.486-10-10-10zm0 2c4.411 0 8 3.589 8 8s-3.589 8-8 8-8-3.589-8-8 3.589-8 8-8z"/>
+                                    </svg>
+                                    <span>Sets: {item.acSetCount}</span>
+                                  </div>
+                                  <div className="flex items-center gap-2">
+                                    <svg className="w-4 h-4 text-orange-500" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                      <path d="M12 0c-6.628 0-12 5.373-12 12 0 6.627 5.372 12 12 12 6.628 0 12-5.373 12-12 0-6.627-5.372-12-12-12zm0 22c-5.522 0-10-4.479-10-10s4.478-10 10-10 10 4.479 10 10-4.478 10-10 10zm-2-10v6h-2v-6h2zm0-10h-2v8h2v-8z"/>
+                                    </svg>
+                                    <span>Calories: {item.acCalories}</span>
+                                  </div>
+                                </div>
                               </div>
-                          </div>
-                        ))}
+                            </div>
+                          ))
+                        }
                       </div>
                     </div>
                   </div>
@@ -321,11 +388,22 @@ export const getServerSideProps = async (
   const exerciseActivityData =  await fetch(url+`/get-exercise-activity?fromDate=${encodeURIComponent(fromDate)}&toDate=${encodeURIComponent(toDate)}&userId=${userId}`).then( (res) => res.json() );  
   const exerciseCategoryData =  await fetch(url+`/get-exercise-category`).then( (res) => res.json() );
 
+  console.log(
+      dailyPlanData
+    );
+    console.log(
+      dailyPlanData.results.exercises
+    );
+    console.log(
+      "1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111"
+    );
+
+    console.log(dailyPlanData.results[0]);
   return {
     props: {
       session,
       exercisesData,
-      dailyPlanData,
+      dailyPlanData:dailyPlanData.results[0],
       exerciseActivityData,
       exerciseCategoryData
     },

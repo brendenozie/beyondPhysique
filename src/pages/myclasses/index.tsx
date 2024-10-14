@@ -107,7 +107,7 @@ const Dash2 = (props: Props) => {
 
 										<div className="relative grid gap-5 sm:grid-cols-1 lg:grid-cols-5 mt-4 text-black">
 											{props.trainingProgramData &&
-												props.trainingProgramData.results.map((item: ITrainingProgram, index: number) => (
+												props.trainingProgramData.results?.map((item: ITrainingProgram, index: number) => (
 													(index === 0) ? (
 														<a href={`/myclasses/${item.id}`} className="transform  hover:scale-105 transition duration-300 p-4 bg-white rounded-lg col-span-2 shadow-md w-full ">
 															<Image

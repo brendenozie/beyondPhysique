@@ -21,14 +21,26 @@ import sleep from "../assets/sleep.png";
 import edit from "../assets/edit.png";
 import waterbottle from "../assets/water.png"
 
+type LoaderProps = {
+  src: string;
+  width?: number;
+  quality?: number;
+};
 
-const loaderProp = ({ src }: any) => {
-    return src;
-}
+const loaderProp = ({ src, width, quality }: LoaderProps) => {
+  // Optionally, you can handle width and quality parameters to optimize image loading.
+  const params = [`w=${width || 800}`]; // Default width to 800 if not provided
+  if (quality) {
+    params.push(`q=${quality}`);
+  }
+
+  // Return the optimized image URL
+  return `${src}?${params.join('&')}`;
+};
 
 type Props = {
     exercisesData?: { results: IExercise[] };
-    dailyPlanData?: { results: IDailyPlan[] };
+    dailyPlanData?: IDailyPlan;
     bpmData?:  IAverageSummaryBpm ;
     bmiData?:  IAverageSummaryBmi ;
     stepsData?: IAverageStepsSummary ;
@@ -166,25 +178,63 @@ const caloriesGoal = 2000; // Example daily goal for calories (in kcal)
         <h3 className="py-1 font-semibold text-black text-lg">Today's Training Classes</h3>
         <a className="py-2 px-6 bg-purple-600 font-semibold text-white rounded-lg shadow-lg hover:bg-purple-700 transition-colors" href="/myclasses">My Classes</a>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {/* {props.trainingProgramData && props.trainingProgramData.results?.map((item: ITrainingProgram) => (
-          <div className="bg-white p-6 rounded-lg shadow-lg flex justify-between">
-            <div>
-              <h4 className="font-semibold text-black">{item.trainingName}</h4>
-              <p className="text-gray-600 text-sm">{item.trainingDay} {item.trainingTime} {item.traingDuration}</p>
-            </div>
-            <Link href={`/myclasses/${item.id}`}>
-              <button className="bg-orange-400 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-orange-500 transition-colors">
-                <svg fill="#000000" height="32px" width="32px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-                  <g id="Play">
-                    <path d="M46.01 31.11L25.2 20.7a1 1 0 00-1.53.85v20.82a1 1 0 001.53.85l20.82-10.41a1 1 0 000-1.79zM25.75 40.79v-17.58L43.33 32 25.75 40.79z" />
-                    <path d="M32 0C14.33 0 0 14.33 0 32s14.33 32 32 32 32-14.33 32-32S49.67 0 32 0zm0 62C15.46 62 2 48.54 2 32 2 15.46 15.46 2 32 2s30 13.46 30 30-13.46 30-30 30z" />
-                  </g>
-                </svg>
-              </button>
-            </Link>
-          </div>
-        ))} */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
+        {props.dailyPlanData &&
+                              props.dailyPlanData?.exercises.map((item: IExercise) => (                                
+                                     <div className="bg-white/70 backdrop-blur-lg p-6 rounded-xl shadow-xl flex flex-col sm:flex-row items-center sm:items-start sm:justify-between space-y-4 sm:space-y-0 sm:space-x-6 transition-transform duration-300 hover:scale-105">
+                                      {/* Icon or Image */}
+                                      <div className="bg-gray-100 rounded-full p-4 flex-shrink-0 shadow-md">
+                                        <svg 
+                                          fill="currentColor" 
+                                          height="32px" 
+                                          width="32px" 
+                                          xmlns="http://www.w3.org/2000/svg" 
+                                          viewBox="0 0 64 64" 
+                                          className="h-8 w-8 text-orange-500">
+                                          <g id="Play">
+                                            <path d="M46.0136986,31.1054993L25.1973,20.6973c-0.3096008-0.1532993-0.6777992-0.1387005-0.9727001,0.0438995
+                                              C23.9297009,20.9237995,23.75,21.2451,23.75,21.5918007v20.8163986c0,0.3467026,0.1797009,0.6679993,0.4745998,0.8506012
+                                              C24.3848,43.3583984,24.5674,43.4081993,24.75,43.4081993c0.1532993,0,0.3057003-0.035099,0.4473-0.1054001l20.8163986-10.4081993
+                                              c0.3388023-0.1699982,0.5527-0.5157013,0.5527-0.8945999C46.5663986,31.6210995,46.3525009,31.2754002,46.0136986,31.1054993z
+                                              M25.75,40.7901001v-17.580101L43.330101,32L25.75,40.7901001z"/>
+                                            <path d="M32,0C14.3268995,0,0,14.3268995,0,32s14.3268995,32,32,32s32-14.3269005,32-32S49.6730995,0,32,0z M32,62
+                                              C15.4579,62,2,48.542099,2,32C2,15.4580002,15.4579,2,32,2c16.5419998,0,30,13.4580002,30,30C62,48.542099,48.5419998,62,32,62z"/>
+                                          </g>
+                                        </svg>
+                                      </div>
+                                      {/* Exercise Info */}
+                                      <div className="flex-grow space-y-2 text-center sm:text-left gap-2">
+                                        <h4 className="font-bold text-xl text-gray-800">{item.exName}</h4>
+                                        <p className="text-gray-600 text-sm">
+                                          {props.dailyPlanData?.dpDay} {props.dailyPlanData?.dpTime}
+                                        </p>
+                                        {/* View Workout Button */}
+                                        <Link href={`/viewworkout/${item.id}`}>
+                                          <button className="flex items-center gap-2 bg-gradient-to-r from-orange-400 to-orange-500 text-white px-6 py-2 rounded-sm hover:from-orange-500 hover:to-orange-600 transition-all duration-300 shadow-lg transform hover:scale-110">
+                                            <svg 
+                                              fill="currentColor" 
+                                              height="24px" 
+                                              width="24px" 
+                                              xmlns="http://www.w3.org/2000/svg" 
+                                              viewBox="0 0 64 64" 
+                                              className="h-6 w-6 animate-pulse">
+                                              <g id="Play">
+                                                <path d="M46.0136986,31.1054993L25.1973,20.6973c-0.3096008-0.1532993-0.6777992-0.1387005-0.9727001,0.0438995
+                                                  C23.9297009,20.9237995,23.75,21.2451,23.75,21.5918007v20.8163986c0,0.3467026,0.1797009,0.6679993,0.4745998,0.8506012
+                                                  C24.3848,43.3583984,24.5674,43.4081993,24.75,43.4081993c0.1532993,0,0.3057003-0.035099,0.4473-0.1054001l20.8163986-10.4081993
+                                                  c0.3388023-0.1699982,0.5527-0.5157013,0.5527-0.8945999C46.5663986,31.6210995,46.3525009,31.2754002,46.0136986,31.1054993z
+                                                  M25.75,40.7901001v-17.580101L43.330101,32L25.75,40.7901001z"/>
+                                                <path d="M32,0C14.3268995,0,0,14.3268995,0,32s14.3268995,32,32,32s32-14.3269005,32-32S49.6730995,0,32,0z M32,62
+                                                  C15.4579,62,2,48.542099,2,32C2,15.4580002,15.4579,2,32,2c16.5419998,0,30,13.4580002,30,30C62,48.542099,48.5419998,62,32,62z"/>
+                                              </g>
+                                            </svg>
+                                            <span className="hidden sm:inline-block">View Workout</span>
+                                          </button>
+                                        </Link>
+                                      </div>                                      
+                                    </div>
+
+                                    ))}
       </div>
     </div>
 
@@ -257,7 +307,6 @@ export const getServerSideProps = async (
     const fromDate = new Date(oneMonthBack.setHours(0, 0, 0, 0)).toISOString(); // One month back date at start of day
     const toDate = new Date(today.setHours(23, 59, 59, 999)).toISOString(); // Today's date at end of day
 
-    console.log(session?.user)
     const userId = session?.user?.id || "";  // Extracting userId from session
 
     // Prepare all fetch requests with date range and userId as query parameters
@@ -290,27 +339,11 @@ export const getServerSideProps = async (
       programsCategoryData
     ] = await Promise.all(fetchPromises);
 
-
-    console.log(
-        {
-            session,
-            exercisesData,
-            dailyPlanData,
-            caloriesData,
-            bpmData,
-            bmiData,
-            stepsData,
-            sleepCountData,
-            waterCountData,
-            programsCategoryData,
-      }
-    )
-
     return {
       props: {
         session,
         exercisesData,
-        dailyPlanData,
+        dailyPlanData:dailyPlanData.results[0],
         caloriesData,
         bpmData,
         bmiData,
