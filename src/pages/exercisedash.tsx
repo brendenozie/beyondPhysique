@@ -176,13 +176,13 @@ const Dash2 = (props: Props) => {
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 
                       {props.dailyPlanData &&
-                              props.dailyPlanData.results.map((item: IDailyPlan) => (
+                              props.dailyPlanData.results?.map((item: IDailyPlan) => (
                                       <div className="bg-white p-4 rounded-lg shadow justify-between flex flex-row">
                                         <div>
-                                          <h4 className="font-semibold">{item.exercise.exName}</h4>
+                                          <h4 className="font-semibold">{item.exercises.exName}</h4>
                                           <p className="text-gray-600 text-sm">{item.dpDay} {item.dpTime}</p>
                                         </div>
-                                        <Link href={`/viewworkout/${item.exercise.id}`}>
+                                        <Link href={`/viewworkout/${item.exercises.id}`}>
                                         <button className=" bg-orange-400 text-white px-4 py-2 rounded-lg "><i className="h-16 w-16">
                                         <svg fill="#000000" height="32px" width="32px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
                                         
@@ -209,7 +209,7 @@ const Dash2 = (props: Props) => {
                     {/* <div className="space-y-6 mt-12"> */}
                       {/* Hero text */}
                       {/* <div className="mt-8 mx-4 lg:mt-0 text-4xl lg:text-4xl font-bold gap-6 uppercase text-black text-clip overflow-hidden">
-                          Your Next Exercise
+                          Your Next exercises
                       </div>
                       <div className="flex items-center space-x-4">
                       <div className="relative w-16 h-16">
@@ -231,11 +231,11 @@ const Dash2 = (props: Props) => {
                       <h3 className="font-semibold mb-4">Activity History</h3>
                       <div className="bg-white p-4 rounded-lg shadow">
                       {props.exerciseActivityData &&
-                        props.exerciseActivityData.results.map((item: any) => (
+                        props.exerciseActivityData.results?.map((item: any) => (
                           <div className="px-4 pt-4">
                               <div className="border-b pb-4 border-gray-400 border-dashed">
                                   <p className="text-xs font-light leading-3 text-black  pb-4">{item.acDate} {item.acTime} </p>
-                                  <a tabIndex={0} className="focus:outline-none text-lg font-medium leading-5 text-black mt-2">{item.exercise.exName}</a>
+                                  <a tabIndex={0} className="focus:outline-none text-lg font-medium leading-5 text-black mt-2">{item.exercises.exName}</a>
                                   <p className="text-sm pt-2 leading-4 leading-none text-black">{item.acDuration}</p>
                               </div>
                           </div>
@@ -302,13 +302,23 @@ export const getServerSideProps = async (
 
   const session = await getSession(context);
 
-  // const userEmail = session?.user?.email;
+    // Get today's date and one month back
+    const today = new Date();
+    const oneMonthBack = new Date();
+    oneMonthBack.setMonth(today.getMonth() - 1);
+
+    // Format dates in ISO 8601 format (MongoDB compatible)
+    const fromDate = new Date(oneMonthBack.setHours(0, 0, 0, 0)).toISOString(); // One month back date at start of day
+    const toDate = new Date(today.setHours(23, 59, 59, 999)).toISOString(); // Today's date at end of day
+
+    console.log(session?.user)
+    const userId = session?.user?.id || "";  // Extracting userId from session
 
   let url = process.env.NEXT_PUBLIC_API_URL;
 
   const exercisesData =  await fetch(url+`/get-exercise`).then( (res) => res.json() );
-  const dailyPlanData =  await fetch(url+`/get-daily-plan`).then( (res) => res.json() );
-  const exerciseActivityData =  await fetch(url+`/get-exercise-activity`).then( (res) => res.json() );  
+  const dailyPlanData =  await fetch(url+`/get-daily-plan?fromDate=${encodeURIComponent(fromDate)}&toDate=${encodeURIComponent(toDate)}&userId=${userId}`).then( (res) => res.json() );
+  const exerciseActivityData =  await fetch(url+`/get-exercise-activity?fromDate=${encodeURIComponent(fromDate)}&toDate=${encodeURIComponent(toDate)}&userId=${userId}`).then( (res) => res.json() );  
   const exerciseCategoryData =  await fetch(url+`/get-exercise-category`).then( (res) => res.json() );
 
   return {

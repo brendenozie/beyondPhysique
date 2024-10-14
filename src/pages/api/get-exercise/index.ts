@@ -10,10 +10,7 @@ export default async function handle(
   res: NextApiResponse
 ) {
   
-  const { category, focusArea, level, query,page,userId } = req.query;
-  if (req.method === "GET") {
-
-    const { category, focusArea, level, query, page, userId } = req.query;
+const { category, focusArea, level, query, page, userId } = req.query;
 
 if (req.method === "GET") {
   let currentPage = page ? parseInt(page as string) : 1;
@@ -74,10 +71,7 @@ if (req.method === "GET") {
     console.error(error);
     res.status(500).json({ error: "An error occurred while fetching data." });
   }
-}
-
-    
-  } else {
+} else {
     throw new Error(
       `The HTTP ${req.method} method is not supported at this route.`
     );

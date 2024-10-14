@@ -357,7 +357,7 @@ export const getServerSideProps = async (
     return {
         props: {
             session,
-            exercise: exercise.results
+            exercise: exercise
         },
     };
 

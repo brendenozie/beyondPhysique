@@ -14,12 +14,12 @@ import { getSession } from "next-auth/react";
 import ChartThree from "@/components/ChartThree";
 import ChartTwo from "@/components/ChartTwo";
 import bmi from "../assets/bmi.jpg";
-import heart from "../assets/heart.png";
+import heart from "../assets/hb.png";
 import run from "../assets/running.png";
 import calories from "../assets/calories.png";
 import sleep from "../assets/sleep.png";
 import edit from "../assets/edit.png";
-import waterbottle from "../assets/waterbottle.png"
+import waterbottle from "../assets/water.png"
 
 
 const loaderProp = ({ src }: any) => {
@@ -47,6 +47,20 @@ const Dash2 = (props: Props) => {
         setIsSidebarOpen(!isSidebarOpen);
     };
 
+ // Helper function to calculate progress as a percentage
+const calculateProgress = (currentValue: number, dailyGoal: number | undefined) => {
+  if (!currentValue || !dailyGoal) return 0;  // Handle cases where values are missing
+  const progress = (currentValue / dailyGoal) * 100;
+  return Math.min(progress, 100);  // Ensure progress doesn't exceed 100%
+};
+
+// Example usage for each card
+const bpmGoal = 120; // Example daily goal for heart rate
+const stepsGoal = 10000; // Example daily goal for running steps
+const sleepGoal = 8; // Example daily goal for sleep (in hours)
+const waterGoal = 3000; // Example daily goal for water intake (in ml)
+const caloriesGoal = 2000; // Example daily goal for calories (in kcal)
+
     return (
         <UserLayout>
             <div className="flex flex-col min-h-screen bg-gray-900 text-white w-full">
@@ -60,69 +74,91 @@ const Dash2 = (props: Props) => {
       <p className="text-gray-600">Here's your summary progress in health the last month.</p>
     </div>
     
-    {/* Progress for Today */}
-    <div className="text-black">
-      <h2 className="text-xl font-semibold text-gray-800">Progress for Today</h2>
-      <div className="mt-4 gap-4 grid grid-cols-2 md:grid-cols-5">
-        
-        {/* Heart Rate Card */}
-        <div className="transform transition-transform hover:scale-105 flex flex-col justify-between items-center py-4 bg-gradient-to-r from-blue-100 to-blue-200 p-6 rounded-lg shadow-lg">
-          <Link href={"/calculatebpm"} className="w-full flex justify-end">
-            <Image src={edit} alt="edit"  loader={loaderProp} className="w-4 h-4" />
-          </Link>
-          <Image src={heart} alt="heart" loader={loaderProp} width={64} height={64} className="mt-4 w-32 h-32 mx-auto" />
-          <span className="font-bold">Heart Rate</span>
-          <span>{props.bpmData?.averageBpmResult?.toFixed(2)} BPM</span>
-        </div>
-
-        {/* BMI Card */}
-        <div className="transform transition-transform hover:scale-105 flex flex-col justify-between items-center py-4 bg-gradient-to-r from-pink-100 to-pink-200 p-6 rounded-lg shadow-lg">
-          <Link href={"/calculatebmi"} className="w-full flex justify-end">
-            <Image src={edit} alt="edit" loader={loaderProp} className="w-4 h-4" />
-          </Link>
-          <Image src={bmi} alt="bmi"  loader={loaderProp} width={64} height={64} className="mt-4 w-32 h-32 mx-auto" />
-          <span className="font-bold">BMI</span>
-          <span>{props.bmiData?.averageBmiResult?.toFixed(2)}</span>
-        </div>
-
-        {/* Running Card */}
-        <div className="transform transition-transform hover:scale-105 flex flex-col justify-between items-center py-4 bg-gradient-to-r from-green-100 to-green-200 p-6 rounded-lg shadow-lg">
-          <Link href={"/calculatesteps"} className="w-full flex justify-end">
-            <Image src={edit} alt="edit" loader={loaderProp} className="w-4 h-4" />
-          </Link>
-          <Image src={run} alt="running" loader={loaderProp} width={64} height={64} className="mt-4 w-32 h-32 mx-auto" />
-          <span className="font-bold">Running</span>
-          <span>{props.stepsData?.averageSteps?.toFixed(2)} Steps</span>
-        </div>
-
-        {/* Sleep Card */}
-        <div className="transform transition-transform hover:scale-105 flex flex-col justify-between items-center py-4 bg-gradient-to-r from-purple-100 to-purple-200 p-6 rounded-lg shadow-lg">
-          <Link href={"/calculatesleep"} className="w-full flex justify-end">
-            <Image src={edit} loader={loaderProp} alt="edit" className="w-4 h-4" />
-          </Link>
-          <Image src={sleep} loader={loaderProp} alt="sleep" width={64} height={64} className="mt-4 w-32 h-32 mx-auto" />
-          <span className="font-bold">Sleep</span>
-          <span>{props.sleepCountData?.averageSleepDuration?.toFixed(2)} Hours</span>
-        </div>
-
-        {/* Water Intake Card */}
-        <div className="transform transition-transform hover:scale-105 flex flex-col justify-between items-center py-4 bg-gradient-to-r from-cyan-100 to-cyan-200 p-6 rounded-lg shadow-lg">
-          <Link href={"/waterintake"} className="w-full flex justify-end">
-            <Image src={edit} alt="edit" loader={loaderProp} className="w-4 h-4" />
-          </Link>
-          <Image src={waterbottle} loader={loaderProp} alt="water intake" width={64} height={64} className="mt-4 w-32 h-32 mx-auto" />
-          <span className="font-bold">Water</span>
-          <span>{props.waterCountData?.averageWaterIntake?.toFixed(2)} ml</span>
-        </div>
-
-        {/* Calories Card */}
-        <div className="transform transition-transform hover:scale-105 flex flex-col justify-between items-center py-4 bg-gradient-to-r from-yellow-100 to-yellow-200 p-6 rounded-lg shadow-lg">
-          <Image src={calories} loader={loaderProp} alt="calories" width={64} height={64} className="mt-4 mb-4 w-32 h-32 mx-auto" />
-          <span className="font-bold">Calories</span>
-          <span>{props.caloriesData?.averageCalories?.toFixed(2)} Kcal</span>
-        </div>
+      {/* Progress for Today */}
+<div className="text-black">
+  <h2 className="text-xl font-semibold text-gray-800">Progress for Today</h2>
+  <div className="mt-4 gap-4 grid grid-cols-2 md:grid-cols-3">
+    
+    {/* Heart Rate Card */}
+    <div className="transform transition-transform hover:scale-105 flex flex-col justify-between items-center py-4 bg-gradient-to-r from-blue-100 to-blue-200 p-6 rounded-lg shadow-lg relative">
+      <Link href={"/calculatebpm"} className="absolute top-2 right-2">
+        <Image src={edit} alt="edit" loader={loaderProp} className="w-4 h-4" />
+      </Link>
+      <Image src={heart} alt="heart" loader={loaderProp} width={64} height={64} className="mt-4 w-32 h-32 mx-auto" />
+      <span className="font-bold">Heart Rate</span>
+      <span>{props.bpmData?.averageBpmResult?.toFixed(2)} BPM</span>
+      <div className="w-full mt-2 h-2 bg-gray-300 rounded-full">
+        <div className="h-full bg-red-600 rounded-full" style={{ width: `${calculateProgress(props.bpmData?.averageBpmResult,bpmGoal)}%` }}></div>
       </div>
     </div>
+
+    {/* BMI Card */}
+    <div className="transform transition-transform hover:scale-105 flex flex-col justify-between items-center py-4 bg-gradient-to-r from-pink-100 to-pink-200 p-6 rounded-lg shadow-lg relative">
+      <Link href={"/calculatebmi"} className="absolute top-2 right-2">
+        <Image src={edit} alt="edit" loader={loaderProp} className="w-4 h-4" />
+      </Link>
+      <Image src={bmi} alt="bmi" loader={loaderProp} width={64} height={64} className="mt-4 w-32 h-32 mx-auto" />
+      <span className="font-bold">BMI</span>
+      <span>{props.bmiData?.averageBmiResult?.toFixed(2)}</span>
+      <div className="w-full mt-2 h-2 bg-gray-300 rounded-full">
+        <div className="h-full bg-blue-600 rounded-full" style={{ width: `${calculateProgress(props.bmiData?.averageBmiResult,bpmGoal)}%` }}></div>
+      </div>
+    </div>
+
+    {/* Running Card */}
+    <div className="transform transition-transform hover:scale-105 flex flex-col justify-between items-center py-4 bg-gradient-to-r from-green-100 to-green-200 p-6 rounded-lg shadow-lg relative">
+      <Link href={"/calculatesteps"} className="absolute top-2 right-2">
+        <Image src={edit} alt="edit" loader={loaderProp} className="w-4 h-4" />
+      </Link>
+      <Image src={run} alt="running" loader={loaderProp} width={64} height={64} className="mt-4 w-32 h-32 mx-auto" />
+      <span className="font-bold">Running</span>
+      <span>{props.stepsData?.averageSteps?.toFixed(2)} Steps</span>
+      <div className="w-full mt-2 h-2 bg-gray-300 rounded-full">
+        <div className="h-full bg-green-600 rounded-full" style={{ width: `${calculateProgress(props.stepsData?.averageSteps,stepsGoal)}%` }}></div>
+      </div>
+    </div>
+
+    {/* Sleep Card */}
+    <div className="transform transition-transform hover:scale-105 flex flex-col justify-between items-center py-4 bg-gradient-to-r from-purple-100 to-purple-200 p-6 rounded-lg shadow-lg relative">
+      <Link href={"/calculatesleep"} className="absolute top-2 right-2">
+        <Image src={edit} loader={loaderProp} alt="edit" className="w-4 h-4" />
+      </Link>
+      <Image src={sleep} loader={loaderProp} alt="sleep" width={64} height={64} className="mt-4 w-32 h-32 mx-auto" />
+      <span className="font-bold">Sleep</span>
+      <span>{props.sleepCountData?.averageSleepDuration?.toFixed(2)} Hours</span>
+      <div className="w-full mt-2 h-2 bg-gray-300 rounded-full">
+        <div className="h-full bg-purple-600 rounded-full" style={{ width: `${calculateProgress(props.sleepCountData?.averageSleepDuration,sleepGoal)}%` }}></div>
+      </div>
+    </div>
+
+    {/* Water Intake Card */}
+    <div className="transform transition-transform hover:scale-105 flex flex-col justify-between items-center py-4 bg-gradient-to-r from-cyan-100 to-cyan-200 p-6 rounded-lg shadow-lg relative">
+      <Link href={"/waterintake"} className="absolute top-2 right-2">
+        <Image src={edit} alt="edit" loader={loaderProp} className="w-4 h-4" />
+      </Link>
+      <Image src={waterbottle} loader={loaderProp} alt="water intake" width={64} height={64} className="mt-4 w-32 h-32 mx-auto" />
+      <span className="font-bold">Water</span>
+      <span>{props.waterCountData?.averageWaterIntake?.toFixed(2)} ml</span>
+      <div className="w-full mt-2 h-2 bg-gray-300 rounded-full">
+        <div className="h-full bg-cyan-600 rounded-full" style={{ width: `${calculateProgress(props.waterCountData?.averageWaterIntake,waterGoal)}%` }}></div>
+      </div>
+    </div>
+
+    {/* Calories Card */}
+    <div className="transform transition-transform hover:scale-105 flex flex-col justify-between items-center py-4 bg-gradient-to-r from-yellow-100 to-yellow-200 p-6 rounded-lg shadow-lg relative">
+      <Link href={"/calculatecalories"} className="absolute top-2 right-2">
+        <Image src={edit} loader={loaderProp} alt="edit" className="w-4 h-4" />
+      </Link>
+      <Image src={calories} loader={loaderProp} alt="calories" width={64} height={64} className="mt-4 w-32 h-32 mx-auto" />
+      <span className="font-bold">Calories</span>
+      <span>{props.caloriesData?.averageCalories?.toFixed(2)} Kcal</span>
+      <div className="w-full mt-2 h-2 bg-gray-300 rounded-full">
+        <div className="h-full bg-yellow-600 rounded-full" style={{ width: `${calculateProgress(props.caloriesData?.averageCalories,caloriesGoal)}%` }}></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
     {/* Training Classes */}
     <div className="mt-6">
