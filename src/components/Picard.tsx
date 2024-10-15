@@ -30,7 +30,7 @@ const Picard = ({ src, title, desc }: cardProps) => {
     />
     {/* Hover Actions */}
     <div className="absolute top-0 opacity-0 group-hover:opacity-100 w-full flex justify-between transition-opacity duration-300 p-4">
-      <Link
+      {/* <Link
         href=""
         aria-label={`Save ${title}`}
         className="flex items-center gap-x-2 px-4 py-2 bg-gray-800 text-white rounded-full bg-opacity-80 transition duration-300 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-400"
@@ -43,7 +43,7 @@ const Picard = ({ src, title, desc }: cardProps) => {
         className="transition-transform duration-300 transform -translate-y-2 group-hover:translate-y-0 focus:outline-none focus:ring-2 focus:ring-indigo-400"
       >
         <BookmarkIcon color="#ad9058" className="h-6 w-6" />
-      </button>
+      </button> */}
     </div>
   </div>
   {/* Description Section */}
