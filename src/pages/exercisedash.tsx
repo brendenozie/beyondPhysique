@@ -1,116 +1,13 @@
-import Card from "@/components/Card";
-import RightSide from "@/components/RightSide";
 import UserLayout from "@/components/UserLayout";
 import UserNav from "@/components/UserNav";
-import UserSide from "@/components/UserSide";
-import { ChartPieIcon, CalendarDaysIcon, UserCircleIcon, WrenchIcon, ChatBubbleLeftIcon, CheckCircleIcon } from "@heroicons/react/24/outline";
 // import Chart from "react-apexcharts";
 // If you're using Next.js please use the dynamic import for react-apexcharts and remove the import from the top for the react-apexcharts
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useState } from "react";
-
 import { GetServerSidePropsContext } from "next";
 import { IDailyPlan, IExercise, IExerciseActivity, IExerciseCategory } from "@/types/typings";
-
 import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
-import ExerciseCard from "@/components/ExerciseCard";
-
-const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
- 
-const chartConfig :any = {
-  type: "line",
-  height: 240,
-  series: [
-    {
-      name: "Expenditure",
-      data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
-    },
-    {
-        name: "Income",
-        data: [30, 20, 100, 620, 1500, 200, 700, 1230, 5000],
-      },
-  ],
-  options: {
-    chart: {
-      toolbar: {
-        show: false,
-      },
-    },
-    title: {
-      show: "",
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    colors: ["#020617","#ea0c0c"],
-    stroke: {
-      lineCap: "round",
-      curve: "smooth",
-    },
-    markers: {
-      size: 0,
-    },
-    xaxis: {
-      axisTicks: {
-        show: false,
-      },
-      axisBorder: {
-        show: false,
-      },
-      labels: {
-        style: {
-          colors: "#616161",
-          fontSize: "12px",
-          fontFamily: "inherit",
-          fontWeight: 400,
-        },
-      },
-      categories: [
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
-    },
-    yaxis: {
-      labels: {
-        style: {
-          colors: "#616161",
-          fontSize: "12px",
-          fontFamily: "inherit",
-          fontWeight: 400,
-        },
-      },
-    },
-    grid: {
-      show: true,
-      borderColor: "#dddddd",
-      strokeDashArray: 5,
-      xaxis: {
-        lines: {
-          show: true,
-        },
-      },
-      padding: {
-        top: 5,
-        right: 20,
-      },
-    },
-    fill: {
-      opacity: 0.8,
-    },
-    tooltip: {
-      theme: "dark",
-    },
-  },
-};
 
 type Props = {
   exercisesData?: {results:IExercise[]};
@@ -200,13 +97,13 @@ const Dash2 = (props: Props) => {
                                       </div>
                                       {/* Exercise Info */}
                                       <div className="flex-grow space-y-2 text-center sm:text-left gap-2">
-                                        <h4 className="font-bold text-xl text-gray-800">{item.exName}</h4>
+                                        <h4 className="font-bold text-xl text-gray-800 h-14">{item.exName}</h4>
                                         <p className="text-gray-600 text-sm">
                                           {props.dailyPlanData?.dpDay} {props.dailyPlanData?.dpTime}
                                         </p>
                                         {/* View Workout Button */}
                                         <Link href={`/viewworkout/${item.id}`}>
-                                          <button className="flex items-center gap-2 bg-gradient-to-r from-orange-400 to-orange-500 text-white px-6 py-2 rounded-sm hover:from-orange-500 hover:to-orange-600 transition-all duration-300 shadow-lg transform hover:scale-110">
+                                          <button className="flex items-center justify-center w-full mt-4 gap-2 bg-gradient-to-r from-orange-400 to-orange-500 text-white px-6 py-2 rounded-sm hover:from-orange-500 hover:to-orange-600 transition-all duration-300 shadow-lg transform hover:scale-110">
                                             <svg 
                                               fill="currentColor" 
                                               height="24px" 
@@ -229,14 +126,12 @@ const Dash2 = (props: Props) => {
                                         </Link>
                                       </div>                                      
                                     </div>
-
                                     ))}
                       </div>
                     </div>
 
-                    {/* <div className="space-y-6 mt-12"> */}
-                      {/* Hero text */}
-                      {/* <div className="mt-8 mx-4 lg:mt-0 text-4xl lg:text-4xl font-bold gap-6 uppercase text-black text-clip overflow-hidden">
+                    {/* <div className="space-y-6 mt-12"> 
+                     <div className="mt-8 mx-4 lg:mt-0 text-4xl lg:text-4xl font-bold gap-6 uppercase text-black text-clip overflow-hidden"> 
                           Your Next exercises
                       </div>
                       <div className="flex items-center space-x-4">
@@ -388,22 +283,11 @@ export const getServerSideProps = async (
   const exerciseActivityData =  await fetch(url+`/get-exercise-activity?fromDate=${encodeURIComponent(fromDate)}&toDate=${encodeURIComponent(toDate)}&userId=${userId}`).then( (res) => res.json() );  
   const exerciseCategoryData =  await fetch(url+`/get-exercise-category`).then( (res) => res.json() );
 
-  console.log(
-      dailyPlanData
-    );
-    console.log(
-      dailyPlanData.results.exercises
-    );
-    console.log(
-      "1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111"
-    );
-
-    console.log(dailyPlanData.results[0]);
   return {
     props: {
       session,
       exercisesData,
-      dailyPlanData:dailyPlanData.results[0],
+      dailyPlanData:dailyPlanData.results ? dailyPlanData.results[0] : null,
       exerciseActivityData,
       exerciseCategoryData
     },

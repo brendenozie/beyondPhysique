@@ -152,7 +152,7 @@ const UserNav = () => {
                     <div className="text-white">
                         <div className="flex p-2  bg-orange-500">
                             <div className="flex py-3 px-2 items-center">
-                                <p className="text-2xl text-white font-semibold">BeyondPhysique</p> 
+                                <p className="text-2xl text-white font-semibold">WorkoutPro</p> 
                                 <br/>
                                 <p className="ml-2 font-semibold italic"></p>
                             </div>
@@ -173,13 +173,84 @@ const UserNav = () => {
                                         {/* x-on:click="Open = !Open" */}
                                     <a
                                         className="inline-flex items-center  text-sm font-semibold text-white hover:text-yellow-400" href="/exercisedash">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
                                             d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" />
                                         </svg>
-                                        <span className="ml-4">My Exercise</span>
+                                        <span className="ml-4">Workouts</span>
+                                    </a>
+                                    <svg xmlns="http://www.w3.org/2000/svg" 
+                                        className="ml-1  text-white w-4 h-4 hidden" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor" >
+                                            {/* x-show="!Open" */}
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 19l-7-7 7-7" />
+                                    </svg>
+
+                                    <svg xmlns="http://www.w3.org/2000/svg" 
+                                        className="ml-1  text-white w-4 h-4 hidden" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor" >
+                                            {/* x-show="Open" */}
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </div>
+
+                                <div  className="hidden">
+                                {/* x-show.transition="Open" */}
+                                    <ul 
+                                        className="p-2 mt-2 space-y-2 overflow-hidden text-sm font-medium  rounded-md shadow-inner  bg-yellow-400"
+                                        aria-label="submenu">
+                                            {/* x-transition:enter="transition-all ease-in-out duration-300"
+                                        x-transition:enter-start="opacity-25 max-h-0"
+                                        x-transition:enter-end="opacity-100 max-h-xl"
+                                        x-transition:leave="transition-all ease-in-out duration-300"
+                                        x-transition:leave-start="opacity-100 max-h-xl"
+                                        x-transition:leave-end="opacity-0 max-h-0" */}
+
+                                        <li className="px-2 py-1 text-white transition-colors duration-150">
+                                            <div className="px-1 hover:text-gray-800 hover:bg-gray-100 rounded-md">
+                                                <div className="flex items-center">
+                                                    <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                                                    </svg>
+                                                    <a href="#"
+                                                        className="w-full ml-2  text-sm font-semibold text-white hover:text-gray-800">Item
+                                                        1</a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li className="relative px-2 py-1" >
+                            {/* x-data="{ Open : false  }" */}
+                                <div className="inline-flex items-center justify-between w-full text-base font-semibold transition-colors duration-150 text-gray-500  hover:text-yellow-400 cursor-pointer"
+                                    >
+                                        {/* x-on:click="Open = !Open" */}
+                                    <a
+                                        className="inline-flex items-center  text-sm font-semibold text-white hover:text-yellow-400" href="/onlineclasses">
+                                        <svg className="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144 144" id="analytics">
+                                                <path fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M123.326 56.625v36.242c0 6.578-5.382 11.961-11.961 11.961H35.978c-6.578 0-11.961-5.382-11.961-11.961V34.093M123.326 34.093v11.779"></path><path fill="#fff" d="M126.57 23.055H86.821c-.051-1-1.575-4-3.44-4H63.432c-1.865 0-3.389 3-3.44 4H20.243c-2.521 0-4.883 1.002-4.883 3.452v1.239c0 2.45 2.362 5.309 4.883 5.309H126.57c2.521 0 3.79-2.86 3.79-5.309v-1.239c0-2.45-1.269-3.452-3.79-3.452zm-45.187 4H65.759c-1.269 0-2.307-.731-2.307-2 0-1.269 1.038-2 2.307-2h15.623c1.269 0 2.307.731 2.307 2 .001 1.269-1.037 2-2.306 2z" opacity=".3"></path><path fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M126.57 22.555H86.821c-.051-1-1.575-4-3.44-4H63.432c-1.865 0-3.389 3-3.44 4H20.243c-2.521 0-4.383 1.639-4.383 4.16v1.275c0 2.521 1.862 5.565 4.383 5.565H126.57c2.521 0 4.29-3.044 4.29-5.565v-1.275c0-2.521-1.769-4.16-4.29-4.16z"></path>
+                                                <path fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M81.627 26.98H65.514a2.068 2.068 0 0 1-2.062-2.062v-.489c0-1.134.928-2.062 2.062-2.062h16.113c1.134 0 2.063.928 2.063 2.062v.489a2.069 2.069 0 0 1-2.063 2.062zM7.541 45.974V56.46M2.298 51.217h10.486M45.15 60.341v6.278M42.011 63.48h6.278M100.283 48.078v6.278M103.422 51.217h-6.278M136.376 68.161v10.486M141.619 73.404h-10.486M73.683 104.828l-.011 14.444"></path>
+                                                <circle cx="73.672" cy="122.998" r="3.726" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"></circle>
+                                                <path fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="m97.318 76.079 22.926-21.133M78.069 63.392l11.307 12.266M47.134 84.033l23.063-21.26"></path>
+                                                <circle cx="124.255" cy="51.248" r="5.455" fill="#fff" opacity=".3" transform="rotate(-6.76 124.285 51.258)"></circle>
+                                                <circle cx="124.255" cy="51.248" r="5.455" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" transform="rotate(-6.76 124.285 51.258)"></circle>
+                                                <circle cx="93.149" cy="79.599" r="5.455" fill="#fff" opacity=".3" transform="rotate(-6.76 93.171 79.616)"></circle>
+                                                <circle cx="93.149" cy="79.599" r="5.455" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" transform="rotate(-6.76 93.171 79.616)"></circle>
+                                                <g transform="rotate(-6.76 74.446 59.341)"><circle cx="74.428" cy="59.328" r="5.455" fill="#fff" opacity=".3"></circle>
+                                                <circle cx="74.428" cy="59.328" r="5.455" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"></circle></g>
+                                                <g transform="rotate(-6.76 43.135 87.749)"><circle cx="43.125" cy="87.729" r="5.455" fill="#fff" opacity=".3"></circle>
+                                                <circle cx="43.125" cy="87.729" r="5.455" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"></circle></g>
+                                                <path fill="#fff" d="M24.018 33.316h99.308v6.619H24.018z" opacity=".3"></path>
+                                            </svg>
+                                        <span className="ml-4">Programs</span>
                                     </a>
                                     <svg xmlns="http://www.w3.org/2000/svg" 
                                         className="ml-1  text-white w-4 h-4 hidden" fill="none" viewBox="0 0 24 24"

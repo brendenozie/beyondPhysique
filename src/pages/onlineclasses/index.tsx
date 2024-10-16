@@ -108,43 +108,10 @@ const Dash2 = (props: Props) => {
 											</div>
 										</div>
 
-										<div className="relative grid gap-5 sm:grid-cols-1 lg:grid-cols-5 mt-4 text-black">
+										<div className="relative grid gap-5 sm:grid-cols-1 lg:grid-cols-4 mt-4 text-black">
 											{props.trainingProgramData &&
 												props.trainingProgramData.results.map((item: ITrainingProgram, index: number) => (
-													(index === 0) ? (
-														<a href={`/onlineclasses/${item.id}`} className="transform  hover:scale-105 transition duration-300 p-4 bg-white rounded-lg col-span-2 shadow-md w-full ">
-															<Image
-																src={img}
-																alt="calories"
-																fill={false}
-																loader={loaderProp}
-																className="rounded-lg mb-4 w-full lg:h-24"
-															/>
-															<div className="flex flex-col mb-4">
-																<div className="text-xl font-semibold">{item.trainingName}</div>
-																<div className="text-sm text-gray-500">{item.trainingDay} {item.trainingTime} </div>
-															</div>
-															<div className="mb-4">
-																<ul className="list-none">
-
-																</ul>
-															</div>
-															<div className="flex justify-between">
-																<div className="flex items-center">
-																	<svg className="w-6 h-6 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
-																		<path d="M10 2a6 6 0 00-6 6v4H2a2 2 0 000 4h16a2 2 0 000-4h-2V8a6 6 0 00-6-6zM8 14v-4a2 2 0 114 0v4H8z" />
-																	</svg>
-																	<span className="ml-2">{item.traingDuration}</span>
-																</div>
-																<div className="flex items-center">
-																	<svg className="w-6 h-6 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
-																		<path d="M3.172 4.828a4 4 0 115.656 5.656L10 11.656l1.172-1.172a4 4 0 115.656-5.656l1.172 1.172a4 4 0 11-5.656 5.656L10 11.656l-1.172 1.172a4 4 0 11-5.656-5.656l1.172-1.172z" />
-																	</svg>
-																	<span className="ml-2">11k</span>
-																</div>
-															</div>
-														</a>
-													) : (
+													(
 														<a href={`/onlineclasses/${item.id}`} key={index} className="transform  hover:scale-105 transition duration-300 p-4 bg-white rounded-lg shadow-md w-full justify-evenly">
 															{/* <img src={meal.image} alt={meal.title} className="rounded-lg mb-4 w-full lg:w-24 lg:h-24" /> */}
 															<Image
