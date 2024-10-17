@@ -28,30 +28,14 @@ const Dash2 = (props: Props) => {
   return (
     <UserLayout>
       <div className="flex flex-col min-h-screen bg-gray-900 text-white">
-        <UserNav/>
-          
+        <UserNav/>          
           <div className="container mx-auto">
-
             <div className="flex flex-col lg:flex-row gap-6 p-6 bg-purple-50 min-h-screen text-black">
                 {/* Middle Section */}
                 <div className="flex-1">
                   <div className="bg-white p-6 rounded-lg shadow-md">
                     <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                       <h2 className="text-xl font-semibold">Dashboard</h2>
-                      {/* <div className="flex items-center space-x-4">
-                        <span className="text-gray-600">Oct 30, 2021</span>
-                        <button className="p-2 bg-gray-200 rounded-full">
-                          <i className="fas fa-bell"></i>
-                        </button>
-                        <div className="flex items-center space-x-2">
-                          <span className="text-gray-600">Ricardo</span>
-                          <img
-                            src="https://via.placeholder.com/32"
-                            alt="User avatar"
-                            className="w-8 h-8 rounded-full"
-                          />
-                        </div>
-                      </div> */}
                     </div>
 
                     <div className="mt-6 flex flex-col md:flex-row gap-4">
@@ -130,26 +114,6 @@ const Dash2 = (props: Props) => {
                       </div>
                     </div>
 
-                    {/* <div className="space-y-6 mt-12"> 
-                     <div className="mt-8 mx-4 lg:mt-0 text-4xl lg:text-4xl font-bold gap-6 uppercase text-black text-clip overflow-hidden"> 
-                          Your Next exercises
-                      </div>
-                      <div className="flex items-center space-x-4">
-                      <div className="relative w-16 h-16">
-                          <svg className="absolute top-0 left-0 w-full h-full" viewBox="0 0 36 36">
-                          <path className="text-gray-700" strokeWidth="3.8" fill="none" d="M18 1.0845a 16.9155 16.9155 0 1 1 0 33.831a 16.9155 16.9155 0 1 1 0 -33.831" />
-                          <path className="text-orange-500" strokeWidth="3.8" fill="none" d="M18 1.0845a 16.9155 16.9155 0 0 1 0 33.831a 16.9155 16.9155 0 0 1 0 -33.831" />
-                          </svg>
-                          <span className="absolute inset-0 flex items-center justify-center text-xl">4:35</span>
-                      </div>
-                      <div className="text-lg">Push ups</div><br/>
-                      <div className="text-base">6 x 5 minutes</div>
-                      </div>
-                      <div className="flex justify-center">
-                      <img src="bas.png" alt="Workout" className="w-full lg:w-3/4 h-auto" />
-                      </div>
-                  </div> */}
-
                     <div className="mt-6">
                       <h3 className="font-semibold mb-4">Activity History</h3>
                       <div className="bg-white p-4 rounded-lg shadow">
@@ -209,27 +173,6 @@ const Dash2 = (props: Props) => {
 
                 {/* Right Section */}
                 <div className="w-full lg:w-1/3 flex flex-col gap-6">
-                  {/* <div className='max-w-sm hover:translate-y-2 duration-500'>
-                      <div className="flex flex-col bg-white p-6 rounded-lg shadow-md">
-                        <h5
-                          className='text-xl font-bold tracking-tight text-gray-900 '
-                          style={{ textAlign: "center" }}>
-                          BMI
-                        </h5>
-                        <p className='font-normal text-gray-500 dark:text-gray-400 mr-2'>
-                          BMI stands for Body Mass Index, which is a measure of
-                          body fat based on a person's weight and height. BMI is a
-                          widely used method to assess whether a person has a
-                          healthy body weight, with a BMI of 18.5 to 24.9
-                          considered healthy, while a BMI of 25 to 29.9 is
-                          classified as overweight, and a BMI of 30 or higher is
-                          considered obese.
-                        </p>                  
-                        <a className=" mt-4 text-center uppercase font-bold py-1 px-4 bg-purple-600 text-white rounded" href="/calculatebmi">
-                            Check your BMI
-                        </a>                  
-                      </div>
-                    </div> */}
                   <div className="bg-white p-6 rounded-lg shadow-md">
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="font-semibold">Pick Training</h3>

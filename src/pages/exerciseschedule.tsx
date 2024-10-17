@@ -28,9 +28,24 @@ type Props = {
     // getInspiredCities: ICity[];
   };
 
+
+const dayOrder = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+const filterPlansByWeek = (plans: IDailyPlan[]) => {
+  // Sort the plans by the day order
+  return plans.sort((a, b) => {
+    return dayOrder.indexOf(a.dpDay) - dayOrder.indexOf(b.dpDay);
+  });
+};
+
 const Dash2 = (props: Props) => {
 
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+    // Filter and sort daily plans
+  const weeklyPlans = props.alldailyPlanData?.results
+    ? filterPlansByWeek(props.alldailyPlanData.results)
+    : [];
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -129,59 +144,25 @@ const Dash2 = (props: Props) => {
                                             <h3 className="py-1 font-semibold text-white text-lg">Plans</h3>
                                         </div>
                                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
-                                            {props.alldailyPlanData?.results?.map((dailyPlan) => (
-                                                <div className="bg-white backdrop-blur-lg p-6 rounded-xl shadow-xl flex flex-col sm:flex-row items-center sm:items-start sm:justify-between space-y-4 sm:space-y-0 sm:space-x-6 transition-transform duration-300 hover:scale-105">
-                                                    {/* Icon or Image */}
-                                                    <div className="bg-gray-100 rounded-full p-4 flex-shrink-0 shadow-md">
-                                                    <svg 
-                                                        fill="currentColor" 
-                                                        height="32px" 
-                                                        width="32px" 
-                                                        xmlns="http://www.w3.org/2000/svg" 
-                                                        viewBox="0 0 64 64" 
-                                                        className="h-8 w-8 text-orange-500">
-                                                        <g id="Play">
-                                                        <path d="M46.0136986,31.1054993L25.1973,20.6973c-0.3096008-0.1532993-0.6777992-0.1387005-0.9727001,0.0438995
-                                                            C23.9297009,20.9237995,23.75,21.2451,23.75,21.5918007v20.8163986c0,0.3467026,0.1797009,0.6679993,0.4745998,0.8506012
-                                                            C24.3848,43.3583984,24.5674,43.4081993,24.75,43.4081993c0.1532993,0,0.3057003-0.035099,0.4473-0.1054001l20.8163986-10.4081993
-                                                            c0.3388023-0.1699982,0.5527-0.5157013,0.5527-0.8945999C46.5663986,31.6210995,46.3525009,31.2754002,46.0136986,31.1054993z
-                                                            M25.75,40.7901001v-17.580101L43.330101,32L25.75,40.7901001z"/>
-                                                        <path d="M32,0C14.3268995,0,0,14.3268995,0,32s14.3268995,32,32,32s32-14.3269005,32-32S49.6730995,0,32,0z M32,62
-                                                            C15.4579,62,2,48.542099,2,32C2,15.4580002,15.4579,2,32,2c16.5419998,0,30,13.4580002,30,30C62,48.542099,48.5419998,62,32,62z"/>
-                                                        </g>
-                                                    </svg>
+                                            {weeklyPlans?.map((plan) => (
+                                                <div key={plan.id} className="bg-white p-6 mb-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 hover:scale-105"
+                                                        >
+                                                        <div className="flex justify-between items-center mb-4">
+                                                            <div>
+                                                                <h3 className="text-2xl font-bold text-indigo-700">{plan.dpDay}</h3>
+                                                                <p className="text-sm text-gray-400">Time: {plan.dpTime}</p>
+                                                                <p className="text-sm text-gray-400">Duration: {plan.dpDuration}</p>
+                                                            </div>
+                                                            <span  className={`text-sm font-semibold px-4 py-2 rounded-full transition-colors duration-300 ${
+                                                                plan.status === "completed"
+                                                                ? "bg-green-100 text-green-700"
+                                                                : "bg-yellow-100 text-yellow-700"
+                                                            }`}
+                                                            >
+                                                            {plan.status.charAt(0).toUpperCase() + plan.status.slice(1)}
+                                                            </span>
+                                                        </div>    
                                                     </div>
-                                                    {/* Exercise Info */}
-                                                    <div className="flex-grow space-y-2 text-center sm:text-left gap-2">
-                                                    <h4 className="font-bold text-xl text-gray-800 h-14">{dailyPlan?.dpDay}</h4>
-                                                    <p className="text-gray-600 text-sm">
-                                                        {dailyPlan?.dpTime} {dailyPlan?.dpDuration}
-                                                    </p>
-                                                    {/* View Workout Button */}
-                                                    <Link href={`/viewplan/${dailyPlan?.id}`}>
-                                                        <button className="flex items-center justify-center w-full mt-4 gap-2 bg-gradient-to-r from-orange-400 to-orange-500 text-white px-6 py-2 rounded-sm hover:from-orange-500 hover:to-orange-600 transition-all duration-300 shadow-lg transform hover:scale-110">
-                                                        <svg 
-                                                            fill="currentColor" 
-                                                            height="24px" 
-                                                            width="24px" 
-                                                            xmlns="http://www.w3.org/2000/svg" 
-                                                            viewBox="0 0 64 64" 
-                                                            className="h-6 w-6 animate-pulse">
-                                                            <g id="Play">
-                                                            <path d="M46.0136986,31.1054993L25.1973,20.6973c-0.3096008-0.1532993-0.6777992-0.1387005-0.9727001,0.0438995
-                                                                C23.9297009,20.9237995,23.75,21.2451,23.75,21.5918007v20.8163986c0,0.3467026,0.1797009,0.6679993,0.4745998,0.8506012
-                                                                C24.3848,43.3583984,24.5674,43.4081993,24.75,43.4081993c0.1532993,0,0.3057003-0.035099,0.4473-0.1054001l20.8163986-10.4081993
-                                                                c0.3388023-0.1699982,0.5527-0.5157013,0.5527-0.8945999C46.5663986,31.6210995,46.3525009,31.2754002,46.0136986,31.1054993z
-                                                                M25.75,40.7901001v-17.580101L43.330101,32L25.75,40.7901001z"/>
-                                                            <path d="M32,0C14.3268995,0,0,14.3268995,0,32s14.3268995,32,32,32s32-14.3269005,32-32S49.6730995,0,32,0z M32,62
-                                                                C15.4579,62,2,48.542099,2,32C2,15.4580002,15.4579,2,32,2c16.5419998,0,30,13.4580002,30,30C62,48.542099,48.5419998,62,32,62z"/>
-                                                            </g>
-                                                        </svg>
-                                                        <span className="hidden sm:inline-block">View Plan</span>
-                                                        </button>
-                                                    </Link>
-                                                    </div>                                      
-                                                </div>
                                             ))}
                                         </div>
                                     </div>

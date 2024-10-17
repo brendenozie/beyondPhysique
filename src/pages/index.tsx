@@ -11,7 +11,7 @@ const Home = () => {
     return (
     <MainLayout>
       <main className="max-w-full">
-        <div className="mt-24 lg:mt-8"></div>
+        <div className="mt-20 lg:mt-16"></div>
         <Banner/>
         <div className="mt-[28rem] lg:mt-40"></div>
         <OurPrograms />
