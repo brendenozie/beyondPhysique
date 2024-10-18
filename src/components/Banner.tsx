@@ -82,23 +82,27 @@ const Banner = () => {
               </div>
 
               {/* Stats Section with Hover Effects */}
-              <div className="flex justify-center lg:justify-start gap-6 sm:gap-10">
-                {[
-                  { value: 140, label: "Expert Coaches" },
-                  { value: 978, label: "Members Joined" },
-                  { value: 50, label: "Fitness Programs" },
-                ].map((stat, idx) => (
-                  <div
-                    key={idx}
-                    className="flex flex-col items-center lg:items-start hover:scale-105 transition-transform"
-                  >
-                    <span className="text-white text-3xl sm:text-4xl font-bold">
-                      <NumberCounter end={stat.value} start={stat.value - 40} delay={4} preFix="+" />
-                    </span>
-                    <span className="text-gray-400 uppercase text-sm">{stat.label}</span>
-                  </div>
-                ))}
-              </div>
+              <motion.div className="flex justify-center lg:justify-start gap-6 sm:gap-10"
+                initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1, duration: 2 }}
+                >
+                  {[
+                    { value: 140, label: "Expert Coaches" },
+                    { value: 978, label: "Members Joined" },
+                    { value: 50, label: "Fitness Programs" },
+                  ].map((stat, idx) => (
+                    <div
+                      key={idx}
+                      className="flex flex-col items-center lg:items-start hover:scale-105 transition-transform"
+                    >
+                      <span className="text-white text-3xl sm:text-4xl font-bold">
+                        <NumberCounter end={stat.value} start={stat.value - 40} delay={4} preFix="+" />
+                      </span>
+                      <span className="text-gray-400 uppercase text-sm">{stat.label}</span>
+                    </div>
+                  ))}
+              </motion.div>
 
               {/* CTA Buttons with Enhanced Animation */}
               <div className="flex space-x-4 mt-6 justify-center lg:justify-start">

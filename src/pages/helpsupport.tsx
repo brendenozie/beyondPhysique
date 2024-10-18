@@ -20,11 +20,9 @@ import { getSession } from "next-auth/react";
 
 
 type Props = {
-    exercisesData?: {results:IExercise[]};
-    dailyPlanData?: {results:IDailyPlan[]};
+    
     session: Session;
-    // stylesData: {results:ITravelStyle[]};
-    // getInspiredCities: ICity[];
+    
   };
 
 const Dash2 = (props: Props) => {
@@ -300,76 +298,14 @@ const Dash2 = (props: Props) => {
                 </div>
 
                 <div className="w-full md:w-8/12">
-                    <div className="flex flex-wrap w-full shadow-lg justify-center">
-                        <div className="w-full md:py-8 py-5 md:px-16 px-5 dark:bg-gray-700 bg-gray-50 rounded-b">
-                        {props.dailyPlanData?.results.map((dailyPlan) => (
-                            <div className="px-4 pt-4">
-                                <div className="border-b pb-4 border-gray-400 border-dashed">
-                                    <p className="text-xs font-light leading-3 text-gray-500 dark:text-gray-300 pb-4">{dailyPlan.dpDay} {dailyPlan.dpTime} </p>
-                                    <a tabIndex={0} className="focus:outline-none text-lg font-medium leading-5 text-gray-800 dark:text-gray-100 mt-2">{dailyPlan.exercise.exName}</a>
-                                    <p className="text-sm pt-2 leading-4 leading-none text-gray-600 dark:text-gray-300">{dailyPlan.dpDuration} Minutes</p>
-                                </div>
-                            </div>
-                        ))}
-                        </div>     
-                    </div>
+                    
                 </div>
             </div>
         </div>
           </div>
         </div>
+    </div>
 
-        {/* <div className="lg:flex flex-grow "> */}
-          {/* Sidebar */}
-          {/* <div className={`fixed top-0 left-0 h-full w-64 bg-orange-500 transition-transform transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 z-50`}>
-            <div className="flex justify-between items-center lg:hidden p-4">
-              <h1 className="text-white text-lg font-bold">Menu</h1>
-              <button onClick={toggleSidebar} className="text-white focus:outline-none">
-                <span className="material-icons">close</span>
-              </button>
-            </div>
-            <div className="hidden lg:block mb-20 items-center">
-                  <img src="city.png" alt="Logo" className="h-8 w-8" />
-              </div>
-            <nav className="flex flex-col lg:space-y-6 space-y-4 lg:flex-col items-center justify-around lg:justify-start">
-                  <a href="#" className="flex items-center">
-                      <ChartPieIcon className="h-6 w-6"/>
-                  </a>
-                  <a href="#" className="flex items-center">
-                      <CalendarDaysIcon className="h-6 w-6"/>
-                  </a>
-                  <a href="#" className="flex items-center">
-                      <CheckCircleIcon className="h-6 w-6"/>
-                  </a>
-                  <a href="#" className="flex items-center">
-                      <ChatBubbleLeftIcon className="h-6 w-6"/>
-                  </a>
-                  <a href="#" className="flex items-center">
-                      <UserCircleIcon className="h-6 w-6"/>
-                  </a>
-                  <a href="#" className="flex items-center">
-                      <WrenchIcon className="h-6 w-6"/>
-                  </a>
-              </nav>
-          </div> */}
-        
-          {/* Main Content */}
-          {/* <div className="flex-1 lg:ml-64">       
-
-              
-
-          </div> */}
-
-                          
-        {/* </div>       */}
-      </div>
-
-       
-
-
-      <Suspense fallback={<>Loading...</>}>
-        <AddExerciseSchedule exercisesData={props.exercisesData} session={props.session}/>
-      </Suspense>
     </UserLayout>
     );
 };
@@ -382,18 +318,10 @@ export const getServerSideProps = async (
   
     const session = await getSession(context);
 
-    // const userEmail = session?.user?.email;
-
-    let url = process.env.NEXT_PUBLIC_API_URL;
-  
-    const exercisesData =  await fetch(url+`/get-exercise`).then( (res) => res.json() );
-    const dailyPlanData =  await fetch(url+`/get-daily-plan`).then( (res) => res.json() );
   
     return {
       props: {
         session,
-        exercisesData,
-        dailyPlanData
       },
     };
   };

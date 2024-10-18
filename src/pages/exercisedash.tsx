@@ -3,7 +3,7 @@ import UserNav from "@/components/UserNav";
 // import Chart from "react-apexcharts";
 // If you're using Next.js please use the dynamic import for react-apexcharts and remove the import from the top for the react-apexcharts
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GetServerSidePropsContext } from "next";
 import { IDailyPlan, IExercise, IExerciseActivity, IExerciseCategory } from "@/types/typings";
 import { Session } from "next-auth";
@@ -19,10 +19,38 @@ type Props = {
 
 const Dash2 = (props: Props) => {
 
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [exercises, setExercises] = useState<IExercise[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
+  const fetchExercises = async (categoryId: string) => {
+    setLoading(true);
+    try {
+      const url = process.env.NEXT_PUBLIC_API_URL;
+      const response = await fetch(`${url}/get-exercise-by-cat/${categoryId}`);
+      const data = await response.json();
+      
+      setExercises(data.results);
+
+    } catch (error) {
+      console.error('Error fetching exercises:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Set the first category as the default selected on component mount
+  useEffect(() => {
+    if (props.exerciseCategoryData && props.exerciseCategoryData?.results.length > 0) {
+      const firstCategoryId = props.exerciseCategoryData.results[0].id;
+      setSelectedCategory(firstCategoryId);
+      fetchExercises(firstCategoryId); // Fetch exercises for the first category
+    }
+  }, [props.exerciseCategoryData]);
+
+  const handleTabClick = (categoryId: string) => {
+    setSelectedCategory(categoryId);
+    fetchExercises(categoryId); // Fetch exercises when tab is clicked
   };
 
   return (
@@ -32,20 +60,21 @@ const Dash2 = (props: Props) => {
           <div className="container mx-auto">
             <div className="flex flex-col lg:flex-row gap-6 p-6 bg-purple-50 min-h-screen text-black">
                 {/* Middle Section */}
-                <div className="flex-1">
+                <div className="flex-1 lg:w-2/3">
                   <div className="bg-white p-6 rounded-lg shadow-md">
                     <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                      <h2 className="text-xl font-semibold">Dashboard</h2>
+                      <h2 className="text-2xl font-semibold text-gray-800">Dashboard</h2>
                     </div>
 
+                    {/* Health Tips */}
                     <div className="mt-6 flex flex-col md:flex-row gap-4">
-                      <div className="flex-1 bg-purple-100 p-4 rounded-lg">
-                        <h3 className="font-semibold">Get enough rest to recover energy for the next activity</h3>
-                        <a href="#" className="text-purple-600">Read article</a>
+                      <div className="flex-1 bg-gradient-to-r from-purple-100 to-purple-200 p-4 rounded-lg shadow hover:shadow-xl transition">
+                        <h3 className="font-semibold text-gray-800">Get enough rest to recover energy for the next activity</h3>
+                        <a href="#" className="text-purple-600 hover:text-purple-800">Read article</a>
                       </div>
-                      <div className="flex-1 bg-purple-100 p-4 rounded-lg">
-                        <h3 className="font-semibold">Doing exercise regularly keeps the body fit and healthy</h3>
-                        <a href="#" className="text-purple-600">Read article</a>
+                      <div className="flex-1 bg-gradient-to-r from-purple-100 to-purple-200 p-4 rounded-lg shadow hover:shadow-xl transition">
+                        <h3 className="font-semibold text-gray-800">Doing exercise regularly keeps the body fit and healthy</h3>
+                        <a href="#" className="text-purple-600 hover:text-purple-800">Read article</a>
                       </div>
                     </div>
 
@@ -115,12 +144,79 @@ const Dash2 = (props: Props) => {
                     </div>
 
                     <div className="mt-6">
-                      <h3 className="font-semibold mb-4">Activity History</h3>
+                      <h3 className="font-semibold mb-4">Workouts</h3>
                       <div className="bg-white p-4 rounded-lg shadow">
+
+                          {/* Scrollable Tabs */}
+                          <div className="flex overflow-x-auto space-x-4 bg-purple-200 p-4 rounded-lg mb-6">
+                            {props.exerciseCategoryData &&
+                              props.exerciseCategoryData.results.map((category) => (
+                                <button
+                                  key={category.id}
+                                  onClick={() => handleTabClick(category.id)}
+                                  className={`py-2 px-4 rounded-md font-semibold ${
+                                    selectedCategory === category.id
+                                      ? 'bg-purple-600 text-white'
+                                      : 'bg-purple-100 text-gray-700'
+                                  }`}
+                                >
+                                  {category.excName}
+                                </button>
+                              ))}
+                          </div>
+
+                          {/* Exercise Grid */}
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {loading ? (
+                              <div>Loading exercises...</div>
+                            ) : exercises.length > 0 ? (
+                              exercises.map((exercise) => (
+                                <div
+                                    key={exercise.id}
+                                    className="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 hover:scale-105 hover:shadow-lg"
+                                  >
+                                    <img
+                                      src={exercise.exPic}
+                                      alt={exercise.exName}
+                                      className="w-full h-40 object-cover rounded-lg mb-4"
+                                    />
+                                    <h4 className="font-semibold text-xl h-16 line-clamp-2 mb-2">{exercise.exName}</h4>
+                                    <p className="text-gray-600 text-sm mb-4 h-16 line-clamp-3">
+                                      {exercise.exDesc}
+                                    </p>
+                                    <div className="flex justify-between items-center text-sm text-gray-500 mb-3">
+                                      <span>Reps: {exercise.reps}</span>
+                                      <span>Sets: {exercise.sets}</span>
+                                    </div>
+                                    <Link href={`/viewbycatworkout/${exercise.id}`}>
+                                      <div className="mt-3 inline-block py-2 px-6 bg-purple-600 text-white rounded-full transition-colors duration-300 hover:bg-purple-700 cursor-pointer">
+                                        View Workout
+                                      </div>
+                                    </Link>
+                                  </div>
+
+                              ))
+                            ) : (
+                              <div>No exercises available for this category</div>
+                            )}
+                          </div>
+                    
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right Section */}
+                <div className="w-full lg:w-1/3 flex flex-col gap-6">
+                  <div className="bg-white p-6 rounded-lg shadow-md">
+                    <div className="flex items-center justify-between mb-4">
+                        <h3 className="font-semibold text-purple-700">Activity History</h3>
+                        <a className="py-2 px-6 bg-gradient-to-r from-purple-600 to-purple-800 text-white rounded-lg shadow-lg hover:scale-105 transition" href="/allexercises">View All</a>
+                      </div>
+                    <div className="space-y-4">
                       {props.exerciseActivityData && 
                           props.exerciseActivityData.results?.map((item: IExerciseActivity) => (
-                            <div key={item.id} className="px-4 py-4">
-                              <div className="bg-white/60 backdrop-blur-md rounded-lg shadow-md p-5 transition-transform hover:scale-105 duration-300">
+                              <div key={item.id}  className="bg-white/60 backdrop-blur-md rounded-lg shadow-md p-5 transition-transform hover:scale-105 duration-300">
                                 {/* Timestamp */}
                                 <p className="text-xs text-gray-500 font-light pb-3">
                                   {new Date(item.timestamp).toLocaleString()}
@@ -163,37 +259,15 @@ const Dash2 = (props: Props) => {
                                   </div>
                                 </div>
                               </div>
-                            </div>
                           ))
                         }
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Right Section */}
-                <div className="w-full lg:w-1/3 flex flex-col gap-6">
-                  <div className="bg-white p-6 rounded-lg shadow-md">
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className="font-semibold">Pick Training</h3>
-                      <a className="py-1 px-4 bg-purple-600 text-white rounded" href="/allexercises">View All</a>
-                    </div>
-                    <div className="space-y-4">
-                    {props.exerciseCategoryData &&
-                              props.exerciseCategoryData.results.map((item: any) => (
-                                <div className="bg-purple-100 p-4 rounded-lg">
-                                  <h4 className="font-semibold">{item.excName}</h4>
-                                  <p className="text-gray-600">ways to maintain health by doing some sports</p>
-                                  <Link href={`/viewbycatworkout/${item.id}`} className="mt-2 py-1 px-4 bg-purple-600 text-white rounded">View</Link>
-                                </div>
-                    ))}
+                    
                       
                     </div>
                   </div>
                 </div>
             </div>
         </div>
-
       </div>
     </UserLayout>
     );
@@ -236,3 +310,5 @@ export const getServerSideProps = async (
     },
   };
 };
+
+
