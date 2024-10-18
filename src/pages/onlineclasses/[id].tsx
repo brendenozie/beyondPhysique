@@ -147,7 +147,7 @@ const addDestination = ({ session, exercise }: Props) => {
 
 	return (
 
-		<UserLayout>
+		<UserLayout>				
 			<div className="flex flex-col min-h-screen bg-gray-900 text-white lg:w-full">
 				<UserNav />
 				<div className="flex flex-col lg:flex-row p-4">
@@ -155,14 +155,7 @@ const addDestination = ({ session, exercise }: Props) => {
 					<div className="flex flex-col items-center bg-white rounded-lg shadow-lg p-6 w-full lg:w-2/3 m-2">
 
 						<div className="relative w-full h-96 bg-gray-200 rounded-md mb-4">
-							{/* <div className="absolute bg-slate-900 bg-opaexercise-80 rounded-md top-4 left-4 text-white p-2">
-								<h2 className="text-2xl font-bold mb-2">{exercise.exName}</h2>
-								<p className="text-gray-400 mb-2">Exercise Reps {exercise.reps} Sets {exercise.sets}</p>
-							</div>
-							<div className="absolute bg-slate-900 bg-opaexercise-80 rounded-md bottom-4 right-4 text-white p-2">
-								<h2 className="text-gray-400 mb-2">Rep Count: {reps}</h2>
-								<p className="text-gray-400 mb-2">Set Count: {sets}</p>
-							</div> */}
+						
 							<Image
 								src={img}
 								alt="calories"
@@ -170,9 +163,7 @@ const addDestination = ({ session, exercise }: Props) => {
 								loader={loaderProp}
 								className="w-full h-full object-cover rounded-md"
 							/>
-							{/* <button onClick={startTimer} className="absolute bottom-4 left-4 bg-red-500 text-white p-8 rounded-full">
-                            {isActive ? <PauseIcon className='h-6 w-6' /> : <PlayIcon className='h-6 w-6'/>}
-                        </button> */}
+							
 							<div className="absolute bottom-4 left-4 text-white ">
 								<div className="flex flex-col items-center bg-slate-900 bg-opaexercise-80 rounded-full">
 									<button className="items-center justify-center text-white  rounded-full">
