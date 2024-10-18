@@ -17,7 +17,7 @@ const ExerciseCard = (item: any) => {
 
 			<img
 				className="object-cover w-full h-48 mt-2"
-				src={item.image}
+				src={item.exPic}
 				alt={item.exName}
 			/>
 

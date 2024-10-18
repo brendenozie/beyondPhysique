@@ -129,11 +129,11 @@ const addDestination = ({ session, exercise }: Props) => {
 
         await axios.post(ur_l, {
             exerciseId,
-            acDate,
-            acTime,
-            acDuration,
-            acReps: `${reps}`,
-            acSets: `${sets}`
+            timestamp:acDate,
+            durationInMillis:duration,
+            userId:session.user?.id,
+            acRepCount: `${reps}`,
+            acSetCount: `${sets}`
         }).then(() => {
 
             // router.push(pathname);
@@ -165,9 +165,12 @@ const addDestination = ({ session, exercise }: Props) => {
                                 <p className="text-gray-400 mb-2">Set Count: {sets}</p>
                             </div>
                             <Image
-                                src={img}
+                                src={exercise.exPic?exercise.exPic:img}
                                 alt="calories"
                                 fill={false}
+
+                                    height={40}
+                                    width={100}
                                 loader={loaderProp}
                                 className="w-full h-full object-cover rounded-md"
                             />

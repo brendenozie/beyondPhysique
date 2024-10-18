@@ -80,9 +80,9 @@ const Dash2 = (props: Props) => {
 
                     <div className="mt-6">
                       <div className="flex items-center justify-between mb-4">
-                      <h3 className="font-semibold mb-4">Today's Plan</h3>
-                      <a className="py-1 px-4 bg-purple-600 text-white rounded" href="/exerciseschedule">View All</a>
-                    </div>
+                        <h3 className="font-semibold mb-4">Today's Plan</h3>
+                        <a className="py-1 px-4 bg-purple-600 text-white rounded" href="/exerciseschedule">View All</a>
+                      </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
 
                       {props.dailyPlanData &&
@@ -144,7 +144,10 @@ const Dash2 = (props: Props) => {
                     </div>
 
                     <div className="mt-6">
-                      <h3 className="font-semibold mb-4">Workouts</h3>
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="font-semibold mb-4">Workouts</h3>
+                        <a className="py-1 px-4 bg-purple-600 text-white rounded" href="/allexercises">View All</a>
+                      </div>
                       <div className="bg-white p-4 rounded-lg shadow">
 
                           {/* Scrollable Tabs */}
@@ -188,7 +191,7 @@ const Dash2 = (props: Props) => {
                                       <span>Reps: {exercise.reps}</span>
                                       <span>Sets: {exercise.sets}</span>
                                     </div>
-                                    <Link href={`/viewbycatworkout/${exercise.id}`}>
+                                    <Link href={`/viewworkout/${exercise.id}`}>
                                       <div className="mt-3 inline-block py-2 px-6 bg-purple-600 text-white rounded-full transition-colors duration-300 hover:bg-purple-700 cursor-pointer">
                                         View Workout
                                       </div>
