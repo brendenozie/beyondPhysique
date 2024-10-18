@@ -27,41 +27,7 @@ const loaderProp = ({ src }: any) => {
 	return src;
 }
 
-const meals = [
-	{
-		title: 'Red Bread & Jam',
-		time: '4m',
-		calories: '250cal',
-		image: 'path_to_image_1', // Replace with actual image paths or URLs
-	},
-	{
-		title: 'Grilled Chicken',
-		time: '6m',
-		calories: '250cal',
-		image: 'path_to_image_2',
-	},
-	{
-		title: 'Cashew Nut Salad',
-		time: '6m',
-		calories: '250cal',
-		image: 'path_to_image_3',
-	},
-];
-
-const shoppingList = [
-	{ item: 'Eggs', quantity: '2 dozens' },
-	{ item: 'Chicken breast', quantity: '1.5kg' },
-	{ item: 'Cheese', quantity: '500gm' },
-	{ item: 'Milk', quantity: '5ltr' },
-	{ item: 'Chocolate', quantity: '2 pc' },
-	{ item: 'Bread', quantity: '4pc' },
-	{ item: 'Potatoes', quantity: '3kg' },
-];
-
 type Props = {
-	exercisesData?: { results: IExercise[] };
-	dailyPlanData?: { results: IDailyPlan[] };
-	exercisesCategoryData?: IExerciseCategory[];
 	trainingProgramData?: { results: ITrainingProgram[] };
 	programsCategoryData?: { results: IProgramsCategory[] };
 	session: Session;
@@ -95,12 +61,12 @@ const Dash2 = (props: Props) => {
 
   // Set the first category as the default selected on component mount
   useEffect(() => {
-    if (props.exercisesCategoryData && props.exercisesCategoryData?.length > 0) {
-      const firstCategoryId = props.exercisesCategoryData[0].id;
+    if (props.programsCategoryData && props.programsCategoryData?.results.length > 0) {
+      const firstCategoryId = props.programsCategoryData.results[0].id;
       setSelectedCategory(firstCategoryId);
       fetchExercises(firstCategoryId); // Fetch programs for the first category
     }
-  }, [props.exercisesCategoryData]);
+  }, [props.programsCategoryData]);
 
   const handleTabClick = (categoryId: string) => {
     setSelectedCategory(categoryId);
@@ -156,8 +122,10 @@ const Dash2 = (props: Props) => {
 												<a href={`/onlineclasses/${item.id}`} key={index} className="transform  hover:scale-105 transition duration-300 p-4 bg-white rounded-lg shadow-md w-full justify-evenly">
 															{/* <img src={meal.image} alt={meal.title} className="rounded-lg mb-4 w-full lg:w-24 lg:h-24" /> */}
 															<Image
-																src={img}
+																src={item.trainingImage?item.trainingImage : img}
 																alt="calories"
+																width={100}
+																height={100}
 																fill={false}
 																loader={loaderProp}
 																className="rounded-lg mb-4 w-full lg:h-24"
