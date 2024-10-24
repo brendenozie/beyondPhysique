@@ -154,57 +154,60 @@ const addDestination = ({ session, exercise }: Props) => {
                 <div className="flex flex-col lg:flex-row p-4">
                     {/* Middle part */}
                     <div className="flex flex-col items-center bg-white rounded-lg shadow-lg p-6 w-full lg:w-2/3 m-2">
-
+ {/* Video Section */}
                         <div className="relative w-full h-96 bg-gray-200 rounded-md mb-4">
-                            <div className="absolute bg-slate-900 bg-opaexercise-80 rounded-md top-4 left-4 text-white p-2">
+                            <video
+                                className="w-full h-full object-cover rounded-md"
+                                controls
+                                poster={exercise.exPic}
+                                preload="metadata"
+                            >
+                                <source src={exercise.exVideo} type="video/mp4" />
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+
+                        <div className="relative w-full h-72 rounded-md mb-4">
+                            <div className="absolute bg-slate-900 bg-opacity-80 rounded-md top-4 left-4 text-white p-2">
                                 <h2 className="text-2xl font-bold mb-2">{exercise.exName}</h2>
-                                <p className="text-gray-400 mb-2">Exercise Reps {exercise.reps} Sets {exercise.sets}</p>
+                                <p className="text-gray-400 mb-2">Reps: {exercise.reps} | Sets: {exercise.sets}</p>
                             </div>
                             <div className="absolute bg-slate-900 bg-opaexercise-80 rounded-md bottom-4 right-4 text-white p-2">
                                 <h2 className="text-gray-400 mb-2">Rep Count: {reps}</h2>
                                 <p className="text-gray-400 mb-2">Set Count: {sets}</p>
                             </div>
-                            <Image
-                                src={exercise.exPic?exercise.exPic:img}
-                                alt="calories"
-                                fill={false}
-
-                                    height={40}
-                                    width={100}
-                                loader={loaderProp}
-                                className="w-full h-full object-cover rounded-md"
-                            />
                             {/* <button onClick={startTimer} className="absolute bottom-4 left-4 bg-red-500 text-white p-8 rounded-full">
                             {isActive ? <PauseIcon className='h-6 w-6' /> : <PlayIcon className='h-6 w-6'/>}
                         </button> */}
-                            <div className="absolute bottom-4 left-4 text-white ">
-                                <div className="flex flex-col items-center bg-slate-900 bg-opaexercise-80 rounded-full">
-                                    <button onClick={handleStart} className="items-center justify-center text-white  rounded-full">
-                                        <svg className="transform -rotate-90" width="120" height="120">
-                                            <circle
-                                                cx="60"
-                                                cy="60"
-                                                r={radius}
-                                                stroke="#e5e7eb"
-                                                strokeWidth="8"
-                                                fill="transparent"
-                                            />
-                                            <circle
-                                                cx="60"
-                                                cy="60"
-                                                r={radius}
-                                                stroke="#3b82f6"
-                                                strokeWidth="8"
-                                                fill="transparent"
-                                                strokeDasharray={circumference}
-                                                strokeDashoffset={circumference - progress}
-                                            />
-                                        </svg>
-                                        {isActive && !isPaused ? <PauseIcon className='absolute top-[25%] left-[25%] h-16 w-16' /> : <PlayIcon className='absolute top-[25%] left-[25%] h-16 w-16' />}
-                                    </button>
-                                    {/* <div className="mt-4 text-2xl">
-                                    {timeLeft}s
-                                </div> */}
+                        
+                                <div className="absolute bottom-4 left-4 text-white ">
+                                    <div className="flex flex-row items-center bg-slate-900 w-96 h-28 rounded-md">
+                                        <button onClick={handleStart} className="items-center justify-center text-white  rounded-full">
+                                            <svg className="transform -rotate-90" width="120" height="120">
+                                                <circle
+                                                    cx="60"
+                                                    cy="60"
+                                                    r={radius}
+                                                    stroke="#e5e7eb"
+                                                    strokeWidth="8"
+                                                    fill="transparent"
+                                                />
+                                                <circle
+                                                    cx="60"
+                                                    cy="60"
+                                                    r={radius}
+                                                    stroke="#3b82f6"
+                                                    strokeWidth="8"
+                                                    fill="transparent"
+                                                    strokeDasharray={circumference}
+                                                    strokeDashoffset={circumference - progress}
+                                                />
+                                            </svg>
+                                            {isActive && !isPaused ? <PauseIcon className='absolute top-[20%] left-[8%] h-16 w-16' /> : <PlayIcon className='absolute top-[20%] left-[8%] h-16 w-16' />}
+                                        </button>
+                                        <div className="mt-2 text-2xl">
+                                            {timeLeft}s
+                                        </div>
                                 </div>
                                 {/* <Timer duration={60} /> */}
                             </div>
@@ -336,7 +339,6 @@ const addDestination = ({ session, exercise }: Props) => {
 };
 
 export default addDestination;
-
 
 export const getServerSideProps = async (
     context: GetServerSidePropsContext

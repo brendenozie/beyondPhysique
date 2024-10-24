@@ -382,3 +382,11 @@ export type IAverageSummaryBmi = {
     totalWeight: Int,
     averageBmiResult: Float
 }
+
+export type ISubscritption = {
+    id:string,
+    name: string,
+    description: string,
+    price: Float,
+    duration: String
+}

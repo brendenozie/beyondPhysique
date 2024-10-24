@@ -1,7 +1,13 @@
 import React from "react";
-import { plansData } from "../data/plansData";
 import whiteTick from "../assets/whiteTick.png";
-const Plans = () => {
+import fit1 from "../assets/fit1.png";
+import { ISubscritption } from "@/types/typings";
+
+type Props = {
+    subscriptions:  ISubscritption[] ;
+};
+
+const Plans = ({ subscriptions }: Props) => {
   return (
     <div className="mt-16 px-4 sm:px-8 flex flex-col gap-12 sm:gap-20 relative">
       {/* Background Gradient Circles */}
@@ -17,32 +23,37 @@ const Plans = () => {
 
       {/* Plans Section */}
       <div className="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-[3rem] z-10">
-        {plansData.map((plan, i) => (
+        {/* {plansData.map((plan, i) => ( */}
+          {subscriptions &&  subscriptions.map((item: ISubscritption,i) => ( 
           <div
             className={`flex flex-col text-white gap-6 sm:gap-8 p-6 sm:p-8 w-full sm:w-[18rem] md:w-[20rem] rounded-lg shadow-lg transition-transform duration-300 transform ${
               i == 1
                 ? "scale-105 sm:scale-110 bg-gradient-to-r from-[#fa5042] to-[#ffa739]"
-                : "bg-[#4c39ff]"
+                : "bg-[#4d39ff2d]"
             }`}
             key={i}
           >
             {/* Plan Icon */}
-            {plan.icon}
+            {/* {item.icon} */}
+            {/* {whiteTick.src} */}
+            <img className="w-4 sm:w-6" src={fit1.src} alt="Tick" />
 
             {/* Plan Name */}
-            <span className="text-base sm:text-lg font-bold">{plan.name}</span>
+            <span className="text-base sm:text-lg font-bold">{item.name}</span>
 
             {/* Plan Price */}
-            <span className="text-3xl sm:text-4xl font-bold">$ {plan.price}</span>
+            <span className="text-3xl sm:text-4xl font-bold">$ {item.price}</span>
 
             {/* Features */}
             <div className="flex flex-col gap-3 sm:gap-4">
-              {plan.features.map((feature, i) => (
-                <div className="flex items-center gap-3 sm:gap-4" key={i}>
+                <div className="flex items-center gap-3 sm:gap-4 h-14" key={i}>
                   <img className="w-4 sm:w-6" src={whiteTick.src} alt="Tick" />
-                  <span className="text-sm sm:text-base">{feature}</span>
+                  <span className="text-sm sm:text-base">{item.duration}</span>
                 </div>
-              ))}
+                <div className="flex items-center gap-3 sm:gap-4 h-14" key={i}>
+                  <img className="w-4 sm:w-6" src={whiteTick.src} alt="Tick" />
+                  <span className="text-sm sm:text-base">{item.description}</span>
+                </div>
             </div>
 
             {/* See More Benefits */}
@@ -62,3 +73,4 @@ const Plans = () => {
 };
 
 export default Plans;
+

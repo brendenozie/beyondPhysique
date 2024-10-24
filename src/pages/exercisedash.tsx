@@ -222,7 +222,15 @@ const Dash2 = (props: Props) => {
                               <div key={item.id}  className="bg-white/60 backdrop-blur-md rounded-lg shadow-md p-5 transition-transform hover:scale-105 duration-300">
                                 {/* Timestamp */}
                                 <p className="text-xs text-gray-500 font-light pb-3">
-                                  {new Date(item.timestamp).toLocaleString()}
+                                  {new Date(item.timestamp).toLocaleString('en-GB', {
+                                    year: 'numeric',
+                                    month: '2-digit',
+                                    day: '2-digit',
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                    second: '2-digit',
+                                    hour12: true // Set to false for 24-hour format if needed
+                                  })}
                                 </p>
 
                                 {/* Exercise Name */}

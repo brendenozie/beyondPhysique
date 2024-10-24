@@ -5,9 +5,16 @@ import Join from "@/components/Join";
 import Reasons from "@/components/Reasons";
 import Plans from "@/components/Plans";
 import Testimonials from "@/components/Testimonials";
+import { ISubscritption } from "@/types/typings";
+import { GetServerSidePropsContext } from "next";
+import { getSession } from "next-auth/react";
+import { empty } from "@prisma/client/runtime/library";
 
+type Props = {
+    subscriptions:  ISubscritption[] ;
+};
 
-const Home = () => {
+const Home = (props:Props) => {
     return (
     <MainLayout>
       <main className="max-w-full">
@@ -18,7 +25,7 @@ const Home = () => {
         <div className="mt-32 lg:mt-40"></div>
         <Reasons />
         <div className="mt-32 lg:mt-40"></div>
-        <Plans />
+        <Plans subscriptions={props.subscriptions}/>
         <div className="mt-32 lg:mt-40"></div>
         <Testimonials />
         <div className="mt-32 lg:mt-40"></div>
@@ -31,3 +38,38 @@ const Home = () => {
 export default Home;
 
 
+export const getServerSideProps = async (
+    context: GetServerSidePropsContext
+) => {
+    
+    let url = process.env.NEXT_PUBLIC_API_URL;
+
+    // Prepare all fetch requests with date range and userId as query parameters
+    const fetchPromises = [
+        fetch(`${url}/get-subscriptions`).then((res) => res.json()),
+       ];
+
+
+
+  try {
+    // Wait for all fetch requests to complete
+    const [
+      subscriptions,
+    ] = await Promise.all(fetchPromises);
+
+    return {
+      props: {
+        subscriptions,
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+
+    // Handle error appropriately
+    return {
+      props: {
+        subscriptions: null,
+      },
+    };
+  }
+}
