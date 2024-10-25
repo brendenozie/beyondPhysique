@@ -5,7 +5,7 @@ export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  let { page, userId} = req.query;
+  let { page, userId, id} = req.query;
 
   if (req.method === "GET") {
 
@@ -103,6 +103,30 @@ export default async function handle(
       },
       results: dailyPlansWithExercises,
     });
+  }
+  else if (req.method === "DELETE") {
+
+    let idString = "";
+
+    if(id){
+      idString  = Array.isArray(id) ? id[0] : id; // Ensure userId is a string
+      }
+      
+    if(!idString){
+      return res.status(400).json({ message: 'Invalid date format provided' });
+    }
+
+    // Fetch the count and DailyPlans
+    const deleted = await prisma.dailyPlan.delete({
+        where: {
+          id : idString
+        },
+      });
+
+    // Respond with the combined result
+    return res.status(200).json(
+       deleted,
+    );
   } else {
     return res.status(405).json({ message: `The HTTP ${req.method} method is not supported at this route.` });
   }

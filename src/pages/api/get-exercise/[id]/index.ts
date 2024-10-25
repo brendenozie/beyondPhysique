@@ -117,6 +117,28 @@ router.put(async (req, res) => {
   }
 });
 
+// DELETE handler to update exercise data
+router.delete(async (req, res) => {
+  const { id } = req.query;
+
+  try {
+
+    const updatedExerciseActivity = await prisma.exerciseActivity.deleteMany({
+        where: { exerciseId: String(id) }
+      });
+  
+    const updatedExercise = await prisma.exercise.delete({
+      where: { id: String(id) },
+    });
+
+    // Respond with the combined result
+    return res.status(200).json(updatedExercise);
+  } catch (error) {
+    console.error('Error updating exercise:', error);
+    res.status(500).json({ error: 'Failed to update exercise' });
+  }
+});
+
 // Export the router as the API handler
 export default router.handler();
 

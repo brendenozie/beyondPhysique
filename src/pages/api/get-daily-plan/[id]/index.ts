@@ -57,7 +57,8 @@ async function deleteCity(req: NextApiRequest, res: NextApiResponse) {
       where: {
         id: amaId,
       },
-    })
+    });
+
     return res.status(204).json({ id: ama.id })
   } catch (e) {
     console.log(e)
