@@ -14,6 +14,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
   if (req.method === "POST") {
     try {
       const {
+        id,
         exName,
         exDesc,
         exPic,
@@ -72,30 +73,81 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
       }
 
       // Create the exercise in the database using Prisma
-      const result = await prisma.exercise.create({
-        data: {
-          exName,
-          exDesc,
-          exPic: uploadedPicUrl || exPic, // Save the S3 URL or the original path
-          exVideo: uploadedVideoUrl || exVideo, // Save the S3 URL or the original path
-          exDuration,
-          exSteps,
-          reps,
-          sets,
-          weightPerRepInKg: weightPerRepInKg || 0.0,
-          weightPerSetInKg: weightPerSetInKg || 0.0,
-          breakSet: breakSet || "5s",
-          status,
-          exerciseCategoryId,
-          userId: userId || null,
-          exCalories,
-          exHeartBeat,
-          focusArea,
-          type: type || "others",
-          level: level || "Beginner",
-          caloriesPerRep: caloriesPerRep || "0.0 kcal",
-        },
-      });
+      const result = id
+        ? await prisma.exercise.update({
+            where: { id },
+            data: {
+                    exName,
+                    exDesc,
+                    exPic: uploadedPicUrl || "https://images.pexels.com/photos/414029/pexels-photo-414029.jpeg", // Save the S3 URL or the original path
+                    exVideo: uploadedVideoUrl || "https://workoutprobucket.s3.amazonaws.com/videos/dd655e52-c676-4957-9488-9f0435a3cc8c.mp4", // Save the S3 URL or the original path
+                    exDuration,
+                    exSteps,
+                    reps,
+                    sets,
+                    weightPerRepInKg: weightPerRepInKg || 0.0,
+                    weightPerSetInKg: weightPerSetInKg || 0.0,
+                    breakSet: breakSet || "5s",
+                    status,
+                    exerciseCategoryId,
+                    userId: userId || null,
+                    exCalories,
+                    exHeartBeat,
+                    focusArea,
+                    type: type || "others",
+                    level: level || "Beginner",
+                    caloriesPerRep: caloriesPerRep || "0.0 kcal",
+                  },
+          })
+        : await prisma.exercise.create({
+            data: {
+                    exName,
+                    exDesc,
+                    exPic: uploadedPicUrl || "https://images.pexels.com/photos/414029/pexels-photo-414029.jpeg", // Save the S3 URL or the original path
+                    exVideo: uploadedVideoUrl || "https://workoutprobucket.s3.amazonaws.com/videos/dd655e52-c676-4957-9488-9f0435a3cc8c.mp4", // Save the S3 URL or the original path
+                    exDuration,
+                    exSteps,
+                    reps,
+                    sets,
+                    weightPerRepInKg: weightPerRepInKg || 0.0,
+                    weightPerSetInKg: weightPerSetInKg || 0.0,
+                    breakSet: breakSet || "5s",
+                    status,
+                    exerciseCategoryId,
+                    userId: userId || null,
+                    exCalories,
+                    exHeartBeat,
+                    focusArea,
+                    type: type || "others",
+                    level: level || "Beginner",
+                    caloriesPerRep: caloriesPerRep || "0.0 kcal",
+                  },
+          });
+
+      // const result = await prisma.exercise.create({
+      //   data: {
+      //     exName,
+      //     exDesc,
+      //     exPic: uploadedPicUrl || "https://images.pexels.com/photos/414029/pexels-photo-414029.jpeg", // Save the S3 URL or the original path
+      //     exVideo: uploadedVideoUrl || "https://workoutprobucket.s3.amazonaws.com/videos/dd655e52-c676-4957-9488-9f0435a3cc8c.mp4", // Save the S3 URL or the original path
+      //     exDuration,
+      //     exSteps,
+      //     reps,
+      //     sets,
+      //     weightPerRepInKg: weightPerRepInKg || 0.0,
+      //     weightPerSetInKg: weightPerSetInKg || 0.0,
+      //     breakSet: breakSet || "5s",
+      //     status,
+      //     exerciseCategoryId,
+      //     userId: userId || null,
+      //     exCalories,
+      //     exHeartBeat,
+      //     focusArea,
+      //     type: type || "others",
+      //     level: level || "Beginner",
+      //     caloriesPerRep: caloriesPerRep || "0.0 kcal",
+      //   },
+      // });
 
       return res.status(201).json(result);
     } catch (error) {

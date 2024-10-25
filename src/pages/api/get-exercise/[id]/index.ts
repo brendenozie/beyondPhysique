@@ -105,8 +105,8 @@ router.put(async (req, res) => {
       data: {
         exName,
         exDesc,
-        exPic: uploadedPicUrl,
-        exVideo: uploadedVideoUrl,
+        exPic: uploadedPicUrl || "https://images.pexels.com/photos/414029/pexels-photo-414029.jpeg", // Save the S3 URL or the original path
+        exVideo: uploadedVideoUrl || "https://workoutprobucket.s3.amazonaws.com/videos/dd655e52-c676-4957-9488-9f0435a3cc8c.mp4", // Save the S3 URL or the original path  
       },
     });
 
