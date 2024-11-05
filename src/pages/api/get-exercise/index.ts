@@ -14,7 +14,7 @@ const { category, focusArea, level, query, page, userId } = req.query;
 
 if (req.method === "GET") {
   let currentPage = page ? parseInt(page as string) : 1;
-  let skip = currentPage > 1 ? (currentPage - 1) * 5 : 0;
+  let skip = currentPage > 1 ? (currentPage - 1) * 50 : 0;
 
   // Create filters based on provided query parameters
   const filters: any = {};
@@ -54,15 +54,15 @@ if (req.method === "GET") {
     // Fetch exercises with pagination
     const exercises = await prisma.exercise.findMany({
       skip: skip,
-      take: 5,
+      take: 20,
       where: filters,
     });
 
     res.json({
       InfoResponse: {
         count: totalCount,
-        next: currentPage * 20 > totalCount ? currentPage : 0,
-        pages: Math.ceil(totalCount / 20),
+        next: currentPage * 50 > totalCount ? currentPage : 0,
+        pages: Math.ceil(totalCount / 50),
         prev: currentPage - 1 > 0 ? currentPage - 1 : 0,
       },
       results: exercises,
