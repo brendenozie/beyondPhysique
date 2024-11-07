@@ -1,9 +1,14 @@
+import Banner from "../components/Banner";
 import MainLayout from "@/components/MainLayout";
+import OurPrograms from "@/components/ourprograms";
 import Join from "@/components/Join";
 import Reasons from "@/components/Reasons";
 import Plans from "@/components/Plans";
+import Testimonials from "@/components/Testimonials";
 import { ISubscritption } from "@/types/typings";
 import { GetServerSidePropsContext } from "next";
+import { getSession } from "next-auth/react";
+import { empty } from "@prisma/client/runtime/library";
 
 type Props = {
     subscriptions:  ISubscritption[] ;
@@ -14,7 +19,7 @@ const Home = (props:Props) => {
     <MainLayout>
       <main className="max-w-full">
         <div className="mt-20 lg:mt-16"></div>
-        {/* <Banner/> */}
+        <Banner/>
         <div className="mt-[28rem] lg:mt-40"></div>
         {/* <OurPrograms /> */}
         <div className="mt-32 lg:mt-40"></div>
