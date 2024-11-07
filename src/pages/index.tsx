@@ -1,14 +1,10 @@
 import Banner from "../components/Banner";
 import MainLayout from "@/components/MainLayout";
-import OurPrograms from "@/components/ourprograms";
 import Join from "@/components/Join";
 import Reasons from "@/components/Reasons";
 import Plans from "@/components/Plans";
-import Testimonials from "@/components/Testimonials";
 import { ISubscritption } from "@/types/typings";
 import { GetServerSidePropsContext } from "next";
-import { getSession } from "next-auth/react";
-import { empty } from "@prisma/client/runtime/library";
 
 type Props = {
     subscriptions:  ISubscritption[] ;
