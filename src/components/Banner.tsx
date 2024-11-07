@@ -8,6 +8,10 @@ import hero_image_back from "../assets/hero_image_back.png";
 import Heart from "../assets/heart.png";
 import Calories from "../assets/calories.png";
 
+const loaderProp = ({ src }: any) => {
+  return src;
+}
+
 const Banner = () => {
   const { data: session, status } = useSession();
   const [mobile, setMobile] = useState(false);
@@ -98,7 +102,7 @@ const Banner = () => {
             transition={{ duration: 1 }}
             className="flex flex-col gap-4 bg-[#464d53] w-fit p-4 items-start rounded-md absolute right-4 lg:right-16 top-16 lg:top-28"
           >
-            <Image src={Heart} alt="heart" className="w-8" />
+            <Image src={Heart} alt="heart" loader={loaderProp} className="w-8" />
             <span className="text-gray-500 text-sm sm:text-base">Heart Rate</span>
             <span className="text-white text-xl sm:text-2xl">116 bpm</span>
           </motion.div>
