@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { programsData } from "../data/programsData";
 import RightArrow from "../assets/rightArrow.png";

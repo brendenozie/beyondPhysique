@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import leftArrow from "../assets/leftArrow.png";
 import rightArrow from "../assets/rightArrow.png";
