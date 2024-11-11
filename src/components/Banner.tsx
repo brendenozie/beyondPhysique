@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion as MotionComponent } from "framer-motion";
 import NumberCounter from "number-counter";
 import hero_image from "../assets/hero_image.png";
 import hero_image_back from "../assets/hero_image_back.png";
@@ -36,19 +36,19 @@ const Banner = () => {
       <div className="flex flex-col lg:flex-row justify-between items-center h-full relative">
         <div className="p-6 pt-10 lg:p-8 lg:pt-6 flex-1 lg:flex-[3_1] flex flex-col gap-8">
           <div className="mt-10 sm:mt-20 bg-[#393d42] rounded-full w-fit px-4 sm:px-6 py-2 sm:py-3 relative flex items-center text-white shadow-lg overflow-hidden">
-            <motion.div
+            <MotionComponent.div
               className="absolute bg-gradient-to-r from-pink-500 via-purple-600 to-purple-700 w-20 sm:w-24 h-full left-1 sm:left-2 top-0 z-0 rounded-3xl animate-shimmer"
               initial={{ left: "-20px" }}
               animate={{ left: "100%" }}
               transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-            ></motion.div>
+            ></MotionComponent.div>
             <span className="relative z-10 text-xs sm:text-sm lg:text-lg tracking-wide font-semibold whitespace-nowrap">
               Train Anywhere Anytime
             </span>
           </div>
 
           <div className="flex flex-col gap-4 text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white text-center lg:text-left">
-            <motion.h1
+            <MotionComponent.h1
               className="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-4 leading-tight tracking-wide"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -59,18 +59,18 @@ const Banner = () => {
                 Your
               </span>{" "}
               Perfect Body
-            </motion.h1>
-            <motion.p
+            </MotionComponent.h1>
+            <MotionComponent.p
               className="text-lg sm:text-xl lg:text-2xl text-gray-300 font-light mb-8 max-w-lg"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 1 }}
             >
               Achieve your goals with world-class facilities, expert trainers, and personalized programs.
-            </motion.p>
+            </MotionComponent.p>
           </div>
 
-          <motion.div
+          <MotionComponent.div
             className="flex justify-center lg:justify-start gap-6 sm:gap-10"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -84,7 +84,7 @@ const Banner = () => {
                 <span className="text-gray-400 uppercase text-sm">{stat.label}</span>
               </div>
             ))}
-          </motion.div>
+          </MotionComponent.div>
 
           <div className="flex space-x-4 mt-6 justify-center lg:justify-start">
             <button className="px-6 py-3 bg-yellow-500 text-white font-bold rounded-full shadow-lg hover:bg-yellow-600 transition-transform transform hover:scale-105">
@@ -97,7 +97,7 @@ const Banner = () => {
         </div>
 
         <div className="relative flex-1 flex justify-center p-4 lg:p-0">
-          <motion.div
+          <MotionComponent.div
             initial={{ right: "-1rem" }}
             whileInView={{ right: "4rem" }}
             transition={{ duration: 1 }}
@@ -106,9 +106,9 @@ const Banner = () => {
             <Image src={Heart} alt="heart" loader={loaderProp} className="w-8" />
             <span className="text-gray-500 text-sm sm:text-base">Heart Rate</span>
             <span className="text-white text-xl sm:text-2xl">116 bpm</span>
-          </motion.div>
+          </MotionComponent.div>
 
-          <motion.img
+          <MotionComponent.img
             src={hero_image.src}
             alt="hero_image"
             className="relative w-full max-w-xs lg:max-w-lg right-0 lg:right-28 top-20 lg:top-32"
@@ -117,7 +117,7 @@ const Banner = () => {
             transition={{ duration: 1 }}
           />
 
-          <motion.img
+          <MotionComponent.img
             initial={{ right: "11rem" }}
             whileInView={{ right: "20rem" }}
             transition={transition}

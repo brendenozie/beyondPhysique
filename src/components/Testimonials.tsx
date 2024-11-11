@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import leftArrow from "../assets/leftArrow.png";
 import rightArrow from "../assets/rightArrow.png";
 import { testimonialsData } from "../data/testimonialsData";
-import { motion } from "framer-motion";
+import { motion as MotionComponent } from "framer-motion";
 
 const Testimonials = () => {
   const [selected, setSelected] = useState(0);
@@ -27,7 +27,7 @@ const Testimonials = () => {
         <span className="font-bold text-3xl lg:text-5xl">Say About Us</span>
 
         {/* Testimonial Review Animation */}
-        <motion.span
+        <MotionComponent.span
           className="font-bold text-lg lg:text-xl"
           key={selected}
           initial={{ opacity: 0, x: -100 }}
@@ -36,7 +36,7 @@ const Testimonials = () => {
           transition={transition}
         >
           {testimonialsData[selected].review}
-        </motion.span>
+        </MotionComponent.span>
 
         {/* Name and Status */}
         <span className="normal-case text-sm lg:text-base text-justify tracking-widest leading-7">
@@ -49,23 +49,23 @@ const Testimonials = () => {
       {/* Testimonial Image Section */}
       <div className="flex-1 relative">
         {/* Background Border Box */}
-        <motion.div
+        <MotionComponent.div
           className="absolute w-64 h-72 lg:w-72 lg:h-80 border-2 rounded-none border-[#ffa500] bg-transparent right-12 lg:right-28 top-4 lg:top-8"
           initial={{ opacity: 0, x: -100 }}
           transition={{ ...transition, duration: 2 }}
           whileInView={{ opacity: 1, x: 0 }}
-        ></motion.div>
+        ></MotionComponent.div>
 
         {/* Gradient Box */}
-        <motion.div
+        <MotionComponent.div
           className="absolute w-64 h-68 lg:w-72 lg:h-76 right-8 lg:right-20 top-12 lg:top-16 bg-gradient-to-r from-[#fa5042] to-[#ffa739]"
           initial={{ opacity: 0, x: 100 }}
           transition={{ ...transition, duration: 2 }}
           whileInView={{ opacity: 1, x: 0 }}
-        ></motion.div>
+        ></MotionComponent.div>
 
         {/* Testimonial Image */}
-        <motion.img
+        <MotionComponent.img
           className="absolute w-64 h-72 lg:w-72 lg:h-80 object-cover right-8 lg:right-20 top-8 lg:top-12"
           key={selected}
           initial={{ opacity: 0, x: 100 }}

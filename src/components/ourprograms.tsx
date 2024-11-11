@@ -2,7 +2,8 @@
 import React from "react";
 import { programsData } from "../data/programsData";
 import RightArrow from "../assets/rightArrow.png";
-import { motion } from "framer-motion";
+import { motion as MotionComponent } from "framer-motion";
+
 
 const OurPrograms = () => {
   return (
@@ -23,7 +24,7 @@ const OurPrograms = () => {
       {/* Programs Categories */}
       <div className="flex flex-col sm:flex-row gap-6 flex-wrap">
         {programsData.map((program) => (
-          <motion.div
+          <MotionComponent.div
             whileHover={{
               scale: 1.05,
               boxShadow: "0px 10px 20px rgba(250, 80, 66, 0.4)",
@@ -54,7 +55,7 @@ const OurPrograms = () => {
                 aria-label="Join Now"
               />
             </div>
-          </motion.div>
+          </MotionComponent.div>
         ))}
       </div>
     </div>

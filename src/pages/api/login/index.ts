@@ -88,6 +88,6 @@ async function LoginUser(req: NextApiRequest, res: NextApiResponse) {
 
   // if(result) return res.send({status:200,message:"Success.", body:result});
   
-  return res.send({status:400,message:"This account does not exist. Create an account by registering"});
+  return res.send({status:400,message:"This account does not exist. Create an account by registering", body:null});
   
 }
