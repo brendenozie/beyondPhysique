@@ -1,4 +1,5 @@
 import Banner from "../components/Banner";
+import { useSession } from "next-auth/react";
 import MainLayout from "@/components/MainLayout";
 import OurPrograms from "@/components/ourprograms";
 import Join from "@/components/Join";
@@ -15,7 +16,11 @@ type Props = {
 };
 
 const Home = (props:Props) => {
-    return (
+  const { data: session, status } = useSession();
+
+  if (status === "loading") return <div className="w-full h-fit items-center justify-center m-auto text-center">Loading...</div>;
+
+  return (
     <MainLayout>
       <main className="max-w-full">
         <div className="mt-20 lg:mt-16"></div>
