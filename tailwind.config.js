@@ -8,7 +8,17 @@ module.exports = {
     //   lg : '976px',
     //   xl : '1440px'
     // },
-    extend: {      
+    extend: {  
+      // tailwind.config.js
+      animation: {
+        fadeIn: 'fadeIn 1s ease-out',
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: 0 },
+          '100%': { opacity: 1 },
+        },
+      },  
       // colors: {
       //   // Configure your color palette here
       //   lightgray: "#D9D9D9",

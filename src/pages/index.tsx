@@ -1,6 +1,7 @@
 import Banner from "../components/Banner";
 import { useSession } from "next-auth/react";
 import MainLayout from "@/components/MainLayout";
+import PlayStoreBanner  from "@/components/PlayStoreBanner";
 import OurPrograms from "@/components/ourprograms";
 import Join from "@/components/Join";
 import Reasons from "@/components/Reasons";
@@ -29,6 +30,7 @@ const Home = (props:Props) => {
         <OurPrograms />
         <div className="mt-32 lg:mt-40"></div>
         <Reasons />
+        <PlayStoreBanner />
         <div className="mt-32 lg:mt-40"></div>
         <Plans subscriptions={props.subscriptions}/>
         <div className="mt-32 lg:mt-40"></div>
