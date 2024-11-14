@@ -23,7 +23,7 @@ const PlayStoreBanner = () => {
           width={320}
           loader={loaderProp}
           height={320}
-          className="relative z-10 shadow-2xl rounded-lg transform hover:scale-105 transition duration-500"
+          className="relative z-10 rounded-lg transform hover:scale-105 transition duration-500"
         />
       </div>
 
