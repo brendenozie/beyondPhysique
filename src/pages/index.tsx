@@ -20,12 +20,12 @@ const Home = (props:Props) => {
   const { data: session, status } = useSession();
 
   if (status === "loading") return 
-        <div className="flex items-center justify-center h-screen w-screen bg-gradient-to-br from-pink-500 via-red-500 to-yellow-500">
-            <div className="flex flex-col items-center">
-              <div className="w-16 h-16 border-4 border-t-transparent border-white rounded-full animate-spin"></div>
-              <p className="text-white text-xl font-semibold mt-4">Loading...</p>
-            </div>
-          </div>;
+                <div className="flex items-center justify-center h-screen w-screen bg-gradient-to-br from-pink-500 via-red-500 to-yellow-500">
+                    <div className="flex flex-col items-center">
+                      <div className="w-16 h-16 border-4 border-t-transparent border-white rounded-full animate-spin"></div>
+                      <p className="text-white text-xl font-semibold mt-4">Loading...</p>
+                    </div>
+                  </div>;
 
   return (
     <MainLayout>
